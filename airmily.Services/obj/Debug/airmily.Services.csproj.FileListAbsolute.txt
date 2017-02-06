@@ -17,13 +17,24 @@ C:\Users\Boon\Desktop\airmily\airmily.Services\obj\Debug\airmily.Services.dll
 C:\Users\Boon\Desktop\airmily\airmily.Services\obj\Debug\airmily.Services.pdb
 C:\Users\Boon\Desktop\airmily\airmily.Services\obj\Debug\airmily.Services.dll.mdb
 C:\Users\Boon\Desktop\airmily\airmily.Services\bin\Debug\airmily.Services.dll.mdb
-C:\Users\Boon\Desktop\airmily\airmily.Services\obj\Debug\airmily.Services.dll.mdb
-C:\Users\Boon\Desktop\airmily\airmily.Services\bin\Debug\airmily.Services.dll.mdb
-C:\Users\Boon\Desktop\airmily\airmily.Services\obj\Debug\airmily.Services.dll.mdb
-C:\Users\Boon\Desktop\airmily\airmily.Services\bin\Debug\airmily.Services.dll.mdb
-C:\Users\Boon\Desktop\airmily\airmily.Services\obj\Debug\airmily.Services.dll.mdb
-C:\Users\Boon\Desktop\airmily\airmily.Services\bin\Debug\airmily.Services.dll.mdb
 F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily.Services\obj\Debug\airmily.Services.dll.mdb
 F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.mdb
-F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily.Services\obj\Debug\airmily.Services.dll.mdb
-F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.mdb
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.config
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.pdb
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.Extensions.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.Extensions.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.csproj.App.config
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.csprojResolveAssemblyReference.cache
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.pdb
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.dll.mdb
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.mdb
