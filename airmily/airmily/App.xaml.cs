@@ -19,7 +19,7 @@ namespace airmily
 
             // NavigationService.NavigateAsync("NavigationPage/MainPage?title=XXX Main Page XXX");
 
-            NavigationService.NavigateAsync("/NavigationPage/MainTabbedPage/ShowsListPage/DetailPage?id=121361");
+            NavigationService.NavigateAsync("/NavigationPage/CardsListPage");
 
             // NavigationService.NavigateAsync("/PrismContentPage1?data=Monday");
         }
@@ -35,6 +35,7 @@ namespace airmily
             Container.RegisterTypeForNavigation<UpcomingShowsPage>();
             Container.RegisterTypeForNavigation<ShowsListPage>();
             Container.RegisterTypeForNavigation<PrismContentPage1>();
-        }
+			Container.RegisterTypeForNavigation<CardsListPage>();
+		}
     }
 }
