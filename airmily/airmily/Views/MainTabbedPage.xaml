@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+            xmlns:views="clr-namespace:airmily.Views;assembly=airmily"
+            prism:ViewModelLocator.AutowireViewModel="True"
+            Title="{Binding Path=Title}"
+            x:Class="airmily.Views.MainTabbedPage">
+
+  <views:UpcomingShowsPage />
+  <views:ShowsListPage />
+
+  
+  <!--<views:UpcomingShowsPage />
+  <views:ShowsListPage />-->
+
+  <!--<NavigationPage Title="{Binding Path=Title}">
+    <x:Arguments>
+      <views:ShowsListPage />
+    </x:Arguments>
+  </NavigationPage>-->
+</TabbedPage>

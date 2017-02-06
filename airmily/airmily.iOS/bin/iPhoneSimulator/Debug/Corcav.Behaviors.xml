@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Corcav.Behaviors</name>
+    </assembly>
+    <members>
+        <member name="T:Corcav.Behaviors.BehaviorCollection">
+            <summary>
+            Represents a collection of behaviors
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Corcav.Behaviors.Behavior`1" -->
+        <member name="P:Corcav.Behaviors.Behavior`1.AssociatedObject">
+            <summary>
+            Gets the associated object.
+            </summary>
+            <value>
+            The associated object.
+            </value>
+        </member>
+        <member name="M:Corcav.Behaviors.Behavior`1.Attach(Xamarin.Forms.BindableObject)">
+            <summary>
+            Attaches the specified dependency object to this behavior.
+            </summary>
+            <param name="dependencyObject">The dependency object.</param>
+            <exception cref="T:System.InvalidOperationException">Raised when attached element doesn't match declared type</exception>
+        </member>
+        <member name="T:Corcav.Behaviors.RelativeContextExtension">
+            <summary>
+            Custom markup extension that gets the BindingContext of a UI element
+            </summary>
+        </member>
+        <member name="P:Corcav.Behaviors.RelativeContextExtension.Name">
+            <summary>
+            Gets or sets the element name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="T:Corcav.Behaviors.IBehavior">
+            <summary>
+            Abstracts a behavior implementation
+            </summary>
+        </member>
+        <member name="T:Corcav.Behaviors.Infrastructure">
+            <summary>
+            Forces iOS linked to include Xamarin Behaviors assembly in deployed package.
+            </summary>
+        </member>
+        <member name="T:Corcav.Behaviors.Interaction">
+            <summary>
+            Manages Behavior infrastructure
+            </summary>
+        </member>
+        <member name="T:Corcav.Behaviors.EventToCommand">
+            <summary>
+            Invoked a command when an event raises
+            </summary>
+        </member>
+        <member name="P:Corcav.Behaviors.EventToCommand.PassEventArgument">
+            <summary>
+            Gets or sets a value indicating whether event argument will be passed to bound command.
+            </summary>
+            <value>
+              <c>true</c> if [pass event argument]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Corcav.Behaviors.EventToCommand.EventName">
+            <summary>
+            Gets or sets the name of the event to subscribe
+            </summary>
+            <value>
+            The name of the event.
+            </value>
+        </member>
+        <member name="P:Corcav.Behaviors.EventToCommand.Command">
+            <summary>
+            Gets or sets the command to invoke when event raised
+            </summary>
+            <value>
+            The command.
+            </value>
+        </member>
+        <member name="P:Corcav.Behaviors.EventToCommand.CommandParameter">
+            <summary>
+            Gets or sets the optional command parameter.
+            </summary>
+            <value>
+            The command parameter.
+            </value>
+        </member>
+        <member name="P:Corcav.Behaviors.EventToCommand.CommandName">
+            <summary>
+            Gets or sets the name of the relative command.
+            </summary>
+            <value>
+            The name of the command.
+            </value>
+        </member>
+        <member name="P:Corcav.Behaviors.EventToCommand.CommandNameContext">
+            <summary>
+            Gets or sets the relative context used with command name.
+            </summary>
+            <value>
+            The command name context.
+            </value>
+        </member>
+        <member name="M:Corcav.Behaviors.EventToCommand.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Action{System.EventArgs})">
+            <summary>
+            Subscribes the event handler.
+            </summary>
+            <param name="eventInfo">The event information.</param>
+            <param name="item">The item.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Corcav.Behaviors.EventToCommand.OnFired(System.EventArgs)">
+            <summary>
+            Called when subscribed event fires
+            
+            If a CommandParameter isn't assigned, the EventArgs parameter to the Event you're attaching to will be sent instead.
+            You will want to have your Command to accept a parameter type of EventArgs for this to work correctly.
+            
+            </summary>
+            <example>This is an example of using a Command and accepting an object of the ItemVisibilityEventArgs Type
+            <code>
+            ICommand ItemAppearingCommand
+            {
+                get
+                {
+                    return new Command&lt;ItemVisibilityEventArgs&gt;(async args => 
+                    {
+                        if(viewModel.Items != null &amp;&amp; e.Item == viewModel.Items[viewModel.Items.Count -1])
+                        {
+                            await viewModel.RetrieveNextItemSet(viewModel.Items.Count).ConfigureAwait(false);
+                        }
+                    }
+                }    
+            }
+            </code>
+            </example>
+            <param name="e">The EventArgs value accompanying the Event</param>
+        </member>
+        <member name="M:Corcav.Behaviors.EventToCommand.CreateRelativeBinding">
+            <summary>
+            Cretes a binding between relative context and provided Command name
+            </summary>
+        </member>
+        <member name="T:Corcav.Behaviors.TextChangedBehavior">
+            <summary>
+            Updates text while Entry text changes
+            </summary>
+        </member>
+    </members>
+</doc>

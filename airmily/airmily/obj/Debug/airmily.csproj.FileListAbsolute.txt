@@ -1,0 +1,91 @@
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\airmily.dll.config
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\airmily.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\airmily.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\airmily.Services.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Corcav.Behaviors.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Prism.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Prism.Forms.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Prism.Unity.Forms.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Core.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Platform.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\System.Net.Http.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\System.Net.Http.Primitives.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\airmily.Services.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Corcav.Behaviors.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Corcav.Behaviors.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Microsoft.Practices.Unity.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Prism.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Prism.Forms.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Prism.Unity.Forms.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Core.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Core.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Platform.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\System.Net.Http.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\System.Net.Http.Primitives.xml
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.csprojResolveAssemblyReference.cache
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.App.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Views.MainPage.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Views.DetailPage.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Views.MainTabbedPage.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Views.UpcomingShowsPage.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Views.ShowsListPage.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.dll
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.pdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Page1.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.Views.PrismContentPage1.xaml.g.cs
+C:\Users\Boon\Desktop\airmily\airmily\airmily\obj\Debug\airmily.dll.mdb
+C:\Users\Boon\Desktop\airmily\airmily\airmily\bin\Debug\airmily.dll.mdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.csprojResolveAssemblyReference.cache
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.App.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.MainPage.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.DetailPage.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.MainTabbedPage.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.UpcomingShowsPage.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.ShowsListPage.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.PrismContentPage1.xaml.g.cs
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.config
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\airmily.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\airmily.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\airmily.Services.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Corcav.Behaviors.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Microsoft.Practices.Unity.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Prism.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Prism.Forms.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Prism.Unity.Forms.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Core.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Platform.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Formatting.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Primitives.dll
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\airmily.Services.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Corcav.Behaviors.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Corcav.Behaviors.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Microsoft.Practices.Unity.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Prism.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Prism.Forms.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Prism.Unity.Forms.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Core.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Core.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Platform.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.pdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Formatting.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Primitives.xml
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
+F:\Dropbox\Dropbox (BEIER360)\airmily-2017\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
