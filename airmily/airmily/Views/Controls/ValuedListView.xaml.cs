@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace airmily.Views.Controls
 {
-	public partial class ValuedListView : ContentView
+	public partial class ValuedListView : ListView
 	{
 		public ValuedListView()
 		{

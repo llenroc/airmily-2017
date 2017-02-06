@@ -18,7 +18,6 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\Corcav.Behaviors.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\Newtonsoft.Json.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\airmily.Services.pdb
-C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\airmily.Services.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\airmily.pdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\Microsoft.Practices.ServiceLocation.pdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\Microsoft.Practices.ServiceLocation.xml
@@ -97,5 +96,6 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\obj\iPhone\Debug
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\obj\iPhone\Debug\airmily.iOS.csproj.airmily.iOS.exe.config
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\obj\iPhone\Debug\airmily.iOS.exe
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\obj\iPhone\Debug\airmily.iOS.pdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\airmily.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\obj\iPhone\Debug\airmily.iOS.exe.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily.iOS\bin\iPhone\Debug\airmily.iOS.exe.mdb

@@ -135,3 +135,4 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.pd
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.CardsListPage.xaml.g.cs
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.Controls.ValuedListView.xaml.g.cs
