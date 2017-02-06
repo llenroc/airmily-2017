@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
@@ -54,6 +54,9 @@ namespace airmily.Services.Azure
 		//Methods
 		public async Task<List<Card>> GetCards(string userid, bool all = false)
 		{
+			if (string.IsNullOrEmpty(userid))
+				return new List<Card>();
+
 			IMobileServiceTableQuery<Card> query;
 			if (!all)
 				query = cardsTable.Where(c => c.UserID == userid && c.Active == true);
@@ -65,6 +68,9 @@ namespace airmily.Services.Azure
 
 		public async Task<List<Transaction>> GetTransactions(string cardid, bool all = false)
 		{
+			if (string.IsNullOrEmpty(cardid))
+				return new List<Transaction>();
+
 			IMobileServiceTableQuery<Transaction> query;
 			if (!all)
 				query = transTable.Where(t => t.CardID == cardid && t.Description != "Card Load" && !t.Description.StartsWith("Card Transfer"));
@@ -76,6 +82,9 @@ namespace airmily.Services.Azure
 
 		public async Task<List<AlbumItem>> GetImages(string albumid)
 		{
+			if (string.IsNullOrEmpty(albumid))
+				return new List<AlbumItem>();
+
 			IMobileServiceTableQuery<AlbumItem> query = albumTable.Where(a => a.Album == albumid);
 			List<AlbumItem> album = await query.ToListAsync();
 
@@ -93,6 +102,17 @@ namespace airmily.Services.Azure
 			}
 			#endregion
 			return album;
+		}
+
+		public async Task<bool> UploadImage(AlbumItem image)
+		{
+			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
+				return false;
+
+			CloudBlockBlob blob = storageContainer.GetBlockBlobReference(image.ImageName);
+			await blob.UploadFromStreamAsync(new MemoryStream(image.Image));
+			await albumTable.InsertAsync(image);
+			return true;
 		}
 	}
 }
