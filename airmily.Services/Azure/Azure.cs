@@ -37,7 +37,7 @@ namespace airmily.Services.Azure
 		private CloudBlobContainer storageContainer;
 
 		//Ctor
-		public Azure()
+		private Azure()
 		{
 			mobileClient = new MobileServiceClient("https://airmilyapp.azurewebsites.net");
 

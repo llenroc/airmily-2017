@@ -132,5 +132,11 @@ C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.V
 C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.PrismContentPage1.xaml.g.cs
 C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll
 C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.pdb
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Mobile.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Mobile.xml
+C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
 C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
 C:\Users\Edison360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb

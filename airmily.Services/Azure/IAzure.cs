@@ -28,7 +28,8 @@ namespace airmily.Services.Azure
 		/// <returns></returns>
 		Task<List<AlbumItem>>	GetImages(string albumid);
 		/// <summary>
-		/// 
+		/// Untested
+		/// Creates the AlbumItem row and uploads the image
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
