@@ -24,7 +24,9 @@ namespace airmily.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            global::Xamarin.Forms.Forms.Init();
+			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+			global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);

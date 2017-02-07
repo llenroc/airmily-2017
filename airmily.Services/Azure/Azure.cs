@@ -10,6 +10,8 @@ namespace airmily.Services.Azure
 {
 	public class Azure : IAzure
 	{
+		private bool Initialised { get; set; }
+
 		//Singleton
 		public static Azure CurrentInstance
 		{
@@ -39,22 +41,39 @@ namespace airmily.Services.Azure
 		//Ctor
 		private Azure()
 		{
-			mobileClient = new MobileServiceClient("https://airmilyapp.azurewebsites.net");
+			Init();
+		}
 
-			usersTable = mobileClient.GetTable<User>();
-			cardsTable = mobileClient.GetTable<Card>();
-			transTable = mobileClient.GetTable<Transaction>();
-			albumTable = mobileClient.GetTable<AlbumItem>();
+		public void Init()
+		{
+			if (Initialised)
+				return;
 
-			storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=airmilystorage;AccountKey=" + "RRdg9CkiTZVa6DNI5erUaRaAOiU6yAfUhxu0Hd7yZHAd5XAO/EvUyhvXBcrwUXt4QiHGZfQsbI6cZYeaFnS/2A==");
-			storageClient = storageAccount.CreateCloudBlobClient();
-			storageContainer = storageClient.GetContainerReference("images");
+			try
+			{
+				mobileClient = new MobileServiceClient("https://airmilyapp.azurewebsites.net");
+
+				usersTable = mobileClient.GetTable<User>();
+				cardsTable = mobileClient.GetTable<Card>();
+				transTable = mobileClient.GetTable<Transaction>();
+				albumTable = mobileClient.GetTable<AlbumItem>();
+
+				storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=airmilystorage;AccountKey=" + "RRdg9CkiTZVa6DNI5erUaRaAOiU6yAfUhxu0Hd7yZHAd5XAO/EvUyhvXBcrwUXt4QiHGZfQsbI6cZYeaFnS/2A==");
+				storageClient = storageAccount.CreateCloudBlobClient();
+				storageContainer = storageClient.GetContainerReference("images");
+
+				Initialised = true;
+			}
+			catch (System.Exception ex)
+			{
+				int i = 0;
+			}
 		}
 
 		//Methods
 		public async Task<List<Card>> GetCards(string userid, bool all = false)
 		{
-			if (string.IsNullOrEmpty(userid))
+			if (string.IsNullOrEmpty(userid) || !Initialised)
 				return new List<Card>();
 
 			IMobileServiceTableQuery<Card> query;
@@ -68,7 +87,7 @@ namespace airmily.Services.Azure
 
 		public async Task<List<Transaction>> GetTransactions(string cardid, bool all = false)
 		{
-			if (string.IsNullOrEmpty(cardid))
+			if (string.IsNullOrEmpty(cardid) || !Initialised)
 				return new List<Transaction>();
 
 			IMobileServiceTableQuery<Transaction> query;
@@ -82,7 +101,7 @@ namespace airmily.Services.Azure
 
 		public async Task<List<AlbumItem>> GetImages(string albumid)
 		{
-			if (string.IsNullOrEmpty(albumid))
+			if (string.IsNullOrEmpty(albumid) || !Initialised)
 				return new List<AlbumItem>();
 
 			IMobileServiceTableQuery<AlbumItem> query = albumTable.Where(a => a.Album == albumid);
@@ -106,7 +125,7 @@ namespace airmily.Services.Azure
 
 		public async Task<bool> UploadImage(AlbumItem image)
 		{
-			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
+			if (image.Image == null || string.IsNullOrEmpty(image.ImageName) || !Initialised)
 				return false;
 
 			CloudBlockBlob blob = storageContainer.GetBlockBlobReference(image.ImageName);
