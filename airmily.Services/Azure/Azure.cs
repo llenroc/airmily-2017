@@ -25,7 +25,7 @@ namespace airmily.Services.Azure
 		//Ctor
 		public Azure()
 		{
-			try
+            try
 			{
 				_mobileClient = new MobileServiceClient("https://airmilyapp.azurewebsites.net");
 

@@ -4,7 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding SelectedShow.Name}"
-             x:Class="airmily.Views.DetailPage">
+             x:Class="airmily.Views.ExampleDetailPage">
 
   <StackLayout>
     <Image x:Name="InfoPoster"

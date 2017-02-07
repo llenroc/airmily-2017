@@ -2,9 +2,9 @@
 
 namespace airmily.Views
 {
-    public partial class ShowsListPage : ContentPage
+    public partial class ExampleMainPage : ContentPage
     {
-        public ShowsListPage()
+        public ExampleMainPage()
         {
             InitializeComponent();
         }

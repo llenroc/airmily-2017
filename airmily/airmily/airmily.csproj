@@ -37,13 +37,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CardsListPageViewModel.cs" />
-    <Compile Include="ViewModels\DetailPageViewModel.cs" />
-    <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\MainTabbedPageViewModel.cs" />
-    <Compile Include="ViewModels\PrismContentPage1ViewModel.cs" />
-    <Compile Include="ViewModels\ShowsListPageViewModel.cs" />
-    <Compile Include="ViewModels\TransactionListPageViewModel.cs" />
-    <Compile Include="ViewModels\UpcomingShowsPageViewModel.cs" />
+    <Compile Include="ViewModels\ExampleDetailPageViewModel.cs" />
+    <Compile Include="ViewModels\ExampleMainPageViewModel.cs" />
+    <Compile Include="ViewModels\ExampleMainTabbedPageViewModel.cs" />
+    <Compile Include="ViewModels\ExampleShowsListPageViewModel.cs" />
+    <Compile Include="ViewModels\TransactionsListPageViewModel.cs" />
+    <Compile Include="ViewModels\ExampleUpcomingShowsPageViewModel.cs" />
     <Compile Include="Views\CardsListPage.xaml.cs">
       <DependentUpon>CardsListPage.xaml</DependentUpon>
     </Compile>
@@ -51,20 +50,17 @@
     <Compile Include="Views\Controls\ValuedListView.xaml.cs">
       <DependentUpon>ValuedListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainTabbedPage.xaml.cs">
-      <DependentUpon>MainTabbedPage.xaml</DependentUpon>
+    <Compile Include="Views\ExampleMainTabbedPage.xaml.cs">
+      <DependentUpon>ExampleMainTabbedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PrismContentPage1.xaml.cs">
-      <DependentUpon>PrismContentPage1.xaml</DependentUpon>
+    <Compile Include="Views\ExampleShowsListPage.xaml.cs">
+      <DependentUpon>ExampleShowsListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ShowsListPage.xaml.cs">
-      <DependentUpon>ShowsListPage.xaml</DependentUpon>
+    <Compile Include="Views\TransactionsListPage.xaml.cs">
+      <DependentUpon>TransactionsListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransactionListPage.xaml.cs">
-      <DependentUpon>TransactionListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UpcomingShowsPage.xaml.cs">
-      <DependentUpon>UpcomingShowsPage.xaml</DependentUpon>
+    <Compile Include="Views\ExampleUpcomingShowsPage.xaml.cs">
+      <DependentUpon>ExampleUpcomingShowsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -77,15 +73,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MainPage.xaml">
+    <EmbeddedResource Include="Views\ExampleMainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Views\DetailPage.xaml.cs">
-      <DependentUpon>DetailPage.xaml</DependentUpon>
+    <Compile Include="Views\ExampleDetailPage.xaml.cs">
+      <DependentUpon>ExampleDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Views\ExampleMainPage.xaml.cs">
+      <DependentUpon>ExampleMainPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -177,31 +173,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\DetailPage.xaml">
+    <EmbeddedResource Include="Views\ExampleDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MainTabbedPage.xaml">
+    <EmbeddedResource Include="Views\ExampleMainTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\UpcomingShowsPage.xaml">
+    <EmbeddedResource Include="Views\ExampleUpcomingShowsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ShowsListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\PrismContentPage1.xaml">
+    <EmbeddedResource Include="Views\ExampleShowsListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -219,7 +209,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\TransactionListPage.xaml">
+    <EmbeddedResource Include="Views\TransactionsListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

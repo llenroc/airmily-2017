@@ -4,8 +4,9 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="airmily.Views.ExampleMainPage"
              Title="{Binding Path=Title}"
-             x:Class="airmily.Views.ShowsListPage">
+             >
 
   <ContentPage.Resources>
     <ResourceDictionary>
@@ -19,6 +20,7 @@
               </Grid.ColumnDefinitions>
 
               <Image Source="{Binding Images.Poster}" Grid.Column="0" x:Name="TopImage" />
+              
               <StackLayout Grid.Column="1" Margin="12, 0, 0, 0" VerticalOptions="Start">
                 <Label Text="{Binding Name}" FontSize="18" TextColor="#58666e" FontAttributes="Bold" />
                 <StackLayout Orientation="Horizontal">
@@ -45,20 +47,12 @@
     </ResourceDictionary>
   </ContentPage.Resources>
 
-  <StackLayout>
-
-    <Switch IsToggled="{Binding IsTappingEnabled}" />
-
-    <ListView ItemTemplate="{StaticResource TopSeriesTemplate}"
+  <ListView ItemTemplate="{StaticResource TopSeriesTemplate}"
             ItemsSource="{Binding TopSeries}" RowHeight="200">
-      <behaviors:Interaction.Behaviors>
-        <behaviors:BehaviorCollection>
-          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToDetailPage}" PassEventArgument="True" />
-        </behaviors:BehaviorCollection>
-      </behaviors:Interaction.Behaviors>
-    </ListView>
-    
-  </StackLayout>
-  
-  
+    <behaviors:Interaction.Behaviors>
+      <behaviors:BehaviorCollection>
+        <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToDetailPage}" PassEventArgument="True" />
+      </behaviors:BehaviorCollection>
+    </behaviors:Interaction.Behaviors>
+  </ListView>
 </ContentPage>

@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace airmily.Views
 {
-    public partial class MainTabbedPage : TabbedPage
+    public partial class ExampleMainTabbedPage : TabbedPage
     {
-        public MainTabbedPage()
+        public ExampleMainTabbedPage()
         {
             InitializeComponent();
         }

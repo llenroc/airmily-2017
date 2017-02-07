@@ -1,28 +1,21 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using airmily.Services.Models;
 using airmily.Services.TrackSeries;
-using Prism.Navigation;
+using Microsoft.Practices.Unity.ObjectBuilder;
 using Xamarin.Forms;
 
 namespace airmily.ViewModels
 {
-    public class ShowsListPageViewModel : BindableBase, INavigationAware, IConfirmNavigation
+    public class ExampleMainPageViewModel : BindableBase, INavigationAware
     {
         private readonly ITrackSeries _trackSeries;
         private readonly INavigationService _navigationService;
-
-        private bool _isTappingEnabled;
-
-        public bool IsTappingEnabled
-        {
-            get { return _isTappingEnabled; }
-            set { SetProperty(ref _isTappingEnabled, value); }
-        }
 
         private string _title;
 
@@ -39,19 +32,18 @@ namespace airmily.ViewModels
             get { return _topSeries; }
             set { SetProperty(ref _topSeries, value); }
         }
-        
-        public ShowsListPageViewModel(ITrackSeries trackSeries, INavigationService navigationService)
+
+        public ExampleMainPageViewModel(ITrackSeries trackSeries, INavigationService navigationService)
         {
             _trackSeries = trackSeries;
             _navigationService = navigationService;
 
-            IsTappingEnabled = true;
-            Title = "Shows List";
+            Title = "Main Page";
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-
+            
         }
 
         public async void OnNavigatedTo(NavigationParameters parameters)
@@ -73,27 +65,15 @@ namespace airmily.ViewModels
                 {
                     _goToDetailPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
-                        NavigationParameters param = new NavigationParameters();
+                        var param = new NavigationParameters { { "show", selected.Item } };
                         var serie = selected.Item as SerieFollowers;
                         param.Add("id", serie.Id);
-
-                        await _navigationService.NavigateAsync("/NavigationPage/MainTabbedPage/ShowsListPage/DetailPage", param);
-
-                        // await _navigationService.NavigateAsync(
-                        //    "/MainTabbedPage/NavigationPage/ShowsListPage/DetailPage", param);
-
-                        //await _navigationService.NavigateAsync(
-                        //   "/NavigationPage/ShowsListPage/DetailPage", param);
-                    }, args => IsTappingEnabled);
+                        await _navigationService.NavigateAsync("ExampleDetailPage", param);
+                    });
                 }
 
                 return _goToDetailPage;
             }
-        }
-
-        public bool CanNavigate(NavigationParameters parameters)
-        {
-            return true;
         }
     }
 }

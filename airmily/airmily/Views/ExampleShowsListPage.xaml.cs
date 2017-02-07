@@ -2,9 +2,9 @@
 
 namespace airmily.Views
 {
-    public partial class PrismContentPage1 : ContentPage
+    public partial class ExampleShowsListPage : ContentPage
     {
-        public PrismContentPage1()
+        public ExampleShowsListPage()
         {
             InitializeComponent();
         }

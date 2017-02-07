@@ -9,7 +9,7 @@ using Prism.Navigation;
 
 namespace airmily.ViewModels
 {
-    public class DetailPageViewModel : BindableBase, INavigationAware
+    public class ExampleDetailPageViewModel : BindableBase, INavigationAware
     {
         private readonly ITrackSeries _trackSeries;
 
@@ -21,7 +21,7 @@ namespace airmily.ViewModels
             set { SetProperty(ref _selectedShow, value); }
         }
 
-        public DetailPageViewModel(ITrackSeries trackSeries)
+        public ExampleDetailPageViewModel(ITrackSeries trackSeries)
         {
             _trackSeries = trackSeries;
         }

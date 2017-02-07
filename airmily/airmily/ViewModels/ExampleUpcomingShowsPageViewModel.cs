@@ -10,7 +10,7 @@ using Prism.Navigation;
 
 namespace airmily.ViewModels
 {
-    public class UpcomingShowsPageViewModel : BindableBase, INavigationAware
+    public class ExampleUpcomingShowsPageViewModel : BindableBase, INavigationAware
     {
         private string _title;
 
@@ -27,7 +27,7 @@ namespace airmily.ViewModels
             set { SetProperty(ref _content, value); }
         }
 
-        public UpcomingShowsPageViewModel()
+        public ExampleUpcomingShowsPageViewModel()
         {
             Title = "Upcoming Shows";
             Content = "Upcoming shows... Star Wars... Terminator 3... Sing... Star Trek...";

@@ -5,10 +5,10 @@
             xmlns:views="clr-namespace:airmily.Views;assembly=airmily"
             prism:ViewModelLocator.AutowireViewModel="True"
             Title="{Binding Path=Title}"
-            x:Class="airmily.Views.MainTabbedPage">
+            x:Class="airmily.Views.ExampleMainTabbedPage">
 
-  <views:UpcomingShowsPage />
-  <views:ShowsListPage />
+  <views:ExampleUpcomingShowsPage />
+  <views:ExampleShowsListPage />
 
   
   <!--<views:UpcomingShowsPage />

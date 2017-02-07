@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace airmily.ViewModels
 {
-    public class MainTabbedPageViewModel : BindableBase
+    public class ExampleMainTabbedPageViewModel : BindableBase
     {
         private string _title;
 
@@ -18,7 +18,7 @@ namespace airmily.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
-        public MainTabbedPageViewModel()
+        public ExampleMainTabbedPageViewModel()
         {
             Title = "airmily";
         }
