@@ -1,18 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="airmily.Views.TransactionListPage">
+             x:Class="airmily.Views.TransactionListPage"
+             Title="Airmily"
+             Padding="8"
+             BackgroundColor="#FDB813">
 
-	<StackLayout>
-		<Frame>
-			
-		</Frame>
-		<Frame>
-			<controls:ValuedListView ItemsSource="{Binding TransactionList}" RowHeight="40" HasUnevenRows="True" BackgroundColor="#B9B9B9"/>
-		</Frame>
-	</StackLayout>
-	
+    <StackLayout>
+        <Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Card Holder" TextColor="White" FontAttributes="Italic" HorizontalTextAlignment="Center"
+                       Grid.Row="0" />
+                <Label Text="Card Number" TextColor="White" FontAttributes="Italic" HorizontalTextAlignment="Center"
+                       Grid.Row="1" />
+                <Label Text="Balance" TextColor="White" FontAttributes="Italic" HorizontalTextAlignment="Center"
+                       Grid.Row="2" />
+            </Grid>
+        </Frame>
+        <Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Transaction" TextColor="White" HorizontalTextAlignment="Start" Grid.Column="0"
+                       Grid.Row="0" />
+                <Label Text="Value" TextColor="White" XAlign="End" Grid.Column="1" Grid.Row="1" />
+                <Label Text="Date" TextColor="White" XAlign="Start" Grid.Column="0" Grid.Row="1" />
+            </Grid>
+        </Frame>
+        <Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
+            <controls:ValuedListView ItemsSource="{Binding TransactionList}" RowHeight="40" HasUnevenRows="True"
+                                     BackgroundColor="#B9B9B9" />
+        </Frame>
+    </StackLayout>
+
 </ContentPage>

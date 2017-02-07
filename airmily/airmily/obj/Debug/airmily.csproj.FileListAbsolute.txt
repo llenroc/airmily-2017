@@ -385,5 +385,6 @@ C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\obj\Debug\airmily.dl
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\obj\Debug\airmily.pdb
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.TransactionListPage.xaml.g.cs
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb

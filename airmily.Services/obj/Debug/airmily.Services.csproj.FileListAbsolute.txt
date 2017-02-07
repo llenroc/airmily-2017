@@ -159,3 +159,5 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.S
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.mdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily.Services\obj\Debug\airmily.Services.dll.mdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily.Services\bin\Debug\airmily.Services.dll.mdb
