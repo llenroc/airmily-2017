@@ -285,8 +285,6 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\ru\System.
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\zh-Hans\System.Spatial.resources.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\zh-Hant\System.Spatial.resources.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.csproj.App.config
-C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
-C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.config
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\bin\Debug\airmily.dll
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\bin\Debug\airmily.pdb
@@ -387,3 +385,5 @@ C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\obj\Debug\airmily.dl
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\obj\Debug\airmily.pdb
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
 C:\Users\Boon\Documents\GitHub\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
