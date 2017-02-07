@@ -9,12 +9,12 @@
 						 Padding="8"
 						 BackgroundColor="#FDB813">
 	<StackLayout>
-		<Frame Padding="10" HasShadow="True" BackgroundColor="#A9A9A9">
+		<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">
 			<Label Text="Cards List" TextColor="White" FontAttributes="Bold" XAlign="Center" FontSize="20"/>
 		</Frame>
 		<Frame Padding="10" BackgroundColor="#A9A9A9">
 
-			<controls:ValuedListView	ItemsSource="{Binding CardsList}"	RowHeight="40" HasUnevenRows="True"/>
+			<controls:ValuedListView	ItemsSource="{Binding CardsList}"	RowHeight="40" HasUnevenRows="True" BackgroundColor="#B9B9B9"/>
 		</Frame>
 	</StackLayout>
 </ContentPage>
