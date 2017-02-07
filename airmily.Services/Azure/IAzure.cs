@@ -7,11 +7,6 @@ namespace airmily.Services.Azure
 	public interface IAzure
 	{
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		void					Init();
-		/// <summary>
 		/// Returns a list of cards for a particular user.
 		/// </summary>
 		/// <param name="userid">The ID of the user</param>
