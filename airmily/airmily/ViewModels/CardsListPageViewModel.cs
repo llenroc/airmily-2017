@@ -2,8 +2,9 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-
+using airmily.Services.Azure;
 using airmily.Services.Models;
 using Prism.Navigation;
 
@@ -11,37 +12,31 @@ namespace airmily.ViewModels
 {
 	public class CardsListPageViewModel : BindableBase, INavigationAware
 	{
-		private Card _card = new Card();
+	    private readonly IAzure _azure;
 
-		public Card Card
-		{
-			get { return _card; }
-			set { SetProperty(ref _card, value); }
-		}
-		private List<Card> _cardsList = new List<Card>();
+	    private ObservableCollection<Card> _cardsList;
 
-		public List<Card> CardsList
+		public ObservableCollection<Card> CardsList
 		{
 			get { return _cardsList; }
 			set { SetProperty(ref _cardsList, value); }
 		}
 
-		public CardsListPageViewModel()
+		public CardsListPageViewModel(IAzure azure)
 		{
-			Card.CardHolder = "Test";
-			Card.Currency = "£";
-			Card.Balance = "194.32";
-			Card.Number = "5114*****1234";
-			CardsList.Add(Card);
-		}
+		    _azure = azure;
+        }
 
 		public void OnNavigatedFrom(NavigationParameters parameters)
 		{
 
 		}
-		public void OnNavigatedTo(NavigationParameters parameters)
+		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
 
+            var ret = await _azure.GetCards("668788");
+		    CardsList = new ObservableCollection<Card>(ret);
+
 		}
-	}
+    }
 }
