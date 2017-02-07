@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace airmily.Services.Models
+namespace airmily.Services.ModelsExample
 {
-    public class SerieFollowers
+    public class SerieInfo
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Followers { get; set; }
         public DateTimeOffset FirstAired { get; set; }
         public string Country { get; set; }
+        public string Year { get; set; }
         public string Overview { get; set; }
         public int Runtime { get; set; }
         public string Status { get; set; }
@@ -24,7 +21,7 @@ namespace airmily.Services.Models
         public int TvdbId { get; set; }
         public string Language { get; set; }
         public ImagesSerie Images { get; set; }
-        public ICollection<Genre> Genres { get; set; }
+        public List<Genre> Genres { get; set; }
         public DateTime Added { get; set; }
         public DateTime LastUpdated { get; set; }
         public string SlugName { get; set; }
