@@ -104,6 +104,9 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Fo
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Mobile.dll
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Storage.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Primitives.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.Services.pdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Corcav.Behaviors.pdb
@@ -121,6 +124,9 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Fo
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Xamarin.Forms.Xaml.xml
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.xml
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Mobile.xml
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\System.Net.Http.Primitives.xml
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.csprojResolveAssemblyReference.cache
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.App.xaml.g.cs
@@ -130,9 +136,9 @@ C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Vi
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.UpcomingShowsPage.xaml.g.cs
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.ShowsListPage.xaml.g.cs
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.PrismContentPage1.xaml.g.cs
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.CardsListPage.xaml.g.cs
+C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.Controls.ValuedListView.xaml.g.cs
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.pdb
-C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.CardsListPage.xaml.g.cs
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.dll.mdb
 C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\bin\Debug\airmily.dll.mdb
-C:\Users\Tesla360\Source\Repos\airmily-2017\airmily\airmily\obj\Debug\airmily.Views.Controls.ValuedListView.xaml.g.cs

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
+using airmily.Services.Models;
+using airmily.Views;
+using airmily.ViewModels;
 namespace airmily.Views.Controls
 {
 	public partial class ValuedListView : ListView

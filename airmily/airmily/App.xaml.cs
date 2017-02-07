@@ -19,7 +19,7 @@ namespace airmily
 
             // NavigationService.NavigateAsync("NavigationPage/MainPage?title=XXX Main Page XXX");
 
-            NavigationService.NavigateAsync("/NavigationPage/CardsListPage");
+            NavigationService.NavigateAsync("NavigationPage/CardsListPage");
 
             // NavigationService.NavigateAsync("/PrismContentPage1?data=Monday");
         }

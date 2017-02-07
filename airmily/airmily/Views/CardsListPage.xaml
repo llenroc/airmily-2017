@@ -8,13 +8,13 @@
 						 Title="Airmily"
 						 Padding="8"
 						 BackgroundColor="#FDB813">
-
 	<StackLayout>
 		<Frame Padding="10" HasShadow="True" BackgroundColor="#A9A9A9">
 			<Label Text="Cards List" TextColor="White" FontAttributes="Bold" XAlign="Center" FontSize="20"/>
 		</Frame>
-		<Frame>
-			<controls:ValuedListView	ItemSource="{Binding cardsList}"	RowHeight="40"/>
+		<Frame Padding="10" BackgroundColor="#A9A9A9">
+
+			<controls:ValuedListView	ItemsSource="{Binding CardsList}"	RowHeight="40" HasUnevenRows="True"/>
 		</Frame>
 	</StackLayout>
 </ContentPage>
