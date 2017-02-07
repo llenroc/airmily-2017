@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+						 xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="airmily.Views.CardsListPage"
+						 Title="Airmily"
+						 Padding="8"
+						 BackgroundColor="#FDB813">
+	<StackLayout>
+		<Frame Padding="10" HasShadow="True" BackgroundColor="#A9A9A9">
+			<Label Text="Cards List" TextColor="White" FontAttributes="Bold" XAlign="Center" FontSize="20"/>
+		</Frame>
+		<Frame Padding="10" BackgroundColor="#A9A9A9">
+
+			<controls:ValuedListView	ItemsSource="{Binding CardsList}"	RowHeight="40" HasUnevenRows="True"/>
+		</Frame>
+	</StackLayout>
+</ContentPage>
