@@ -38,6 +38,7 @@ namespace airmily
             Container.RegisterTypeForNavigation<ShowsListPage>();
             Container.RegisterTypeForNavigation<PrismContentPage1>();
 			Container.RegisterTypeForNavigation<CardsListPage>();
+			Container.RegisterTypeForNavigation<TransactionListPage>();
 		}
     }
 }

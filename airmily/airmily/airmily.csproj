@@ -42,6 +42,7 @@
     <Compile Include="ViewModels\MainTabbedPageViewModel.cs" />
     <Compile Include="ViewModels\PrismContentPage1ViewModel.cs" />
     <Compile Include="ViewModels\ShowsListPageViewModel.cs" />
+    <Compile Include="ViewModels\TransactionListPageViewModel.cs" />
     <Compile Include="ViewModels\UpcomingShowsPageViewModel.cs" />
     <Compile Include="Views\CardsListPage.xaml.cs">
       <DependentUpon>CardsListPage.xaml</DependentUpon>
@@ -58,6 +59,9 @@
     </Compile>
     <Compile Include="Views\ShowsListPage.xaml.cs">
       <DependentUpon>ShowsListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransactionListPage.xaml.cs">
+      <DependentUpon>TransactionListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpcomingShowsPage.xaml.cs">
       <DependentUpon>UpcomingShowsPage.xaml</DependentUpon>
@@ -210,6 +214,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Controls\ValuedListView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\TransactionListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
