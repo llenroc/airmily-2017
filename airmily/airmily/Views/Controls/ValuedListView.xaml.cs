@@ -15,6 +15,7 @@ namespace airmily.Views.Controls
 		public ValuedListView()
 		{
 			InitializeComponent();
+			ItemSelected += (sender, e) => SelectedItem = null;
 		}
 	}
 }

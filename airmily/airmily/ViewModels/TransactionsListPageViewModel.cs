@@ -31,7 +31,14 @@ namespace airmily.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
-		private Card _currentCard;
+		private Card _currentCard = new Card()
+		{
+			CardHolder = "John Smith",
+			Number = "0000********0000",
+			Currency = "£",
+			Balance = "100.5"
+		};
+
 		public Card CurrentCard
 		{
 			get { return _currentCard; }
