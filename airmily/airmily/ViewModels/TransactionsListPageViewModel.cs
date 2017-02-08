@@ -25,12 +25,18 @@ namespace airmily.ViewModels
 		}
 
         private string _title;
-
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+
+		private Card _currentCard;
+		public Card CurrentCard
+		{
+			get { return _currentCard; }
+			set { SetProperty(ref _currentCard, value); }
+		}
 
         public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure)
         {
@@ -47,10 +53,11 @@ namespace airmily.ViewModels
 
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
-		    if (parameters.ContainsKey("cardId"))
+		    if (parameters.ContainsKey("card"))
 		    {
-		        var cardId = parameters["cardId"].ToString();
-                var ret = await _azure.GetTransactions(cardId);
+			    CurrentCard = (Card)parameters["card"];
+
+                var ret = await _azure.GetTransactions(CurrentCard.CardID);
                 TransactionsList = new ObservableCollection<Transaction>(ret);
             }
         }

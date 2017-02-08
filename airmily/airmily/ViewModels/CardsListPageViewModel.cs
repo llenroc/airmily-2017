@@ -65,7 +65,7 @@ namespace airmily.ViewModels
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
                         var card = selected.Item as Card;
-                        var parameters = new NavigationParameters {["cardId"] = card.CardID};
+                        var parameters = new NavigationParameters {["card"] = card};
                         await _navigationService.NavigateAsync("TransactionsListPage", parameters);
                     });
                 }
