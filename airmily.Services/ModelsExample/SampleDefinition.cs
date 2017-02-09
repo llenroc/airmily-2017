@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Events;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace airmily.Services.ModelsExample
@@ -815,6 +817,10 @@ namespace airmily.Services.ModelsExample
         public List<Sample> SamplesList { get; set; }
 
         public char Icon { get; set; }
+
+        public INavigationService NavigationService { get; set; }
+
+        public IEventAggregator EventAggregator { get; set; }
     }
 
     public static class SamplesDefinition
@@ -823,6 +829,9 @@ namespace airmily.Services.ModelsExample
         private static Dictionary<string, SampleCategory> _samplesCategories;
         private static List<Sample> _allSamples;
         private static List<SampleGroup> _samplesGroupedByCategory;
+
+        public static INavigationService NavigationService { get; set; }
+        public static IEventAggregator EventAggregator { get; set; }
 
         public static string[] _categoriesColors = {
             "#c01e5c",
@@ -902,7 +911,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("User Profile", null, SampleData.DashboardImagesList[6], '\uf007'),
                         new Sample("Social", null, SampleData.DashboardImagesList[6], '\uf0e6'),
                         new Sample("Social Variant", null, SampleData.DashboardImagesList[6], '\uf0e6'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -919,7 +930,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("Articles List", null, SampleData.DashboardImagesList[4], '\uf0f6'),
                         new Sample("Articles List Variant", null, SampleData.DashboardImagesList[4], '\uf0f6'),
                         new Sample("Articles Feed", null, SampleData.DashboardImagesList[4], '\uf0f6'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -935,7 +948,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("Icons Dashboard", null, SampleData.DashboardImagesList[3], '\uf009'),
                         new Sample("Flat Dashboard", null, SampleData.DashboardImagesList[3], '\uf009'),
                         new Sample("Images Dashboard", null, SampleData.DashboardImagesList[3], '\uf009'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -954,7 +969,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("Image Categories", null, SampleData.DashboardImagesList[2], '\uf03a'),
                         new Sample("Icon Categories", null, SampleData.DashboardImagesList[2], '\uf03a'),
                         new Sample("Custom NavBar", null, SampleData.DashboardImagesList[2], '\uf022'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -970,7 +987,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("Login", null, SampleData.DashboardImagesList[5], '\uf023', true),
                         new Sample("Sign Up", null, SampleData.DashboardImagesList[5], '\uf046', true),
                         new Sample("Password Recovery", null, SampleData.DashboardImagesList[5], '\uf0e2', true),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -987,7 +1006,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("Products Grid Variant", null, SampleData.DashboardImagesList[1] , '\uf0db'),
                         new Sample("Product Item View", null, SampleData.DashboardImagesList[1], '\uf06b'),
                         new Sample("Products Carousel", null, SampleData.DashboardImagesList[1], '\uf06b'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -1002,7 +1023,9 @@ namespace airmily.Services.ModelsExample
                     SamplesList = new List<Sample> {
                         new Sample("Walkthrough", null, SampleData.DashboardImagesList[7], '\uf0d0', true),
                         new Sample("Walkthrough Variant", null, SampleData.DashboardImagesList[7], '\uf0d0', true),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -1017,7 +1040,9 @@ namespace airmily.Services.ModelsExample
                     SamplesList = new List<Sample> {
                         new Sample("Messages", null, SampleData.DashboardImagesList[8], '\uf003'),
                         new Sample("Chat Messages List", null, SampleData.DashboardImagesList[8], '\uf0e6'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
@@ -1036,7 +1061,9 @@ namespace airmily.Services.ModelsExample
                         new Sample("Settings Page", null, SampleData.DashboardImagesList[0], '\uf085'),
                         new Sample("About", null, SampleData.DashboardImagesList[0], '\uf128'),
                         new Sample("Tabs", null, SampleData.DashboardImagesList[0], '\uf114'),
-                    }
+                    },
+                    NavigationService = SamplesDefinition.NavigationService,
+                    EventAggregator = SamplesDefinition.EventAggregator
                 }
             );
 
