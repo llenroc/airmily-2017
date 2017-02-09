@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.IO;
+using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace airmily.Services.Models
 {
@@ -14,7 +16,12 @@ namespace airmily.Services.Models
 		[JsonIgnore]
 		public byte[] Image { get; set; }
 
-		public AlbumItem()
+	    public Xamarin.Forms.ImageSource ImageSrc
+	    {
+	        get { return ImageSource.FromStream(() => new MemoryStream(Image)); }
+	    }
+
+	    public AlbumItem()
 		{
 
 		}
