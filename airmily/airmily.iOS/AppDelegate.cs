@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using UXDivers.Artina.Grial;
 
 namespace airmily.iOS
 {
@@ -22,8 +23,9 @@ namespace airmily.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Appearance.Configure();
 
-			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
 			global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));

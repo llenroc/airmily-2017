@@ -15,12 +15,12 @@
 		</Frame>
 		<Frame Padding="10" BackgroundColor="#A9A9A9">
 			<controls:ValuedListView	ItemsSource="{Binding CardsList}"	RowHeight="40" HasUnevenRows="True" BackgroundColor="#B9B9B9">
-        <behaviors:Interaction.Behaviors>
-          <behaviors:BehaviorCollection>
-            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}" PassEventArgument="True" />
-          </behaviors:BehaviorCollection>
-        </behaviors:Interaction.Behaviors>
-      </controls:ValuedListView>
+				<behaviors:Interaction.Behaviors>
+					<behaviors:BehaviorCollection>
+						<behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}" PassEventArgument="True" />
+					</behaviors:BehaviorCollection>
+				</behaviors:Interaction.Behaviors>
+			</controls:ValuedListView>
 		</Frame>
 	</StackLayout>
 </ContentPage>
