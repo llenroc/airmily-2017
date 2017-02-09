@@ -46,6 +46,7 @@
     <Compile Include="ViewModels\ExampleMainPageViewModel.cs" />
     <Compile Include="ViewModels\ExampleMainTabbedPageViewModel.cs" />
     <Compile Include="ViewModels\ExampleShowsListPageViewModel.cs" />
+    <Compile Include="ViewModels\ExampleProfilePageViewModel.cs" />
     <Compile Include="ViewModels\TransactionsListPageViewModel.cs" />
     <Compile Include="ViewModels\ExampleUpcomingShowsPageViewModel.cs" />
     <Compile Include="Views\CardsListPage.xaml.cs">
@@ -60,6 +61,9 @@
     </Compile>
     <Compile Include="Views\ExampleShowsListPage.xaml.cs">
       <DependentUpon>ExampleShowsListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExampleProfilePage.xaml.cs">
+      <DependentUpon>ExampleProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransactionsListPage.xaml.cs">
       <DependentUpon>TransactionsListPage.xaml</DependentUpon>
@@ -230,6 +234,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ExampleProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
