@@ -88,6 +88,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Appearance.cs" />
     <Compile Include="CustomRenderers\RoundedBoxViewRenderer.cs" />
     <Compile Include="iOSInitializer.cs" />
     <Compile Include="Main.cs" />
@@ -198,6 +199,12 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="UXDivers.Artina.Shared">
+      <HintPath>..\..\grial-uikit-extended-1.5.2\lib\pcl\UXDivers.Artina.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="UXDivers.Artina.Shared.iOS">
+      <HintPath>..\..\grial-uikit-extended-1.5.2\lib\ios-unified\UXDivers.Artina.Shared.iOS.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.180\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
       <Private>True</Private>
