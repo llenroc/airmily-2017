@@ -50,8 +50,12 @@
     <Compile Include="ViewModels\ExampleProfilePageViewModel.cs" />
     <Compile Include="ViewModels\TransactionsListPageViewModel.cs" />
     <Compile Include="ViewModels\ExampleUpcomingShowsPageViewModel.cs" />
+    <Compile Include="ViewModels\ViewImagesPageViewModel.cs" />
     <Compile Include="Views\CardsListPage.xaml.cs">
       <DependentUpon>CardsListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\CarouselGallery.xaml.cs">
+      <DependentUpon>CarouselGallery.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\RoundedBoxView.cs" />
     <Compile Include="Views\Controls\ValuedListView.xaml.cs">
@@ -77,6 +81,9 @@
     </Compile>
     <Compile Include="Views\ExampleUpcomingShowsPage.xaml.cs">
       <DependentUpon>ExampleUpcomingShowsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewImagesPage.xaml.cs">
+      <DependentUpon>ViewImagesPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +172,10 @@
       <HintPath>..\..\packages\System.Spatial.5.8.2\lib\portable-net45+wp8+win8+wpa\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xamarin.Forms.CarouselView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.CarouselView.2.3.0-pre2\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.CarouselView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="UXDivers.Artina.Shared">
       <HintPath>..\..\grial-uikit-extended-1.5.2\lib\pcl\UXDivers.Artina.Shared.dll</HintPath>
     </Reference>
@@ -249,13 +260,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <EmbeddedResource Include="Views\ExampleDashboardPage.xaml">
+=======
+    <EmbeddedResource Include="Views\ViewImagesPage.xaml">
+>>>>>>> origin/master
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <EmbeddedResource Include="Views\ExampleDashboardItemTemplate.xaml">
+=======
+    <EmbeddedResource Include="Views\Controls\CarouselGallery.xaml">
+>>>>>>> origin/master
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

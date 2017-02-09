@@ -6,9 +6,7 @@
 					>
 	<ListView.ItemTemplate>
 		<DataTemplate>
-			<ViewCell>
-				
-				
+			<ViewCell>				
 				<Grid BackgroundColor="#B9B9B9">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*"/>
@@ -19,7 +17,6 @@
 						<ColumnDefinition Width="*"/>
 						<ColumnDefinition Width="20"/>
 					</Grid.ColumnDefinitions>
-
 					<Label Text="{Binding Main}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
 					<Label Text="{Binding Details}"	Grid.Row="1" Grid.Column="0"	TextColor="Gray" LineBreakMode="WordWrap"/>
 					<Label Text="{Binding Value}"	Grid.Row="1"	Grid.Column="1"	HorizontalTextAlignment="End"/>
