@@ -32,7 +32,7 @@ namespace airmily
 			Container.RegisterTypeForNavigation<TransactionsListPage>();
             Container.RegisterTypeForNavigation<ExampleProfilePage>();
             Container.RegisterTypeForNavigation<ExampleDashboardPage>();
-        }
+
             Container.RegisterTypeForNavigation<ViewImagesPage>();
         }
     }
