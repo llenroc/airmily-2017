@@ -20,7 +20,7 @@ namespace airmily
             //var parameters = new NavigationParameters {["userId"] = "668788"};
             //NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
 
-            NavigationService.NavigateAsync("NavigationPage/ExampleProfilePage");
+            NavigationService.NavigateAsync("NavigationPage/ExampleDashboardPage");
         }
 
         protected override void RegisterTypes()
@@ -31,6 +31,7 @@ namespace airmily
 			Container.RegisterTypeForNavigation<CardsListPage>();
 			Container.RegisterTypeForNavigation<TransactionsListPage>();
             Container.RegisterTypeForNavigation<ExampleProfilePage>();
+            Container.RegisterTypeForNavigation<ExampleDashboardPage>();
         }
     }
 }
