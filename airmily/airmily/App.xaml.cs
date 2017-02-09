@@ -17,10 +17,10 @@ namespace airmily
         {
             InitializeComponent();
 
-            //var parameters = new NavigationParameters {["userId"] = "668788"};
-            //NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
+            var parameters = new NavigationParameters {["userId"] = "668788"};
+            NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
 
-            NavigationService.NavigateAsync("NavigationPage/ExampleDashboardPage");
+            // NavigationService.NavigateAsync("NavigationPage/ExampleDashboardPage");
         }
 
         protected override void RegisterTypes()
