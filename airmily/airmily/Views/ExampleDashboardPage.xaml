@@ -7,16 +7,18 @@
              xmlns:uikit="clr-namespace:UXDivers.Artina.Grial;assembly=UXDivers.Artina.Grial"
 	           xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
 	           xmlns:views="clr-namespace:airmily.Views;assembly=airmily"
+             x:Name="Root"
 	           Title = "{Binding Title}">
 
   <ContentPage.Resources>
     <ResourceDictionary>
       <DataTemplate x:Key="ExampleDashboardDataTemplate">
-        <views:ExampleDashboardItemTemplate
+        <views:ExampleDashboardItemPage
             ShowBackgroundImage="false"
             ShowBackgroundColor="false"
             ShowiconColoredCircleBackground="true"
-            TextColor="Black"  />
+            TextColor="Black"
+            />
       </DataTemplate>
     </ResourceDictionary>
   </ContentPage.Resources>

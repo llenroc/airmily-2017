@@ -1,14 +1,15 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView
-  xmlns="http://xamarin.com/schemas/2014/forms"
-  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-  xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
-  x:Class="airmily.Views.ExampleDashboardItemTemplate"
-  x:Name="Root"
-  BackgroundColor="White">
-  
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="airmily.Views.ExampleDashboardItemPage"
+             xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
+             x:Name="Root"
+             BackgroundColor="White">
+
   <ContentView.Content>
-    
+
     <Grid Padding="0">
       <BoxView
         BackgroundColor="{Binding BackgroundColor}"
@@ -24,14 +25,14 @@
         VerticalOptions="Fill"
         HorizontalOptions="Fill"
         IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundImage}"
-			  />
+        />
 
-      <StackLayout
+        <StackLayout
         VerticalOptions="Center"
         HorizontalOptions="Center"
         Orientation="Vertical"
         Spacing="10">
-        
+
         <Grid>
 
           <Label
@@ -56,7 +57,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"
 					  />
-          
+
         </Grid>
 
         <Label
@@ -65,15 +66,15 @@
           FontSize="14"
           HorizontalTextAlignment="Center">
         </Label>
-        
+
       </StackLayout>
 
     </Grid>
-    
+
   </ContentView.Content>
-  
+
   <ContentView.GestureRecognizers>
-    <TapGestureRecognizer Tapped="OnWidgetTapped" />
+    <TapGestureRecognizer Tapped="OnTapped" />
   </ContentView.GestureRecognizers>
   
 </ContentView>

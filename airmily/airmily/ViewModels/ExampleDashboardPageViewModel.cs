@@ -14,6 +14,8 @@ namespace airmily.ViewModels
 {
     public class ExampleDashboardPageViewModel : BindableBase, INavigationAware
     {
+        private readonly INavigationService _navigationService;
+
         private string _title;
 
         public string Title
@@ -30,8 +32,10 @@ namespace airmily.ViewModels
             set { SetProperty(ref _items, value); }
         }
 
-        public ExampleDashboardPageViewModel()
+        public ExampleDashboardPageViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
             Title = "Dashboard";
         }
 

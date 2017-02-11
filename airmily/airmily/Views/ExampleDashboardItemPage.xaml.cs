@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using airmily.Services.ModelsExample;
-using Prism.Events;
-using Prism.Unity;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace airmily.Views
 {
-    public partial class ExampleDashboardItemTemplate : ContentView
+    public partial class ExampleDashboardItemPage : ContentView
     {
         public uint animationDuration = 250;
         public bool _processingTag = false;
 
         public static BindableProperty ShowBackgroundImageProperty =
             BindableProperty.Create("ShowBackgroundImage", typeof(bool),
-                typeof(ExampleDashboardItemTemplate),
                 true,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -31,7 +24,6 @@ namespace airmily.Views
 
         public static BindableProperty ShowBackgroundColorProperty =
             BindableProperty.Create("ShowBackgroundColor", typeof(bool),
-                typeof(ExampleDashboardItemTemplate),
                 false,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -44,7 +36,6 @@ namespace airmily.Views
 
         public static BindableProperty ShowiconColoredCircleBackgroundProperty =
             BindableProperty.Create("ShowiconColoredCircleBackground", typeof(bool),
-                typeof(ExampleDashboardItemTemplate),
                 true,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -57,7 +48,6 @@ namespace airmily.Views
 
         public static BindableProperty TextColorProperty =
             BindableProperty.Create("TextColor", typeof(Color),
-                typeof(ExampleDashboardItemTemplate),
                 defaultValue: Color.White,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -68,12 +58,12 @@ namespace airmily.Views
             set { SetValue(TextColorProperty, value); }
         }
 
-        public ExampleDashboardItemTemplate()
+        public ExampleDashboardItemPage()
         {
             InitializeComponent();
         }
 
-        public async void OnWidgetTapped(object sender, EventArgs e)
+        public async void OnTapped(object sender, EventArgs e)
         {
             if (_processingTag)
             {

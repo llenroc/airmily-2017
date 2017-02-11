@@ -10,13 +10,4 @@
   <views:ExampleUpcomingShowsPage />
   <views:ExampleShowsListPage />
 
-  
-  <!--<views:UpcomingShowsPage />
-  <views:ShowsListPage />-->
-
-  <!--<NavigationPage Title="{Binding Path=Title}">
-    <x:Arguments>
-      <views:ShowsListPage />
-    </x:Arguments>
-  </NavigationPage>-->
 </TabbedPage>
