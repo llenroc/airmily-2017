@@ -12,6 +12,16 @@ using Xamarin.Forms;
 
 namespace airmily
 {
+    public interface INavigationServiceSupport
+    {
+
+    }
+
+    public interface IEventAggregatorSupport
+    {
+
+    }
+
     public partial class App : PrismApplication
     {
         public App(IPlatformInitializer initializer = null) : base(initializer)
@@ -23,10 +33,10 @@ namespace airmily
         {
             InitializeComponent();
 
-            //var parameters = new NavigationParameters { ["userId"] = "668788" };
-            //NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
+            var parameters = new NavigationParameters { ["userId"] = "668788" };
+            NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
 
-            NavigationService.NavigateAsync("/NavigationPage/ExampleDashboardPage");
+            //NavigationService.NavigateAsync("/NavigationPage/ExampleDashboardPage");
         }
 
         protected override void RegisterTypes()
@@ -56,24 +66,26 @@ namespace airmily
 
                     overrides = new ParameterOverrides
                     {
-                        { "navigationService", navService }
+                        {"navigationService", navService}
                     };
                 }
-
-                //
-                // TO-DO:
-                //
-                var contentView = view as ContentView;
-                if (contentView != null)
+                else
                 {
-                    var navService = CreateNavigationService();
-                    var eventAggregator = Container.Resolve<IEventAggregator>();
+                    overrides = new ParameterOverrides();
 
-                    overrides = new ParameterOverrides
+                    var nss = view as INavigationServiceSupport;
+                    if (nss != null)
                     {
-                        { "navigationService", navService },
-                        { "eventAggregator", eventAggregator }
-                    };
+                        var navService = CreateNavigationService();
+                        overrides.Add("navigationService", navService);
+                    }
+
+                    var eas = view as IEventAggregatorSupport;
+                    if (eas != null)
+                    {
+                        var eventAggregator = Container.Resolve<IEventAggregator>();
+                        overrides.Add("eventAggregator", eventAggregator);
+                    }
                 }
 
                 return Container.Resolve(type, overrides);

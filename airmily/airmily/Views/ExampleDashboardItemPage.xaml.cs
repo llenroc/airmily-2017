@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace airmily.Views
 {
-    public partial class ExampleDashboardItemPage : ContentView
+    public partial class ExampleDashboardItemPage : ContentView, INavigationServiceSupport, IEventAggregatorSupport
     {
         public uint animationDuration = 250;
         public bool _processingTag = false;

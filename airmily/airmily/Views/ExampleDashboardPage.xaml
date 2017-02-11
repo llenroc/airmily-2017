@@ -32,7 +32,6 @@
 			VerticalOptions="FillAndExpand"
 			BackgroundColor="#e7ebed"
 			ItemsSource="{Binding Items}"
-      ItemTemplate="{StaticResource ExampleDashboardDataTemplate}">
-  </artina:GridOptionsView>
+      ItemTemplate="{StaticResource ExampleDashboardDataTemplate}" />
 
 </ContentPage>
