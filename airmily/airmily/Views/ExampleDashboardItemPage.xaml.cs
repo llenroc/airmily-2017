@@ -12,6 +12,7 @@ namespace airmily.Views
 
         public static BindableProperty ShowBackgroundImageProperty =
             BindableProperty.Create("ShowBackgroundImage", typeof(bool),
+                typeof(ExampleDashboardItemPage),
                 true,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -24,6 +25,7 @@ namespace airmily.Views
 
         public static BindableProperty ShowBackgroundColorProperty =
             BindableProperty.Create("ShowBackgroundColor", typeof(bool),
+                typeof(ExampleDashboardItemPage),
                 false,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -36,6 +38,7 @@ namespace airmily.Views
 
         public static BindableProperty ShowiconColoredCircleBackgroundProperty =
             BindableProperty.Create("ShowiconColoredCircleBackground", typeof(bool),
+                typeof(ExampleDashboardItemPage),
                 true,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -48,6 +51,7 @@ namespace airmily.Views
 
         public static BindableProperty TextColorProperty =
             BindableProperty.Create("TextColor", typeof(Color),
+                typeof(ExampleDashboardItemPage),
                 defaultValue: Color.White,
                 defaultBindingMode: BindingMode.OneWay
             );
