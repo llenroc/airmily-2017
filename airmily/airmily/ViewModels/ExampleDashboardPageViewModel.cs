@@ -14,9 +14,6 @@ namespace airmily.ViewModels
 {
     public class ExampleDashboardPageViewModel : BindableBase, INavigationAware
     {
-        private INavigationService _navigationService;
-        private IEventAggregator _eventAggregator;
-
         private string _title;
 
         public string Title
@@ -33,14 +30,8 @@ namespace airmily.ViewModels
             set { SetProperty(ref _items, value); }
         }
 
-        public ExampleDashboardPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
+        public ExampleDashboardPageViewModel()
         {
-            _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
-
-            SamplesDefinition.NavigationService = _navigationService;
-            SamplesDefinition.EventAggregator = _eventAggregator;
-
             Title = "Dashboard";
         }
 

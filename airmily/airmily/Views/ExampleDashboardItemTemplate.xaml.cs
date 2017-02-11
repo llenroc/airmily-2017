@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,10 +87,6 @@ namespace airmily.Views
                 await AnimateItem(this, animationDuration);
 
                 // await SamplesListFromCategoryPage.NavigateToCategory((SampleCategory)BindingContext, Navigation);
-
-                var sc = BindingContext as SampleCategory;
-                if (sc != null)
-                    await sc.NavigationService.NavigateAsync("CardsListPage");
             }
             finally
             {

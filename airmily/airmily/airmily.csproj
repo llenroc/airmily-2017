@@ -275,7 +275,7 @@
     <EmbeddedResource Include="Views\ExampleDashboardItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
-	</EmbeddedResource>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Controls\CarouselGallery.xaml">
