@@ -49,7 +49,22 @@ namespace airmily.ViewModels
             Items = SamplesDefinition.SamplesCategoryList;
         }
 
+        private DelegateCommand<EventArgs> _onNavigatingFrom;
 
+        public DelegateCommand<EventArgs> OnNavigatingFrom
+        {
+            get
+            {
+                if (_onNavigatingFrom == null)
+                {
+                    _onNavigatingFrom = new DelegateCommand<EventArgs>(async e =>
+                    {
+                        await _navigationService.NavigateAsync("CardsListPage");
+                    });
+                }
 
+                return _onNavigatingFrom;
+            }
+        }
     }
 }
