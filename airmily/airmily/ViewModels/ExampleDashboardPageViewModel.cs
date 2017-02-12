@@ -48,5 +48,8 @@ namespace airmily.ViewModels
         {
             Items = SamplesDefinition.SamplesCategoryList;
         }
+
+
+
     }
 }

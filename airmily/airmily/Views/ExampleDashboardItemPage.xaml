@@ -5,7 +5,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.ExampleDashboardItemPage"
              xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
-             x:Name="Root"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+             x:Name="ExampleDashboardItem"
              BackgroundColor="White">
 
   <ContentView.Content>
@@ -15,8 +16,8 @@
         BackgroundColor="{Binding BackgroundColor}"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand" InputTransparent="true"
-        IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundColor}"
-				  />
+        IsVisible="{Binding Source={x:Reference ExampleDashboardItem}, Path=ShowBackgroundColor}"
+				/>
 
       <Image
         Source="{Binding BackgroundImage}"
@@ -24,7 +25,7 @@
         Opacity=".4"
         VerticalOptions="Fill"
         HorizontalOptions="Fill"
-        IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundImage}"
+        IsVisible="{Binding Source={x:Reference ExampleDashboardItem}, Path=ShowBackgroundImage}"
         />
 
         <StackLayout
@@ -44,7 +45,7 @@
             TextColor="{Binding BackgroundColor}"
             VerticalOptions="Center"
             HorizontalOptions="Center"
-            IsVisible="{Binding Source={x:Reference Root}, Path=ShowiconColoredCircleBackground}"
+            IsVisible="{Binding Source={x:Reference ExampleDashboardItem}, Path=ShowiconColoredCircleBackground}"
 					  />
 
           <Label
@@ -62,7 +63,7 @@
 
         <Label
           Text="{Binding Name}"
-          TextColor="{Binding Source={x:Reference Root}, Path=TextColor}"
+          TextColor="{Binding Source={x:Reference ExampleDashboardItem}, Path=TextColor}"
           FontSize="14"
           HorizontalTextAlignment="Center">
         </Label>
@@ -74,7 +75,16 @@
   </ContentView.Content>
 
   <ContentView.GestureRecognizers>
-    <TapGestureRecognizer Tapped="OnTapped" />
+    <TapGestureRecognizer Tapped="OnItemTapped" />
   </ContentView.GestureRecognizers>
+
+  <behaviors:Interaction.Behaviors>
+    <behaviors:BehaviorCollection>
+      <behaviors:EventToCommand
+        EventName="NavigatingFrom"
+        Command="{Binding Source={x:Reference ExampleDashboardItem}, Path=Parent.BindingContext.OnNavigatingFrom}"
+        />
+    </behaviors:BehaviorCollection>
+  </behaviors:Interaction.Behaviors>
   
 </ContentView>

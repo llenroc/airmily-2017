@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using airmily.Ext;
 using Xamarin.Forms;
 
 namespace airmily.Views
 {
-    public partial class ExampleDashboardItemPage : ContentView, INavigationServiceSupport, IEventAggregatorSupport
+    public partial class ExampleDashboardItemPage : ContentView, INavigationServiceExt, IEventAggregatorExt
     {
-        public uint animationDuration = 250;
+        public uint _animationDuration = 250;
         public bool _processingTag = false;
 
         public static BindableProperty ShowBackgroundImageProperty =
@@ -62,12 +63,15 @@ namespace airmily.Views
             set { SetValue(TextColorProperty, value); }
         }
 
-        public ExampleDashboardItemPage()
+        private async Task AnimateItem(View uiElement, uint duration)
         {
-            InitializeComponent();
+            var originalOpacity = uiElement.Opacity;
+
+            await uiElement.FadeTo(.5, duration / 2, Easing.CubicIn);
+            await uiElement.FadeTo(originalOpacity, duration / 2, Easing.CubicIn);
         }
 
-        public async void OnTapped(object sender, EventArgs e)
+        private async void OnItemTapped(object sender, EventArgs e)
         {
             if (_processingTag)
             {
@@ -78,9 +82,9 @@ namespace airmily.Views
 
             try
             {
-                await AnimateItem(this, animationDuration);
+                await AnimateItem(this, _animationDuration);
 
-                // await SamplesListFromCategoryPage.NavigateToCategory((SampleCategory)BindingContext, Navigation);
+                OnNavigatingFrom(e);
             }
             finally
             {
@@ -88,12 +92,17 @@ namespace airmily.Views
             }
         }
 
-        private async Task AnimateItem(View uiElement, uint duration)
-        {
-            var originalOpacity = uiElement.Opacity;
+        public event EventHandler NavigatingFrom;
 
-            await uiElement.FadeTo(.5, duration / 2, Easing.CubicIn);
-            await uiElement.FadeTo(originalOpacity, duration / 2, Easing.CubicIn);
+        private void OnNavigatingFrom(EventArgs e)
+        {
+            if (NavigatingFrom != null)
+                NavigatingFrom(this, e);
+        }
+
+        public ExampleDashboardItemPage()
+        {
+            InitializeComponent();
         }
     }
 }

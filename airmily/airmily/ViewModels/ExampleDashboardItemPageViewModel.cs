@@ -21,22 +21,22 @@ namespace airmily.ViewModels
             _eventAggregator = eventAggregator;
         }
 
-        //private DelegateCommand<EventArgs> _onNavigatingFrom;
-        
-        //public DelegateCommand<EventArgs> OnNavigatingFrom
-        //{
-        //    get
-        //    {
-        //        if (_onNavigatingFrom == null)
-        //        {
-        //            _onNavigatingFrom = new DelegateCommand<EventArgs>(async e =>
-        //            {
-        //                await _navigationService.NavigateAsync("CardsListPage");
-        //            });
-        //        }
+        private DelegateCommand<EventArgs> _onNavigatingFrom;
 
-        //        return _onNavigatingFrom;
-        //    }
-        //}
+        public DelegateCommand<EventArgs> OnNavigatingFrom
+        {
+            get
+            {
+                if (_onNavigatingFrom == null)
+                {
+                    _onNavigatingFrom = new DelegateCommand<EventArgs>(async e =>
+                    {
+                        await _navigationService.NavigateAsync("CardsListPage");
+                    });
+                }
+
+                return _onNavigatingFrom;
+            }
+        }
     }
 }

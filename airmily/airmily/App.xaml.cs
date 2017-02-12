@@ -1,4 +1,5 @@
-﻿using airmily.Services;
+﻿using airmily.Ext;
+using airmily.Services;
 using airmily.Services.TrackSeries;
 using airmily.Services.Azure;
 using Prism.Unity;
@@ -12,16 +13,6 @@ using Xamarin.Forms;
 
 namespace airmily
 {
-    public interface INavigationServiceSupport
-    {
-
-    }
-
-    public interface IEventAggregatorSupport
-    {
-
-    }
-
     public partial class App : PrismApplication
     {
         public App(IPlatformInitializer initializer = null) : base(initializer)
@@ -33,10 +24,10 @@ namespace airmily
         {
             InitializeComponent();
 
-            var parameters = new NavigationParameters { ["userId"] = "668788" };
-            NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
+            //var parameters = new NavigationParameters { ["userId"] = "668788" };
+            //NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
 
-            //NavigationService.NavigateAsync("/NavigationPage/ExampleDashboardPage");
+            NavigationService.NavigateAsync("/NavigationPage/ExampleDashboardPage");
         }
 
         protected override void RegisterTypes()
@@ -73,14 +64,14 @@ namespace airmily
                 {
                     overrides = new ParameterOverrides();
 
-                    var nss = view as INavigationServiceSupport;
+                    var nss = view as INavigationServiceExt;
                     if (nss != null)
                     {
                         var navService = CreateNavigationService();
                         overrides.Add("navigationService", navService);
                     }
 
-                    var eas = view as IEventAggregatorSupport;
+                    var eas = view as IEventAggregatorExt;
                     if (eas != null)
                     {
                         var eventAggregator = Container.Resolve<IEventAggregator>();
