@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="airmily.Views.ExampleDashboardItemPage"
+             x:Class="airmily.Views.ExampleDashboardItemContentView"
              xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-             x:Name="ExampleDashboardItem"
+             x:Name="Root"
              BackgroundColor="White">
 
   <ContentView.Content>
@@ -16,7 +14,7 @@
         BackgroundColor="{Binding BackgroundColor}"
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand" InputTransparent="true"
-        IsVisible="{Binding Source={x:Reference ExampleDashboardItem}, Path=ShowBackgroundColor}"
+        IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundColor}"
 				/>
 
       <Image
@@ -25,7 +23,7 @@
         Opacity=".4"
         VerticalOptions="Fill"
         HorizontalOptions="Fill"
-        IsVisible="{Binding Source={x:Reference ExampleDashboardItem}, Path=ShowBackgroundImage}"
+        IsVisible="{Binding Source={x:Reference Root}, Path=ShowBackgroundImage}"
         />
 
         <StackLayout
@@ -45,7 +43,7 @@
             TextColor="{Binding BackgroundColor}"
             VerticalOptions="Center"
             HorizontalOptions="Center"
-            IsVisible="{Binding Source={x:Reference ExampleDashboardItem}, Path=ShowiconColoredCircleBackground}"
+            IsVisible="{Binding Source={x:Reference Root}, Path=ShowiconColoredCircleBackground}"
 					  />
 
           <Label
@@ -63,7 +61,7 @@
 
         <Label
           Text="{Binding Name}"
-          TextColor="{Binding Source={x:Reference ExampleDashboardItem}, Path=TextColor}"
+          TextColor="{Binding Source={x:Reference Root}, Path=TextColor}"
           FontSize="14"
           HorizontalTextAlignment="Center">
         </Label>
@@ -81,8 +79,8 @@
   <behaviors:Interaction.Behaviors>
     <behaviors:BehaviorCollection>
       <behaviors:EventToCommand
-        EventName="NavigatingFrom"
-        Command="{Binding Source={x:Reference ExampleDashboardItem}, Path=Parent.BindingContext.OnNavigatingFrom}"
+        EventName="Navigating"
+        Command="{Binding Source={x:Reference Root}, Path=Parent.BindingContext.Navigating}"
         />
     </behaviors:BehaviorCollection>
   </behaviors:Interaction.Behaviors>

@@ -6,14 +6,14 @@ using Xamarin.Forms;
 
 namespace airmily.Views
 {
-    public partial class ExampleDashboardItemPage : ContentView, INavigationServiceExt, IEventAggregatorExt
+    public partial class ExampleDashboardItemContentView : ContentView, INavigationServiceExt, IEventAggregatorExt
     {
         public uint _animationDuration = 250;
         public bool _processingTag = false;
 
         public static BindableProperty ShowBackgroundImageProperty =
             BindableProperty.Create("ShowBackgroundImage", typeof(bool),
-                typeof(ExampleDashboardItemPage),
+                typeof(ExampleDashboardItemContentView),
                 true,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -26,7 +26,7 @@ namespace airmily.Views
 
         public static BindableProperty ShowBackgroundColorProperty =
             BindableProperty.Create("ShowBackgroundColor", typeof(bool),
-                typeof(ExampleDashboardItemPage),
+                typeof(ExampleDashboardItemContentView),
                 false,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -39,7 +39,7 @@ namespace airmily.Views
 
         public static BindableProperty ShowiconColoredCircleBackgroundProperty =
             BindableProperty.Create("ShowiconColoredCircleBackground", typeof(bool),
-                typeof(ExampleDashboardItemPage),
+                typeof(ExampleDashboardItemContentView),
                 true,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -52,7 +52,7 @@ namespace airmily.Views
 
         public static BindableProperty TextColorProperty =
             BindableProperty.Create("TextColor", typeof(Color),
-                typeof(ExampleDashboardItemPage),
+                typeof(ExampleDashboardItemContentView),
                 defaultValue: Color.White,
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -84,7 +84,7 @@ namespace airmily.Views
             {
                 await AnimateItem(this, _animationDuration);
 
-                OnNavigatingFrom(e);
+                OnNavigating(e);
             }
             finally
             {
@@ -92,15 +92,15 @@ namespace airmily.Views
             }
         }
 
-        public event EventHandler NavigatingFrom;
+        public event EventHandler Navigating;
 
-        private void OnNavigatingFrom(EventArgs e)
+        private void OnNavigating(EventArgs e)
         {
-            if (NavigatingFrom != null)
-                NavigatingFrom(this, e);
+            if (Navigating != null)
+                Navigating(this, e);
         }
 
-        public ExampleDashboardItemPage()
+        public ExampleDashboardItemContentView()
         {
             InitializeComponent();
         }

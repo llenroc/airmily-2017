@@ -7,14 +7,12 @@
              xmlns:uikit="clr-namespace:UXDivers.Artina.Grial;assembly=UXDivers.Artina.Grial"
 	           xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
 	           xmlns:views="clr-namespace:airmily.Views;assembly=airmily"
-	           xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-	           x:Name="ExampleDashboard"
 	           Title = "{Binding Title}">
 
   <ContentPage.Resources>
     <ResourceDictionary>
-      <DataTemplate x:Key="ExampleDashboardDataTemplate">
-        <views:ExampleDashboardItemPage
+      <DataTemplate x:Key="ExampleDashboardItemTemplate">
+        <views:ExampleDashboardItemContentView
             ShowBackgroundImage="false"
             ShowBackgroundColor="false"
             ShowiconColoredCircleBackground="true"
@@ -33,7 +31,7 @@
 			VerticalOptions="FillAndExpand"
 			BackgroundColor="#e7ebed"
 			ItemsSource="{Binding Items}"
-      ItemTemplate="{StaticResource ExampleDashboardDataTemplate}">
+      ItemTemplate="{StaticResource ExampleDashboardItemTemplate}">
   </artina:GridOptionsView>
 
 </ContentPage>
