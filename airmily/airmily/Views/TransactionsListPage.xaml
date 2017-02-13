@@ -27,33 +27,22 @@
                        Grid.Row="2" />
 			</Grid>
 		</Frame>
-		<Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
-				<Label Text="Transaction" TextColor="White" HorizontalTextAlignment="Start" Grid.Column="0"
-                       Grid.Row="0" />
-				<Label Text="Value" TextColor="White" XAlign="End" Grid.Column="1" Grid.Row="1" />
-				<Label Text="Date" TextColor="White" XAlign="Start" Grid.Column="0" Grid.Row="1" />
-			</Grid>
-		</Frame>
-		<Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
-			<controls:ValuedListView ItemsSource="{Binding TransactionsList}" RowHeight="40" HasUnevenRows="True"
-                                     BackgroundColor="#B9B9B9">
-				<behaviors:Interaction.Behaviors>
-					<behaviors:BehaviorCollection>
-						<behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnTransactionTapped}" PassEventArgument="True" />
-					</behaviors:BehaviorCollection>
-				</behaviors:Interaction.Behaviors>
-			</controls:ValuedListView>
-		</Frame>
+      <ListView SeparatorVisibility="Default" ItemsSource="{Binding TransactionList}" RowHeight="120" HasUnevenRows="True" >
+        
+        <behaviors:Interaction.Behaviors>
+          <behaviors:BehaviorCollection>
+            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnTransactionTapped}" PassEventArgument="True" />
+          </behaviors:BehaviorCollection>
+        </behaviors:Interaction.Behaviors>
+        
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <controls:CardItemTemplateView />
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
 	</StackLayout>
 
 </ContentPage>
