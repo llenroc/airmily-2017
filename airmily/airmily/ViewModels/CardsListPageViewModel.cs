@@ -39,7 +39,7 @@ namespace airmily.ViewModels
 		    _navigationService = navigationService;
             _azure = azure;
 
-		    Title = "Airmily";
+		    Title = "Cards";
 		}
 
 		public void OnNavigatedFrom(NavigationParameters parameters)
