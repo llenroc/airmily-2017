@@ -7,27 +7,26 @@
              xmlns:artina="clr-namespace:UXDivers;assembly=UXDivers.Artina.Shared"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.CardsListPage"
-						 Title="{Binding Title}"
-						 BackgroundColor="#FDB813">
-	<StackLayout>
-		<!--<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">
+						 Title="{Binding Title}">
+  <StackLayout>
+    <!--<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">
 			<Label Text="My Cards" TextColor="White" FontAttributes="Bold" XAlign="Center" FontSize="20"/>
-		</Frame>-->    
-      <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="False" >
-        
-        <behaviors:Interaction.Behaviors>
-          <behaviors:BehaviorCollection>
-            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}" PassEventArgument="True"/>
-          </behaviors:BehaviorCollection>
-        </behaviors:Interaction.Behaviors>
-        
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <controls:CardItemTemplateView />
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
-	</StackLayout>
+		</Frame>-->
+    <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="True" >
+
+      <behaviors:Interaction.Behaviors>
+        <behaviors:BehaviorCollection>
+          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}" PassEventArgument="True"/>
+        </behaviors:BehaviorCollection>
+      </behaviors:Interaction.Behaviors>
+
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <controls:CardItemTemplateView />
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
 </ContentPage>

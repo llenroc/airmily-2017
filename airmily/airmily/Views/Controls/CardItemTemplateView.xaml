@@ -47,40 +47,6 @@
             HorizontalOptions="End"
             TranslationX="-10"
             VerticalOptions="End"/>
-          <!--<Label HorizontalOptions="End" VerticalOptions="End">
-            <Label.FormattedText>
-              <FormattedString>
-                <FormattedString.Spans>
-                  <Span
-                    Text="&#xf0c0; "
-                    FontSize="{StaticResource BaseFontSize}"
-                    ForegroundColor="{StaticResource AccentColor}"
-                    FontFamily="{x:Static artina:FontAwesome.FontName}" />
-                  <Span
-                    Text="77"
-                    FontSize="{StaticResource BaseFontSize}"
-                    ForegroundColor="{StaticResource AccentColor}" />
-                </FormattedString.Spans>
-              </FormattedString>
-            </Label.FormattedText>
-          </Label>
-          <Label HorizontalOptions="End" VerticalOptions="End">
-            <Label.FormattedText>
-              <FormattedString>
-                <FormattedString.Spans>
-                  <Span
-                    Text="&#xf004; "
-                    FontSize="{StaticResource BaseFontSize}"
-                    ForegroundColor="{StaticResource AccentColor}"
-                    FontFamily="{x:Static artina:FontAwesome.FontName}"/>
-                  <Span
-                    Text="22"
-                    FontSize="{StaticResource BaseFontSize}"
-                    ForegroundColor="{StaticResource AccentColor}" />
-                </FormattedString.Spans>
-              </FormattedString>
-            </Label.FormattedText>
-          </Label>-->
         </StackLayout>
 
       </Grid>
