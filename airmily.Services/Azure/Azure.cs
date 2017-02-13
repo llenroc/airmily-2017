@@ -201,7 +201,7 @@ namespace airmily.Services.Azure
 			#region Download Images
 			foreach (AlbumItem item in album)
 			{
-				if (item.Image != null)
+				if (item.Image == null)
 				{
 					CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(item.ImageName);
 					await blob.FetchAttributesAsync();

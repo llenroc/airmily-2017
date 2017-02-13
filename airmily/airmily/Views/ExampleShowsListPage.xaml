@@ -4,7 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
-             Title="{Binding Path=Title}"
+             Title="{Binding Title}"
              x:Class="airmily.Views.ExampleShowsListPage">
 
   <ContentPage.Resources>
