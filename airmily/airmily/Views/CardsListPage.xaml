@@ -28,7 +28,7 @@
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-              <controls:CardItemTemplate />
+              <controls:CardItemTemplateView />
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
