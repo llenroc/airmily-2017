@@ -56,9 +56,6 @@
     <Compile Include="Views\CardsListPage.xaml.cs">
       <DependentUpon>CardsListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\CardItemTemplate.xaml.cs">
-      <DependentUpon>CardItemTemplate.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Controls\CardItemTemplateView.xaml.cs">
       <DependentUpon>CardItemTemplateView.xaml</DependentUpon>
     </Compile>
@@ -292,10 +289,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\Controls\CardItemTemplate.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <EmbeddedResource Include="Views\Controls\CardItemTemplateView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
