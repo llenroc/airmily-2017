@@ -44,16 +44,20 @@
 				<Label Text="Date" TextColor="White" XAlign="Start" Grid.Column="0" Grid.Row="1" />
 			</Grid>
 		</Frame>
-		<Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
-			<controls:ValuedListView ItemsSource="{Binding TransactionsList}" RowHeight="40" HasUnevenRows="True"
-                                     BackgroundColor="#B9B9B9">
+        <ListView SeparatorVisibility="Default" ItemsSource="{Binding TransactionsList}" RowHeight="120" HasUnevenRows="True" >
+
 				<behaviors:Interaction.Behaviors>
 					<behaviors:BehaviorCollection>
 						<behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnTransactionTapped}" PassEventArgument="True" />
 					</behaviors:BehaviorCollection>
 				</behaviors:Interaction.Behaviors>
-			</controls:ValuedListView>
-		</Frame>
-	</StackLayout>
 
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <ViewCell>
+                <controls:CardItemTemplateView />
+              </ViewCell>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+	</StackLayout>
 </ContentPage>

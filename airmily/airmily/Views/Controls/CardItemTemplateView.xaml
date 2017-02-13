@@ -13,7 +13,6 @@
         ColumnSpacing="0"
         RowSpacing="0"
         Padding="20">
-
         <Grid.RowDefinitions>
           <RowDefinition Height="*" />
           <RowDefinition Height="40" />
