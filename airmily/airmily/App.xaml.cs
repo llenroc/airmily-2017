@@ -1,9 +1,11 @@
 ﻿using airmily.Services;
 using airmily.Services.TrackSeries;
 using airmily.Services.Azure;
+using airmily.Services.Models;
 using Prism.Unity;
 using airmily.Views;
 using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -17,7 +19,27 @@ namespace airmily
         {
             InitializeComponent();
 
-            var parameters = new NavigationParameters {["userId"] = "668788"};
+	        JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+	        {
+		        DateParseHandling = DateParseHandling.None
+	        };
+
+	        User current = new User()
+	        {
+				//UserName = "Ashley",
+				//UserID = "668788",
+				//Active = true,
+				//UnionID = "ovrpnuAIYBHme2uJCbT-FrQZAvVs",
+				//OpenID = "oDDFqw26hj8e22e1waqCRvmx_s8U",
+				//FairFX = "YXNobGV5LnN3YW5zb25AYmVpZXIzNjAuY29tQFN3YW5zb24xOTk2"
+				UserName = "Suzy",
+				UserID = "588842",
+				Active = true,
+				UnionID = "",
+				OpenID = "",
+				FairFX = "c3V6eS5waWVyY2VAYmVpZXIzNjAuY29tQEp1TGkyMjM="
+			};
+            var parameters = new NavigationParameters {["user"] = current};
             NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
 		}
 

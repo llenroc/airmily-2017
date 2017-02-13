@@ -16,7 +16,9 @@ namespace airmily.ViewModels
 	    private readonly INavigationService _navigationService;
 	    private readonly IAzure _azure;
 
-	    private string _title;
+		private User _currentUser;
+
+		private string _title;
 
 	    public string Title
 	    {
@@ -46,11 +48,11 @@ namespace airmily.ViewModels
 		}
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
-		    if (!parameters.ContainsKey("userId"))
+		    if (!parameters.ContainsKey("user"))
                 return;
 
-            var userId = parameters["userId"].ToString();
-		    var ret = await _azure.GetCards(userId);
+			_currentUser = (User)parameters["user"];
+		    var ret = await _azure.GetCards(_currentUser.UserID);
 		    CardsList = new ObservableCollection<Card>(ret);
 		}
 
@@ -65,7 +67,7 @@ namespace airmily.ViewModels
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
                         var card = selected.Item as Card;
-                        var parameters = new NavigationParameters {["card"] = card};
+                        var parameters = new NavigationParameters {["card"] = card, ["ffx"] = _currentUser};
                         await _navigationService.NavigateAsync("TransactionsListPage", parameters);
                     });
                 }
