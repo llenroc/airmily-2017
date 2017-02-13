@@ -25,7 +25,7 @@ namespace airmily
             InitializeComponent();
 
             var parameters = new NavigationParameters { ["userId"] = "668788" };
-            NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
+            NavigationService.NavigateAsync("NavigationPage/ExampleDashboardPage", parameters);
         }
 
         protected override void RegisterTypes()
