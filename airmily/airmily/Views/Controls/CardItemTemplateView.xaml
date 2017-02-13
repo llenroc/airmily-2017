@@ -47,7 +47,7 @@
             HorizontalOptions="End"
             TranslationX="-10"
             VerticalOptions="End"/>
-          <Label HorizontalOptions="End" VerticalOptions="End">
+          <!--<Label HorizontalOptions="End" VerticalOptions="End">
             <Label.FormattedText>
               <FormattedString>
                 <FormattedString.Spans>
@@ -80,7 +80,7 @@
                 </FormattedString.Spans>
               </FormattedString>
             </Label.FormattedText>
-          </Label>
+          </Label>-->
         </StackLayout>
 
       </Grid>
