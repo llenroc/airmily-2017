@@ -20,7 +20,7 @@
 
         <StackLayout Grid.Row="0" VerticalOptions="End" HorizontalOptions="Start">
           <Label
-            FontSize="Medium"
+            FontSize="20"
             FontAttributes="Bold"
             Text="{Binding Main}"
             LineBreakMode="WordWrap"
@@ -38,13 +38,13 @@
             Text="{Binding Details}"
             TextColor="White"
             FontAttributes="Bold"
-            FontSize="Small"
+            FontSize="18"
             HorizontalOptions="StartAndExpand"
             VerticalOptions="End" />
           <Label
             Text="{Binding Value}"
             TextColor="White"
-            FontSize="Small"
+            FontSize="18"
             HorizontalOptions="End"
             TranslationX="-10"
             VerticalOptions="End"/>
