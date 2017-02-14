@@ -7,35 +7,9 @@
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.ViewImagesPage">
-<ScrollView>
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="40">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ImageCell ImageSource="{Binding ImageSrc}"/>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
   
-    <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ImageCell ImageSource="{Binding ImageSrc}"/>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-    <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="80">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ImageCell ImageSource="{Binding ImageSrc}"/>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </Grid>
-</ScrollView>
+ <controls:ImageViewGalleryTemplate>
+   
+ </controls:ImageViewGalleryTemplate> 
+
 </ContentPage>
