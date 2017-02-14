@@ -7,7 +7,7 @@
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.ViewImagesPage"
-             BackgroundColor="{StaticResource BrandColorDarker}">
+             BackgroundColor="{StaticResource BrandColorLight}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,18 +16,21 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!--Transaction Information-->
-        <Frame Grid.Row="0" HasShadow="False" BackgroundColor="{StaticResource BrandColorLighter}">
+        <Frame Grid.Row="0" HasShadow="False" BackgroundColor="{StaticResource BrandColorDarker} ">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
             <Label Text="Transaction" HorizontalTextAlignment="Start" Grid.Column="0" />
             <Label Text="£100.00" HorizontalTextAlignment="End"  Grid.Column="1"/>
             </Grid>
         </Frame>
         <!--First Gallery View-->
-        <Frame Grid.Row="1" HasShadow="False" BackgroundColor="{StaticResource BrandColorLight}">
+        <Frame Grid.Row="1" HasShadow="False" BackgroundColor="{StaticResource BrandColor}">
             <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -39,7 +42,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
-                                <Image Source="{Binding ImageSrc}" />
+                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill"/>
                               </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -48,7 +51,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
-                                <Image Source="{Binding ImageSrc}" />
+                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
                               </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -57,7 +60,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
-                                <Image Source="{Binding ImageSrc}" />
+                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
                               </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -67,7 +70,7 @@
         </Frame>
 
         <!--Second Gallery View-->
-        <Frame Grid.Row="2" HasShadow="False" BackgroundColor="{StaticResource BrandColorLight}">
+        <Frame Grid.Row="2" HasShadow="False" BackgroundColor="{StaticResource BrandColor}">
             <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -79,7 +82,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
-                                <Image Source="{Binding ImageSrc}" />
+                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
                               </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -88,7 +91,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
-                                <Image Source="{Binding ImageSrc}" />
+                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
                               </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -97,7 +100,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
-                                <Image Source="{Binding ImageSrc}" />
+                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
                               </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
