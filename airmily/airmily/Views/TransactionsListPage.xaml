@@ -58,7 +58,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <controls:TransItemTemplateView />
+                        <controls:TransItemView />
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
