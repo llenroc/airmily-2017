@@ -6,12 +6,92 @@
              xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="airmily.Views.ViewImagesPage"
-             x:Name="ViewImagePage"
-             >
-  
- <controls:ImageViewGalleryTemplate>
-   
- </controls:ImageViewGalleryTemplate> 
+             x:Class="airmily.Views.ViewImagesPage">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--Transaction Information-->
+        <Frame Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Label Text="Transaction" HorizontalTextAlignment="Start" />
+            <Label Text="£100.00" HorizontalTextAlignment="End" />
+
+        </Frame>
+        <!--First Gallery View-->
+        <Frame Grid.Row="1">
+            <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ImageCell ImageSource="{Binding ImageSrc}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ImageCell ImageSource="{Binding ImageSrc}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="80">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ImageCell ImageSource="{Binding ImageSrc}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </ScrollView>
+        </Frame>
+
+        <!--Second Gallery View-->
+        <Frame Grid.Row="2">
+            <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Good1}" RowHeight="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ImageCell ImageSource="{Binding ImageSrc}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Good2}" RowHeight="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ImageCell ImageSource="{Binding ImageSrc}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Good3}" RowHeight="100">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ImageCell ImageSource="{Binding ImageSrc}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </ScrollView>
+        </Frame>
+    </Grid>
 </ContentPage>
