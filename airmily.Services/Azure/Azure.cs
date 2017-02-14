@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -53,6 +54,7 @@ namespace airmily.Services.Azure
 		}
 
 		//Public Methods
+		//Cards
 		public async Task<bool> UpdateCards(User credentials)
 		{
 			if (!credentials.Active)
@@ -69,15 +71,22 @@ namespace airmily.Services.Azure
 			bool ret = false;
 			foreach (FFXCard card in liveList)
 			{
-				if (oldList.Where(c => c.CardID == card.CardID).ToArray().Length > 0)
+				Card[] oldCards = oldList.Where(c => c.CardID == card.CardID).ToArray();
+				if (oldCards.Length > 0)
+				{
+					if (oldCards.Length > 1) throw new Exception("Multiple cards were found with the ID " + card.CardID + " when there should only be one.");
+
+					if (oldCards[0].Update(card))
+						await _cardsTable.UpdateAsync(oldCards[0]);		// Not properly tested
+
 					continue;
+				}
 				
 				await _cardsTable.InsertAsync(new Card(card, credentials.UserID));
 				ret = true;
 			}
 			return ret;
 		}
-
 		public async Task<List<Card>> GetCards(string userid, bool all = false)
 		{
 			if (string.IsNullOrEmpty(userid))
@@ -88,6 +97,7 @@ namespace airmily.Services.Azure
 			return (await query.ToListAsync()).OrderBy(c => c.CardHolder).ToList();
 		}
 
+		//Transactions
 		public async Task<bool> UpdateTransactions(User credentials, string cardid)
 		{
 			if (!credentials.Active)
@@ -163,7 +173,6 @@ namespace airmily.Services.Azure
 
 			return toCreate.Count > 0;
 		}
-
 		public async Task<List<Transaction>> GetTransactions(string cardid, bool all = false)
 		{
 			if (string.IsNullOrEmpty(cardid))
@@ -174,6 +183,7 @@ namespace airmily.Services.Azure
 			return (await query.ToListAsync()).OrderByDescending(t => t.TransDate).ToList();
 		}
 
+		//Images
 		public async Task<bool> UploadImage(AlbumItem image)
 		{
 			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
@@ -184,7 +194,6 @@ namespace airmily.Services.Azure
 			await _albumTable.InsertAsync(image);
 			return true;
 		}
-
 		public async Task<List<AlbumItem>> GetImages(string albumid)
 		{
 			if (string.IsNullOrEmpty(albumid))
@@ -212,35 +221,21 @@ namespace airmily.Services.Azure
 		//Temporary Methods
 		public async Task AddItem()
 		{
-			await _usersTable.InsertAsync(new User
-			{
-				UserID = "588842",
-				UserName = "Suzy",
-				UnionID = "",
-				OpenID = "",
-				FairFX = "c3V6eS5waWVyY2VAYmVpZXIzNjAuY29tQEp1TGkyMjM=",
-				Active = true
-			});
-			await _cardsTable.InsertAsync(new Card
-			{
-				CardID = "542096",
-				UserID = "588842",
-				Number = "5116********2229",
-				CardHolder = "Suzy",
-				Currency = "$",
-				Balance = "0",
-				Active = true
-			});
-			await _cardsTable.InsertAsync(new Card
-			{
-				CardID = "465525",
-				UserID = "588842",
-				Number = "5116********5694",
-				CardHolder = "Suzy",
-				Currency = "£",
-				Balance = "111.52",
-				Active = true
-			});
+			//await _usersTable.InsertAsync(new User
+			//{
+			//	UserID = "588842",
+			//	UserName = "Suzy",
+			//	UnionID = "",
+			//	OpenID = "",
+			//	FairFX = "c3V6eS5waWVyY2VAYmVpZXIzNjAuY29tQEp1TGkyMjM=",
+			//	Active = true
+			//});
+			//await _albumTable.InsertAsync(new AlbumItem
+			//{
+			//	Album = "98C597C2-7322-4D87-A95F-974F513DBFC4",
+			//	ImageName = "Doxie 0124.jpg",
+			//	IsReceipt = true
+			//});
 		}
 
 		//Private Methods
@@ -248,24 +243,24 @@ namespace airmily.Services.Azure
 		{
 			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-			string[] creds = Convert.FromBase64String(ffx).Aggregate("", (current, b) => current + (char)b).Split('@');
-			if (creds[1] != "beier360.com") return new List<FFXTransaction>();
+			string[] creds = DecodeCredentials(ffx);
+			if (creds == null) return new List<FFXTransaction>();
 
 			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-			using (HttpClient http = new HttpClient() { BaseAddress = new Uri("https://restapi.fairfx.com") })
+			using (HttpClient client = new HttpClient() { BaseAddress = new Uri("https://restapi.fairfx.com") })
 			{
-				http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 				FormUrlEncodedContent loginContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>() {
-					new KeyValuePair<string, string>("username", creds[0] + "@" + creds[1]),
-					new KeyValuePair<string, string>("password", creds[2]),
+					new KeyValuePair<string, string>("username", creds[0]),
+					new KeyValuePair<string, string>("password", creds[1]),
 					new KeyValuePair<string, string>("domain", "corporate")
 				});
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-				HttpResponseMessage loginResp = await http.PostAsync("/rest/auth", loginContent);
+				HttpResponseMessage loginResp = await client.PostAsync("/rest/auth", loginContent);
 				if (!loginResp.IsSuccessStatusCode) return new List<FFXTransaction>();
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
@@ -274,7 +269,7 @@ namespace airmily.Services.Azure
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-				HttpResponseMessage transResp = await http.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);     // Lasts at least 7-8 seconds
+				HttpResponseMessage transResp = await client.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);     // Lasts at least 7-8 seconds
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
@@ -290,24 +285,24 @@ namespace airmily.Services.Azure
 		{
 			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-			string[] creds = Convert.FromBase64String(ffx).Aggregate("", (current, b) => current + (char)b).Split('@');
-			if (creds[1] != "beier360.com") return new List<FFXCard>();
+			string[] creds = DecodeCredentials(ffx);
+			if (creds == null) return new List<FFXCard>();
 
 			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-			using (HttpClient http = new HttpClient() { BaseAddress = new Uri("https://restapi.fairfx.com") })
+			using (HttpClient client = new HttpClient() { BaseAddress = new Uri("https://restapi.fairfx.com") })
 			{
-				http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 				FormUrlEncodedContent loginContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>() {
-					new KeyValuePair<string, string>("username", creds[0] + "@" + creds[1]),
-					new KeyValuePair<string, string>("password", creds[2]),
+					new KeyValuePair<string, string>("username", creds[0]),
+					new KeyValuePair<string, string>("password", creds[1]),
 					new KeyValuePair<string, string>("domain", "corporate")
 				});
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-				HttpResponseMessage loginResp = await http.PostAsync("/rest/auth", loginContent);
+				HttpResponseMessage loginResp = await client.PostAsync("/rest/auth", loginContent);
 				if (!loginResp.IsSuccessStatusCode) return new List<FFXCard>();
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
@@ -316,7 +311,7 @@ namespace airmily.Services.Azure
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-				HttpResponseMessage cardsResp = await http.GetAsync("/rest/card/list/-/" + session.SessionID);
+				HttpResponseMessage cardsResp = await client.GetAsync("/rest/card/list/-/" + session.SessionID);
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
@@ -328,6 +323,18 @@ namespace airmily.Services.Azure
 
 				return ret;
 			}
+		}
+
+		private static string EncodeCredentials(string email, string pass)
+		{
+			return Convert.ToBase64String(Encoding.UTF8.GetBytes(email + "@" + pass));
+		}
+
+		private static string[] DecodeCredentials(string encrypted)
+		{
+			string[] unencrypted = Convert.FromBase64String(encrypted).Aggregate("", (current, b) => current + (char)b).Split('@');
+			return (unencrypted[1] != "beier360.com" || unencrypted.Length != 3) ? null : new[] { unencrypted[0] + "@" + unencrypted[1], unencrypted[2] };
+			//return (unencrypted[0] != SALT || unencrypted[2] != "beier360.com" || unencrypted.Length != 4) ? null : unencrypted;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace airmily.Services.Models
 {
@@ -29,9 +30,9 @@ namespace airmily.Services.Models
 			UserID = user;
 			CardHolder = card.CardHolder.Firstname + " " + card.CardHolder.Surname;
 			Number = card.Number;
-			Currency = card.Curr.Code;
+			Currency = card.Currency.Code;
 			Balance = (Convert.ToDouble(card.Available) - Convert.ToDouble(card.Blocked)).ToString("F");
-			Active = card.Status.Current;
+			Active = card.CardStatus.Current;
 		}
 
 		[JsonIgnore]
@@ -58,6 +59,27 @@ namespace airmily.Services.Models
 				}
 				return symbol + Balance;
 			}
+		}
+
+		public bool Update(FFXCard c)
+		{
+			bool changed = false;
+
+			string newBalance = (Convert.ToDouble(c.Available) - Convert.ToDouble(c.Blocked)).ToString("F");
+			bool newActive = c.CardStatus.Current;
+
+			if (Active != newActive)
+			{
+				Active = newActive;
+				changed = true;
+			}
+			if (Balance != newBalance)
+			{
+				Balance = newBalance;
+				changed = true;
+			}
+
+			return changed;
 		}
 	}
 }
