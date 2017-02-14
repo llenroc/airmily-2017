@@ -12,6 +12,7 @@ namespace airmily.ViewModels
     public class TransactionsListPageViewModel : BindableBase, INavigationAware
     {
         private readonly IAzure _azure;
+        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
 
         private Card _currentCard = new Card
@@ -63,10 +64,9 @@ namespace airmily.ViewModels
                     {
                         var transaction = selected.Item as Transaction;
                         var id = new NavigationParameters {["id"] = transaction.ID};
-                        await _pageDialogService.DisplayAlertAsync(
-                            "Upload",
-                            string.Format("Please upload receipts/tax forms for Transaction {0}", id),
-                            "OK");
+                        var parameters = new NavigationParameters{["id"]= id};
+                        await _navigationService.NavigateAsync("ViewImagesPage", parameters);
+
                     });
 
                 return _onTransactionTapped;
