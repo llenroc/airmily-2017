@@ -29,10 +29,11 @@ namespace airmily.ViewModels
 
         private ObservableCollection<Transaction> _transactionsList;
 
-        public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure)
+        public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
         {
             _pageDialogService = pageDialogService;
             _azure = azure;
+            _navigationService = navigationService;
 
             Title = "Transactions";
         }
