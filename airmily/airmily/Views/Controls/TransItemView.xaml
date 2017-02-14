@@ -2,7 +2,7 @@
 
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:artina="clr-namespace:UXDivers.Artina.Shared;assembly=UXDivers.Artina.Shared"
-             x:Class="airmily.Views.Controls.TransItemTemplateView">
+             x:Class="airmily.Views.Controls.TransItemView">
   <ContentView.Content>
     <Grid BackgroundColor="Black">
       <Image
@@ -38,8 +38,7 @@
               TextColor="White"
               FontAttributes="Bold"
               FontSize="16"
-              HorizontalOptions="StartAndExpand"
-              VerticalOptions="End" />
+              HorizontalOptions="StartAndExpand" />
           <Label
               Text="{Binding Value}"
               TextColor="White"

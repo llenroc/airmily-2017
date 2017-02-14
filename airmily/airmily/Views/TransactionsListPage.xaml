@@ -11,7 +11,7 @@
              BackgroundColor="#FDB813">
 
     <StackLayout>
-        <Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9" BindingContext="{Binding CurrentCard}">
+        <Frame HasShadow="True" Padding="10" BackgroundColor="{StaticResource BrandColorDarker}" BindingContext="{Binding CurrentCard}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -26,23 +26,6 @@
                 <Label Text="{Binding Value}" TextColor="White" FontAttributes="Italic"
                        HorizontalTextAlignment="Center"
                        Grid.Row="2" />
-            </Grid>
-        </Frame>
-        <Frame HasShadow="True" Padding="10" BackgroundColor="#A9A9A9">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label Text="Transaction" TextColor="White" HorizontalTextAlignment="Start" Grid.Column="0"
-                       Grid.Row="0" />
-                <Label Text="Value" TextColor="White" XAlign="End" Grid.Column="1" Grid.Row="1" />
-                <Label Text="Date" TextColor="White" XAlign="Start" Grid.Column="0" Grid.Row="1" />
             </Grid>
         </Frame>
         <ListView SeparatorVisibility="Default" ItemsSource="{Binding TransactionsList}" RowHeight="120"
