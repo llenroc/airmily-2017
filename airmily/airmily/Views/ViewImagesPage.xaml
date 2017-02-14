@@ -12,47 +12,28 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
       <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
-    <ListView Grid.Column="0" HasUnevenRows="True">
-      <TextCell Text="left1" />
-      <TextCell Text="left2" />
-      <TextCell Text="left3" />
-      <TextCell Text="left4" />
-      <TextCell Text="left5" />
-      <TextCell Text="left1" />
-      <TextCell Text="left2" />
-      <TextCell Text="left3" />
-      <TextCell Text="left4" />
-      <TextCell Text="left5" />
-      <TextCell Text="left1" />
-      <TextCell Text="left2" />
-      <TextCell Text="left3" />
-      <TextCell Text="left4" />
-      <TextCell Text="left5" />
-      <TextCell Text="left1" />
-      <TextCell Text="left2" />
-      <TextCell Text="left3" />
-      <TextCell Text="left4" />
-      <TextCell Text="left5" />
+    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipts1}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ImageCell ImageSource="{Binding ImageSource}"/>
+        </DataTemplate>
+      </ListView.ItemTemplate>
     </ListView>
-    <ListView Grid.Column="1" HasUnevenRows="True">
-      <TextCell Text="right1" />
-      <TextCell Text="right2" />
-      <TextCell Text="right3" />
-      <TextCell Text="right4" />
-      <TextCell Text="right5" />
-      <TextCell Text="right1" />
-      <TextCell Text="right2" />
-      <TextCell Text="right3" />
-      <TextCell Text="right4" />
-      <TextCell Text="right5" />
-      <TextCell Text="right1" />
-      <TextCell Text="right2" />
-      <TextCell Text="right3" />
-      <TextCell Text="right4" />
-      <TextCell Text="right5" />
-
-
+    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipts2}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ImageCell ImageSource="{Binding ImageSource}"/>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipts3}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ImageCell ImageSource="{Binding ImageSource}"/>
+        </DataTemplate>
+      </ListView.ItemTemplate>
     </ListView>
   </Grid>
 </ScrollView>
