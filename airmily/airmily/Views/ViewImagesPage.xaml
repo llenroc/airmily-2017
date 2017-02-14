@@ -23,14 +23,14 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
               </Grid.RowDefinitions>
             <Label Text="Transaction" HorizontalTextAlignment="Start" Grid.Column="0" />
             <Label Text="£100.00" HorizontalTextAlignment="End"  Grid.Column="1"/>
             </Grid>
         </Frame>
         <!--First Gallery View-->
-        <Frame Grid.Row="1" HasShadow="False" BackgroundColor="{StaticResource BrandColor}">
+        <Frame Grid.Row="1" HasShadow="False" BackgroundColor="{StaticResource BrandColorLight}">
             <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -70,7 +70,7 @@
         </Frame>
 
         <!--Second Gallery View-->
-        <Frame Grid.Row="2" HasShadow="False" BackgroundColor="{StaticResource BrandColor}">
+        <Frame Grid.Row="2" HasShadow="False" BackgroundColor="{StaticResource BrandColorLight}">
             <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
                 <Grid>
                     <Grid.ColumnDefinitions>
