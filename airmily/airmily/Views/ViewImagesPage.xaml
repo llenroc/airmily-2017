@@ -17,21 +17,21 @@
     <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipts1}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <ImageCell ImageSource="{Binding ImageSource}"/>
+          <ImageCell ImageSource="{Binding ImageSrc}"/>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
     <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipts2}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <ImageCell ImageSource="{Binding ImageSource}"/>
+          <ImageCell ImageSource="{Binding ImageSrc}"/>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
     <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipts3}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <ImageCell ImageSource="{Binding ImageSource}"/>
+          <ImageCell ImageSource="{Binding ImageSrc}"/>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
