@@ -16,7 +16,7 @@ namespace airmily.Services.Models
 		public FFXCardHolder CardHolder { get; set; }
 
 		[JsonProperty("currency")]
-		public FFXCurrency Curr { get; set; }
+		public FFXCardCurrency Currency { get; set; }
 
 		[JsonProperty("balance")]
 		public string Available { get; set; }
@@ -25,7 +25,7 @@ namespace airmily.Services.Models
 		public string Blocked { get; set; }
 
 		[JsonProperty("status")]
-		public FFXStatus Status { get; set; }
+		public FFXCardStatus CardStatus { get; set; }
 
 	}
 
@@ -42,7 +42,7 @@ namespace airmily.Services.Models
 		}
 	}
 
-	public class FFXStatus
+	public class FFXCardStatus
 	{
 		[JsonProperty("name")]
 		public string Status { get; set; }
@@ -50,7 +50,7 @@ namespace airmily.Services.Models
 		public bool Current { get { return Status.ToUpper() == "ACTIVE"; } }
 	}
 
-	public class FFXCurrency
+	public class FFXCardCurrency
 	{
 		[JsonProperty("symbol")]
 		public string Symbol { get; set; }
