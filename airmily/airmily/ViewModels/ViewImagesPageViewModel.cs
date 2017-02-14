@@ -63,8 +63,9 @@ namespace airmily.ViewModels
                 var ret = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4"); /*current.AlbumID*/
                 _imageItems = new ObservableCollection<AlbumItem>(ret);
                 int j = 1;
-                foreach (AlbumItem t in ret)
+                for (var i = 0; i < ret.Count; i++)
                 {
+                    AlbumItem t = ret[i];
                     if (j > 3)
                     {
                         j = 1;
