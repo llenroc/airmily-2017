@@ -1,12 +1,8 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using airmily.Services.Models;
+﻿using System.Collections.ObjectModel;
 using airmily.Services.ModelsExample;
 using airmily.Services.TrackSeries;
+using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -14,33 +10,17 @@ namespace airmily.ViewModels
 {
     public class ExampleShowsListPageViewModel : BindableBase, INavigationAware, IConfirmNavigation
     {
-        private readonly ITrackSeries _trackSeries;
         private readonly INavigationService _navigationService;
+        private readonly ITrackSeries _trackSeries;
+
+        private DelegateCommand<ItemTappedEventArgs> _goToDetailPage;
 
         private bool _isTappingEnabled;
 
-        public bool IsTappingEnabled
-        {
-            get { return _isTappingEnabled; }
-            set { SetProperty(ref _isTappingEnabled, value); }
-        }
-
         private string _title;
-
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
 
         private ObservableCollection<SerieFollowers> _topSeries;
 
-        public ObservableCollection<SerieFollowers> TopSeries
-        {
-            get { return _topSeries; }
-            set { SetProperty(ref _topSeries, value); }
-        }
-        
         public ExampleShowsListPageViewModel(ITrackSeries trackSeries, INavigationService navigationService)
         {
             _trackSeries = trackSeries;
@@ -50,35 +30,37 @@ namespace airmily.ViewModels
             Title = "Shows List";
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public bool IsTappingEnabled
         {
-
+            get { return _isTappingEnabled; }
+            set { SetProperty(ref _isTappingEnabled, value); }
         }
 
-        public async void OnNavigatedTo(NavigationParameters parameters)
+        public string Title
         {
-            if (parameters.ContainsKey("title"))
-                Title = (string)parameters["title"];
-
-            var result = await _trackSeries.GetStatsTopSeries();
-            TopSeries = new ObservableCollection<SerieFollowers>(result);
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
         }
 
-        private DelegateCommand<ItemTappedEventArgs> _goToDetailPage;
+        public ObservableCollection<SerieFollowers> TopSeries
+        {
+            get { return _topSeries; }
+            set { SetProperty(ref _topSeries, value); }
+        }
 
         public DelegateCommand<ItemTappedEventArgs> GoToDetailPage
         {
             get
             {
                 if (_goToDetailPage == null)
-                {
                     _goToDetailPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
-                        NavigationParameters param = new NavigationParameters();
+                        var param = new NavigationParameters();
                         var serie = selected.Item as SerieFollowers;
                         param.Add("id", serie.Id);
 
-                        await _navigationService.NavigateAsync("/NavigationPage/ExampleMainTabbedPage/ExampleShowsListPage/ExampleDetailPage", param);
+                        await _navigationService.NavigateAsync(
+                            "/NavigationPage/ExampleMainTabbedPage/ExampleShowsListPage/ExampleDetailPage", param);
 
                         // await _navigationService.NavigateAsync(
                         //    "/ExampleMainTabbedPage/NavigationPage/ExampleShowsListPage/ExampleDetailPage", param);
@@ -86,7 +68,6 @@ namespace airmily.ViewModels
                         //await _navigationService.NavigateAsync(
                         //   "/NavigationPage/ExampleShowsListPage/ExampleDetailPage", param);
                     }, args => IsTappingEnabled);
-                }
 
                 return _goToDetailPage;
             }
@@ -95,6 +76,19 @@ namespace airmily.ViewModels
         public bool CanNavigate(NavigationParameters parameters)
         {
             return true;
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public async void OnNavigatedTo(NavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("title"))
+                Title = (string) parameters["title"];
+
+            var result = await _trackSeries.GetStatsTopSeries();
+            TopSeries = new ObservableCollection<SerieFollowers>(result);
         }
     }
 }

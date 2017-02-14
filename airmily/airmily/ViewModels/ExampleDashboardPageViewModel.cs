@@ -1,14 +1,9 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using airmily.Services.Models;
 using airmily.Services.ModelsExample;
-using Prism.Events;
+using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
-using Xamarin.Forms;
 
 namespace airmily.ViewModels
 {
@@ -16,21 +11,11 @@ namespace airmily.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        private string _title;
-
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
-
         private ObservableCollection<SampleCategory> _items;
 
-        public ObservableCollection<SampleCategory> Items
-        {
-            get { return _items; }
-            set { SetProperty(ref _items, value); }
-        }
+        private DelegateCommand<EventArgs> _navigating;
+
+        private string _title;
 
         public ExampleDashboardPageViewModel(INavigationService navigationService)
         {
@@ -39,32 +24,38 @@ namespace airmily.ViewModels
             Title = "Dashboard";
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public string Title
         {
-
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public ObservableCollection<SampleCategory> Items
         {
-            Items = SamplesDefinition.SamplesCategoryList;
+            get { return _items; }
+            set { SetProperty(ref _items, value); }
         }
-
-        private DelegateCommand<EventArgs> _navigating;
 
         public DelegateCommand<EventArgs> Navigating
         {
             get
             {
                 if (_navigating == null)
-                {
-                    _navigating = new DelegateCommand<EventArgs>(async e =>
-                    {
-                        await _navigationService.NavigateAsync("CardsListPage");
-                    });
-                }
+                    _navigating =
+                        new DelegateCommand<EventArgs>(
+                            async e => { await _navigationService.NavigateAsync("CardsListPage"); });
 
                 return _navigating;
             }
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            Items = SamplesDefinition.SamplesCategoryList;
         }
     }
 }

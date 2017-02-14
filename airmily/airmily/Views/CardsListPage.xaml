@@ -1,32 +1,34 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-						 xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
+             xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              xmlns:artina="clr-namespace:UXDivers;assembly=UXDivers.Artina.Shared"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.CardsListPage"
-						 Title="{Binding Title}">
-  <StackLayout>
-    <!--<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">
+             Title="{Binding Title}">
+    <StackLayout>
+        <!--<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">
 			<Label Text="My Cards" TextColor="White" FontAttributes="Bold" XAlign="Center" FontSize="20"/>
 		</Frame>-->
-    <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="True" >
+        <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="True">
 
-      <behaviors:Interaction.Behaviors>
-        <behaviors:BehaviorCollection>
-          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}" PassEventArgument="True"/>
-        </behaviors:BehaviorCollection>
-      </behaviors:Interaction.Behaviors>
+            <behaviors:Interaction.Behaviors>
+                <behaviors:BehaviorCollection>
+                    <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}"
+                                              PassEventArgument="True" />
+                </behaviors:BehaviorCollection>
+            </behaviors:Interaction.Behaviors>
 
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <controls:CardItemTemplateView />
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </StackLayout>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <controls:CardItemTemplateView />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>
