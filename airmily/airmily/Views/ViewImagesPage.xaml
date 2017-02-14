@@ -6,7 +6,8 @@
              xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="airmily.Views.ViewImagesPage">
+             x:Class="airmily.Views.ViewImagesPage"
+             >
   
  <controls:ImageViewGalleryTemplate>
    
