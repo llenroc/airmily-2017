@@ -1,30 +1,19 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using airmily.Services.Azure;
 using airmily.Services.Models;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using Xamarin.Forms;
 
 namespace airmily.ViewModels
 {
     public class ViewImagesPageViewModel : BindableBase, INavigationAware
     {
-        private readonly IPageDialogService _pageDialogService;
         private readonly IAzure _azure;
+        private readonly IPageDialogService _pageDialogService;
 
 
         private ObservableCollection<AlbumItem> _imageItems;
-
-        public ObservableCollection<AlbumItem> ImageItems
-        {
-            get { return _imageItems; }
-            set { SetProperty(ref _imageItems, value); }
-        }
 
         public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure)
         {
@@ -32,9 +21,14 @@ namespace airmily.ViewModels
             _azure = azure;
         }
 
+        public ObservableCollection<AlbumItem> ImageItems
+        {
+            get { return _imageItems; }
+            set { SetProperty(ref _imageItems, value); }
+        }
+
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            
         }
 
         public async void OnNavigatedTo(NavigationParameters parameters)

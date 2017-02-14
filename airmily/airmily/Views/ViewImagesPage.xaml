@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
@@ -6,39 +7,41 @@
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.ViewImagesPage">
-	<StackLayout>
+    <StackLayout>
 
-		<Frame BackgroundColor="#A0A0A0" Padding="10">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
+        <Frame BackgroundColor="#A0A0A0" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-				<Label	FontAttributes="Italic"	Text="Transaction" TextColor="White" HorizontalTextAlignment="Start" Grid.Column="0"/>
-				<Label	FontAttributes="Italic"	Text="£30.99" TextColor="White" HorizontalTextAlignment="End" Grid.Column="1"/>
-			</Grid>
-		</Frame>
+                <Label FontAttributes="Italic" Text="Transaction" TextColor="White" HorizontalTextAlignment="Start"
+                       Grid.Column="0" />
+                <Label FontAttributes="Italic" Text="£30.99" TextColor="White" HorizontalTextAlignment="End"
+                       Grid.Column="1" />
+            </Grid>
+        </Frame>
 
-		<Frame BackgroundColor="#A0A0A0"	Padding="10">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition	Height="Auto"/>
-					<RowDefinition	Height="*"/>
-					<RowDefinition	Height="*"/>
-					<RowDefinition	Height="*"/>
-				</Grid.RowDefinitions>
+        <Frame BackgroundColor="#A0A0A0" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-				<Label	Text="Receipts and Tax Forms"		TextColor="White"	Grid.Row="0"	Grid.ColumnSpan="3"/>
-				<Button	Text="Add"																				Grid.Row="0"	Grid.Column="3"/>
+                <Label Text="Receipts and Tax Forms" TextColor="White" Grid.Row="0" Grid.ColumnSpan="3" />
+                <Button Text="Add" Grid.Row="0" Grid.Column="3" />
 
-				<!--<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="40" Grid.Row="3"	Grid.Column="0" CornerRadius="10"/>
+                <!--<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="40" Grid.Row="3"	Grid.Column="0" CornerRadius="10"/>
 				<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="1" CornerRadius="10"/>
 				<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="2" CornerRadius="10"/>
 				<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="3" CornerRadius="10"/>
@@ -50,43 +53,42 @@
 				<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="1" CornerRadius="10"/>
 				<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="2" CornerRadius="10"/>
 				<myControls:RoundedBoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="3" CornerRadius="10"/>-->
-			</Grid>
-		</Frame>
+            </Grid>
+        </Frame>
 
-		<Frame BackgroundColor="#A0A0A0"	Padding="10">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition	Height="Auto"/>
-					<RowDefinition	Height="*"/>
-					<RowDefinition	Height="*"/>
-					<RowDefinition	Height="*"/>
-				</Grid.RowDefinitions>
+        <Frame BackgroundColor="#A0A0A0" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
 
-				<Label		Text="Goods"	TextColor="White"/>
-				<Button		Text="Add"		BorderColor="Black" 								 Grid.Row="0"	Grid.Column="3"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="0"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="1"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="2"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="3"	Grid.Column="3"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="1"	Grid.Column="0"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="1"	Grid.Column="1"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="1"	Grid.Column="2"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="1"	Grid.Column="3"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="0"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="1"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="2"/>
-				<BoxView	Color="White"	WidthRequest="40" HeightRequest="80" Grid.Row="2"	Grid.Column="3"/>
-			</Grid>
-		</Frame>
-	</StackLayout>
-
+                <Label Text="Goods" TextColor="White" />
+                <Button Text="Add" BorderColor="Black" Grid.Row="0" Grid.Column="3" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="3" Grid.Column="0" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="3" Grid.Column="1" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="3" Grid.Column="2" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="3" Grid.Column="3" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="1" Grid.Column="0" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="1" Grid.Column="1" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="1" Grid.Column="2" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="1" Grid.Column="3" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="2" Grid.Column="0" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="2" Grid.Column="1" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="2" Grid.Column="2" />
+                <BoxView Color="White" WidthRequest="40" HeightRequest="80" Grid.Row="2" Grid.Column="3" />
+            </Grid>
+        </Frame>
+    </StackLayout>
 
 
 </ContentPage>

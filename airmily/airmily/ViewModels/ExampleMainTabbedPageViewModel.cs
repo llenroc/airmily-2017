@@ -1,10 +1,4 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Prism.Navigation;
-using Xamarin.Forms;
+﻿using Prism.Mvvm;
 
 namespace airmily.ViewModels
 {
@@ -12,15 +6,15 @@ namespace airmily.ViewModels
     {
         private string _title;
 
+        public ExampleMainTabbedPageViewModel()
+        {
+            Title = "airmily";
+        }
+
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
-        }
-
-        public ExampleMainTabbedPageViewModel()
-        {
-            Title = "airmily";
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using airmily.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace airmily.Views
 {
