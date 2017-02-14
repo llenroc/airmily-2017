@@ -29,7 +29,7 @@ namespace airmily.ViewModels
             set { SetProperty(ref _imageItems, value); }
         }
 
-        private ObservableCollection<AlbumItem> _receipt1;
+        private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
 
         public ObservableCollection<AlbumItem> Receipt1
         {
@@ -38,13 +38,13 @@ namespace airmily.ViewModels
         }
 
 
-        private ObservableCollection<AlbumItem> _receipt2;
+        private ObservableCollection<AlbumItem> _receipt2 = new ObservableCollection<AlbumItem>();
         public ObservableCollection<AlbumItem> Receipt2
         {
             get { return _receipt2; }
             set { SetProperty(ref _receipt2, value); }
         }
-        private ObservableCollection<AlbumItem> _receipt3;
+        private ObservableCollection<AlbumItem> _receipt3 = new ObservableCollection<AlbumItem>();
 
         public ObservableCollection<AlbumItem> Receipt3
         {
