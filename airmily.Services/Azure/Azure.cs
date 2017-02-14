@@ -16,6 +16,8 @@ namespace airmily.Services.Azure
 {
 	public class Azure : IAzure
 	{
+		private readonly bool debugging = false;
+
 		//Mobile
 		private MobileServiceClient _mobileClient;
 		private IMobileServiceTable<User> _usersTable;
@@ -103,11 +105,11 @@ namespace airmily.Services.Azure
 			// Sort them by date
 			try
 			{
-				System.Diagnostics.Debug.WriteLine("Sorting 1 " + DateTime.Now.Millisecond);
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Sorting 1 " + DateTime.Now.Millisecond);
 				liveList = liveList.OrderBy(t => t.TransDate).ToList();
-				System.Diagnostics.Debug.WriteLine("Sorting 2 " + DateTime.Now.Millisecond);
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Sorting 2 " + DateTime.Now.Millisecond);
 				oldList = oldList.OrderBy(t => t.TransDate).ToList();
-				System.Diagnostics.Debug.WriteLine("Sorting 3 " + DateTime.Now.Millisecond);
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Sorting 3 " + DateTime.Now.Millisecond);
 			}
 			catch (Exception ex)
 			{
@@ -244,7 +246,6 @@ namespace airmily.Services.Azure
 		//Private Methods
 		private async Task<List<FFXTransaction>> GetLiveTransactions(string ffx, string card)
 		{
-			bool debugging = false;
 			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 			string[] creds = Convert.FromBase64String(ffx).Aggregate("", (current, b) => current + (char)b).Split('@');
@@ -287,7 +288,6 @@ namespace airmily.Services.Azure
 
 		private async Task<List<FFXCard>> GetLiveCards(string ffx)
 		{
-			bool debugging = true;
 			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 			string[] creds = Convert.FromBase64String(ffx).Aggregate("", (current, b) => current + (char)b).Split('@');

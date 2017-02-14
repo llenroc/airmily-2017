@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace airmily.Services.Models
 {
@@ -59,25 +60,27 @@ namespace airmily.Services.Models
 		{
 			get
 			{
-				string ret = NegativeAmount ? "-" : "";
+				string cur;
 				switch (Currency)
 				{
 					default:
-						ret += "£";
+						cur = "£";
 						break;
 					case "EUR":
-						ret += "€";
+						cur = "€";
 						break;
 					case "USD":
-						ret += "$";
+						cur = "$";
 						break;
 				}
-				ret += Convert.ToDouble(InternalDifference).ToString("F");
 
-				if (InternalDifference != Amount)
-					ret += Environment.NewLine + (NegativeAmount ? "-" : "") + "£" + Convert.ToDouble(Amount).ToString("F");
+				string top = (NegativeAmount ? "-" : "") + cur + Convert.ToDouble(InternalDifference).ToString("F");
+				string bot = (NegativeAmount ? "-" : "") + "£" + Convert.ToDouble(Amount).ToString("F");
 
-				return ret;
+				if (Description == "Card Load" || Description.StartsWith("Card Transfer"))
+					return bot;
+
+				return InternalDifference == Amount ? top : top + Environment.NewLine + bot;
 			}
 		}
 	}

@@ -39,6 +39,25 @@ namespace airmily.Services.Models
 		[JsonIgnore]
 		public string Details { get { return Number; } }
 		[JsonIgnore]
-		public string Value { get { return Currency + Balance; } }
+		public string Value
+		{
+			get
+			{
+				string symbol;
+				switch (Currency)
+				{
+					default:
+						symbol = "£";
+						break;
+					case "EUR":
+						symbol = "€";
+						break;
+					case "USD":
+						symbol = "$";
+						break;
+				}
+				return symbol + Balance;
+			}
+		}
 	}
 }
