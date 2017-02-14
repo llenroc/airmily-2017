@@ -63,6 +63,9 @@
       <DependentUpon>CarouselGallery.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\RoundedBoxView.cs" />
+    <Compile Include="Views\Controls\TransItemView.xaml.cs">
+      <DependentUpon>TransItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\ValuedListView.xaml.cs">
       <DependentUpon>ValuedListView.xaml</DependentUpon>
     </Compile>
@@ -290,6 +293,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Controls\CardItemTemplateView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Controls\TransItemView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
