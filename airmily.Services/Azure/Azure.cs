@@ -44,7 +44,7 @@ namespace airmily.Services.Azure
 				_storageClient = _storageAccount.CreateCloudBlobClient();
 				_storageContainer = _storageClient.GetContainerReference("images");
 			}
-			catch (System.Exception ex)
+			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine(ex.Message);
 			}
@@ -53,7 +53,27 @@ namespace airmily.Services.Azure
 		//Public Methods
 		public async Task<bool> UpdateCards(User credentials)
 		{
-			return false;
+			if (!credentials.Active)
+				return false;
+
+			Task<List<FFXCard>> liveTask = GetLiveCards(credentials.FairFX);
+			Task<List<Card>> oldTask = GetCards(credentials.UserID, true);
+
+			await Task.WhenAll(liveTask, oldTask);
+
+			List<FFXCard> liveList = await liveTask;
+			List<Card> oldList = await oldTask;
+
+			bool ret = false;
+			foreach (FFXCard card in liveList)
+			{
+				if (oldList.Where(c => c.CardID == card.CardID).ToArray().Length > 0)
+					continue;
+				
+				await _cardsTable.InsertAsync(new Card(card, credentials.UserID));
+				ret = true;
+			}
+			return ret;
 		}
 
 		public async Task<List<Card>> GetCards(string userid, bool all = false)
@@ -253,11 +273,56 @@ namespace airmily.Services.Azure
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
-				HttpResponseMessage transResp = await http.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);		// Lasts at least 7-8 seconds
+				HttpResponseMessage transResp = await http.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);     // Lasts at least 7-8 seconds
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				List<FFXTransaction> ret = transResp.IsSuccessStatusCode ? JsonConvert.DeserializeObject<List<FFXTransaction>>(await transResp.Content.ReadAsStringAsync()) : new List<FFXTransaction>();
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				return ret;
+			}
+		}
+
+		private async Task<List<FFXCard>> GetLiveCards(string ffx)
+		{
+			bool debugging = true;
+			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+			string[] creds = Convert.FromBase64String(ffx).Aggregate("", (current, b) => current + (char)b).Split('@');
+			if (creds[1] != "beier360.com") return new List<FFXCard>();
+
+			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+			using (HttpClient http = new HttpClient() { BaseAddress = new Uri("https://restapi.fairfx.com") })
+			{
+				http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+				FormUrlEncodedContent loginContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>() {
+					new KeyValuePair<string, string>("username", creds[0] + "@" + creds[1]),
+					new KeyValuePair<string, string>("password", creds[2]),
+					new KeyValuePair<string, string>("domain", "corporate")
+				});
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				HttpResponseMessage loginResp = await http.PostAsync("/rest/auth", loginContent);
+				if (!loginResp.IsSuccessStatusCode) return new List<FFXCard>();
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				FFXSession session = JsonConvert.DeserializeObject<FFXSession>(await loginResp.Content.ReadAsStringAsync());
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				HttpResponseMessage cardsResp = await http.GetAsync("/rest/card/list/-/" + session.SessionID);
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				List<FFXCard> ret = cardsResp.IsSuccessStatusCode
+					? JsonConvert.DeserializeObject<List<FFXCard>>(await cardsResp.Content.ReadAsStringAsync())
+					: new List<FFXCard>();
 
 				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 

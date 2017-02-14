@@ -43,6 +43,7 @@
     <Compile Include="ModelsExample\Actor.cs" />
     <Compile Include="ModelsExample\SampleDefinition.cs" />
     <Compile Include="Models\AlbumItem.cs" />
+    <Compile Include="Models\FFXCard.cs" />
     <Compile Include="Models\FFXSession.cs" />
     <Compile Include="Models\BaseSchema.cs" />
     <Compile Include="Models\Card.cs" />
