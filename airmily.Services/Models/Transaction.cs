@@ -75,7 +75,7 @@ namespace airmily.Services.Models
 				ret += Convert.ToDouble(InternalDifference).ToString("F");
 
 				if (InternalDifference != Amount)
-					ret += Environment.NewLine + "£" + Convert.ToDouble(Amount).ToString("F");
+					ret += Environment.NewLine + (NegativeAmount ? "-" : "") + "£" + Convert.ToDouble(Amount).ToString("F");
 
 				return ret;
 			}
