@@ -7,7 +7,7 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <ListView BindingContext="x:Name ViewImagePage" Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
+      <ListView BindingContext="x:Reference ViewImagePage" Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
@@ -17,7 +17,7 @@
         </ListView.ItemTemplate>
       </ListView>
 
-      <ListView BindingContext="x:Name ViewImagePage" Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
+      <ListView BindingContext="x:Reference ViewImagePage" Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
@@ -26,7 +26,7 @@
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
-      <ListView BindingContext="x:Name ViewImagePage" Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="100">
+      <ListView BindingContext="x:Reference ViewImagePage" Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="100">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
