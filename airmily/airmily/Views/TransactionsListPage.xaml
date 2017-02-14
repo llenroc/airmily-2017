@@ -8,7 +8,6 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.TransactionsListPage"
              Title="{Binding Title}"
-             Padding="8"
              BackgroundColor="#FDB813">
 
 	<StackLayout>
@@ -55,7 +54,7 @@
           <ListView.ItemTemplate>
             <DataTemplate>
               <ViewCell>
-                <controls:CardItemTemplateView />
+                <controls:TransItemTemplateView />
               </ViewCell>
             </DataTemplate>
           </ListView.ItemTemplate>
