@@ -63,7 +63,7 @@ namespace airmily.Services.Azure
 
 			IMobileServiceTableQuery<Card> query = !all ? _cardsTable.Where(c => c.UserID == userid && c.Active == true) : _cardsTable.Where(c => c.UserID == userid);
 
-			return await query.ToListAsync();
+			return (await query.ToListAsync()).OrderBy(c => c.CardHolder).ToList();
 		}
 
 		public async Task<bool> UpdateTransactions(User credentials, string cardid)
@@ -83,22 +83,11 @@ namespace airmily.Services.Azure
 			// Sort them by date
 			try
 			{
-				liveList.Sort((a, b) =>
-				{
-					string aDate = a.TransDate.Split('T')[0];
-					string bDate = b.TransDate.Split('T')[0];
-					DateTime one = new DateTime(Convert.ToInt32(aDate.Split('-')[0]), Convert.ToInt32(aDate.Split('-')[1]), Convert.ToInt32(aDate.Split('-')[2]));
-					DateTime two = new DateTime(Convert.ToInt32(bDate.Split('-')[0]), Convert.ToInt32(bDate.Split('-')[1]), Convert.ToInt32(bDate.Split('-')[2]));
-					return one.CompareTo(two);
-				});
-				oldList.Sort((a, b) =>
-				{
-					string aDate = a.TransDate.Split('T')[0];
-					string bDate = b.TransDate.Split('T')[0];
-					DateTime one = new DateTime(Convert.ToInt32(aDate.Split('-')[0]), Convert.ToInt32(aDate.Split('-')[1]), Convert.ToInt32(aDate.Split('-')[2]));
-					DateTime two = new DateTime(Convert.ToInt32(bDate.Split('-')[0]), Convert.ToInt32(bDate.Split('-')[1]), Convert.ToInt32(bDate.Split('-')[2]));
-					return one.CompareTo(two);
-				});
+				System.Diagnostics.Debug.WriteLine("Sorting 1 " + DateTime.Now.Millisecond);
+				liveList = liveList.OrderBy(t => t.TransDate).ToList();
+				System.Diagnostics.Debug.WriteLine("Sorting 2 " + DateTime.Now.Millisecond);
+				oldList = oldList.OrderBy(t => t.TransDate).ToList();
+				System.Diagnostics.Debug.WriteLine("Sorting 3 " + DateTime.Now.Millisecond);
 			}
 			catch (Exception ex)
 			{
@@ -160,23 +149,7 @@ namespace airmily.Services.Azure
 
 			IMobileServiceTableQuery<Transaction> query = !all ? _transTable.Where(t => t.CardID == cardid && t.Description != "Card Load" && !t.Description.StartsWith("Card Transfer") && !t.Deleted) : _transTable.Where(t => t.CardID == cardid && !t.Deleted);
 
-			List<Transaction> ret = await query.ToListAsync();
-			try
-			{
-				ret.Sort((a, b) =>
-				{
-					string aDate = a.TransDate.Split('T')[0];
-					string bDate = b.TransDate.Split('T')[0];
-					DateTime one = new DateTime(Convert.ToInt32(aDate.Split('-')[0]), Convert.ToInt32(aDate.Split('-')[1]), Convert.ToInt32(aDate.Split('-')[2]));
-					DateTime two = new DateTime(Convert.ToInt32(bDate.Split('-')[0]), Convert.ToInt32(bDate.Split('-')[1]), Convert.ToInt32(bDate.Split('-')[2]));
-					return two.CompareTo(one);
-				});
-			}
-			catch (Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine(ex.Message);
-			}
-			return ret;
+			return (await query.ToListAsync()).OrderByDescending(t => t.TransDate).ToList();
 		}
 
 		public async Task<bool> UploadImage(AlbumItem image)
@@ -251,8 +224,13 @@ namespace airmily.Services.Azure
 		//Private Methods
 		private async Task<List<FFXTransaction>> GetLiveTransactions(string ffx, string card)
 		{
+			bool debugging = false;
+			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
 			string[] creds = Convert.FromBase64String(ffx).Aggregate("", (current, b) => current + (char)b).Split('@');
 			if (creds[1] != "beier360.com") return new List<FFXTransaction>();
+
+			System.Diagnostics.Debug.WriteLineIf(debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 			using (HttpClient http = new HttpClient() { BaseAddress = new Uri("https://restapi.fairfx.com") })
 			{
@@ -264,15 +242,26 @@ namespace airmily.Services.Azure
 					new KeyValuePair<string, string>("domain", "corporate")
 				});
 
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
 				HttpResponseMessage loginResp = await http.PostAsync("/rest/auth", loginContent);
 				if (!loginResp.IsSuccessStatusCode) return new List<FFXTransaction>();
 
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
 				FFXSession session = JsonConvert.DeserializeObject<FFXSession>(await loginResp.Content.ReadAsStringAsync());
-				
-				HttpResponseMessage transResp = await http.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);
-				if (!transResp.IsSuccessStatusCode) return new List<FFXTransaction>();
-				
-				return JsonConvert.DeserializeObject<List<FFXTransaction>>(await transResp.Content.ReadAsStringAsync());
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				HttpResponseMessage transResp = await http.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);		// Lasts at least 7-8 seconds
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				List<FFXTransaction> ret = transResp.IsSuccessStatusCode ? JsonConvert.DeserializeObject<List<FFXTransaction>>(await transResp.Content.ReadAsStringAsync()) : new List<FFXTransaction>();
+
+				System.Diagnostics.Debug.WriteLineIf(debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+
+				return ret;
 			}
 		}
 	}

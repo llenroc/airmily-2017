@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace airmily.Services.Models
 {
@@ -41,8 +43,17 @@ namespace airmily.Services.Models
 
 		[JsonIgnore]
 		public string Main { get { return Description; } }
+
 		[JsonIgnore]
-		public string Details { get { return TransDate.Split('T')[0]; } }
+		public string Details
+		{
+			get
+			{
+				string date = TransDate.Split('T')[0];
+				return string.Join("-", date.Split('-').Reverse());
+			}
+		}
+
 		[JsonIgnore]
 		public string Value
 		{
@@ -51,7 +62,6 @@ namespace airmily.Services.Models
 				string ret = NegativeAmount ? "-" : "";
 				switch (Currency)
 				{
-					case "GBP":
 					default:
 						ret += "£";
 						break;
@@ -62,7 +72,11 @@ namespace airmily.Services.Models
 						ret += "$";
 						break;
 				}
-				ret += Amount;
+				ret += Convert.ToDouble(InternalDifference).ToString("F");
+
+				if (InternalDifference != Amount)
+					ret += Environment.NewLine + "£" + Convert.ToDouble(Amount).ToString("F");
+
 				return ret;
 			}
 		}
