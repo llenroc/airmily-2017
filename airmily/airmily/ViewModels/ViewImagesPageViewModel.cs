@@ -62,27 +62,20 @@ namespace airmily.ViewModels
                 //Transaction current = (Transaction)parameters["id"];
                 var ret = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4"); /*current.AlbumID*/
                 _imageItems = new ObservableCollection<AlbumItem>(ret);
-                int j = 1;
-                for (var i = 0; i < ret.Count; i++)
+                foreach (AlbumItem t in ret)
                 {
-                    AlbumItem t = ret[i];
-                    if (j > 3)
+                    switch (ret.IndexOf(t) % 3)
                     {
-                        j = 1;
-                    }
-                    switch (j)
-                    {
-                        case 1:
+                        case 0:
                             _receipt1.Add(t);
                             break;
-                        case 2:
+                        case 1:
                             _receipt2.Add(t);
                             break;
-                        case 3:
+                        case 2:
                             _receipt3.Add(t);
                             break;
                     }
-                    j++;
                 }
             }
         }
