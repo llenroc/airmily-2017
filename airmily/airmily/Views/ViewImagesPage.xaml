@@ -18,8 +18,8 @@
           <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*"/>
-          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <!--Transaction Information-->
         <Frame Grid.Row="0" Grid.ColumnSpan="2" HasShadow="False" BackgroundColor="{StaticResource BrandColorDark} ">
