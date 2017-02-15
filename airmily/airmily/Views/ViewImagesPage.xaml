@@ -5,6 +5,8 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+             
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.ViewImagesPage"
              BackgroundColor="{StaticResource BrandColorLight}">
@@ -47,6 +49,11 @@
                     </Grid.ColumnDefinitions>
 
                     <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True"/>
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -56,6 +63,13 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True"/>
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
+                      
+                      
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -65,6 +79,11 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="80">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True"/>
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -92,6 +111,11 @@
                     <RowDefinition Height="Auto"/>
                   </Grid.RowDefinitions>
                     <ListView Grid.Column="0" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good1}" RowHeight="100">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True"/>
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -101,6 +125,11 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <ListView Grid.Column="1" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good2}" RowHeight="100">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True"/>
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -110,6 +139,11 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <ListView Grid.Column="2" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good3}" RowHeight="100">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True"/>
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
