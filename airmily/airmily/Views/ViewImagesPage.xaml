@@ -18,8 +18,8 @@
           <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto"/>
-          <ColumnDefinition Width="20"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!--Transaction Information-->
         <Frame Grid.Row="0" Grid.ColumnSpan="2" HasShadow="False" BackgroundColor="{StaticResource BrandColorDark} ">
@@ -37,7 +37,7 @@
         </Frame>
         <!--First Gallery View-->
       <Label Grid.Row="1" Grid.Column="0" Text="Receipt and Tax Forms" TextColor="White" />
-      <Button Grid.Row="1" Grid.Column="1" Text="Add"  BorderColor="Transparent" BackgroundColor="{StaticResource SaveButtonColor}" HorizontalOptions="End"/>
+      <Button Grid.Row="1" Grid.Column="1" Text="Add"  BorderColor="Transparent" BackgroundColor="{StaticResource SaveButtonColor}" HorizontalOptions="EndAndExpand"/>
       <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -78,7 +78,7 @@
 
         <!--Second Gallery View-->
       <Label Grid.Row="3" Grid.Column="0" Text="Goods" TextColor="White" />
-      <Button Grid.Row="3" Grid.Column="1" Text="Add"  BorderColor="Transparent" BackgroundColor="{StaticResource SaveButtonColor}" HorizontalOptions="End"/>
+      <Button Grid.Row="3" Grid.Column="1" Text="Add"  BorderColor="Transparent" BackgroundColor="{StaticResource SaveButtonColor}" HorizontalOptions="EndAndExpand"/>
 
       <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="1">
                 <Grid>
