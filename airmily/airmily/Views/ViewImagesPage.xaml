@@ -5,6 +5,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
              xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
+			 xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.ViewImagesPage"
              BackgroundColor="{StaticResource BrandColorLight}">
@@ -43,7 +44,14 @@
                       <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <ListView Grid.Column="0" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
-                        <ListView.ItemTemplate>
+                        <behaviors:Interaction.Behaviors>
+							<behaviors:BehaviorCollection>
+								<behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}" PassEventArgument="True">
+								</behaviors:EventToCommand>
+							</behaviors:BehaviorCollection>
+						</behaviors:Interaction.Behaviors>
+						
+						<ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
                                 <Image Source="{Binding ImageSrc}" Aspect="AspectFill"/>

@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using airmily.Services.Azure;
 using airmily.Services.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 
 namespace airmily.ViewModels
 {
@@ -14,11 +18,15 @@ namespace airmily.ViewModels
 	{
 		private readonly IAzure _azure;
 		private readonly IPageDialogService _pageDialogService;
+		private readonly INavigationService _navigationService;
 
-		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure)
+		private Transaction _currentTransaction;
+
+		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigation)
 		{
 			_pageDialogService = pageDialogService;
 			_azure = azure;
+			_navigationService = navigation;
 		}
 
 		//private ObservableCollection<AlbumItem> _imageItems;
@@ -64,6 +72,7 @@ namespace airmily.ViewModels
 		}
 
 		private ObservableCollection<AlbumItem> _good3 = new ObservableCollection<AlbumItem>();
+
 		public ObservableCollection<AlbumItem> Good3
 		{
 			get { return _good3; }
@@ -77,11 +86,11 @@ namespace airmily.ViewModels
 
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
-			//            if (parameters.ContainsKey("id"))
-			//{
-			//Transaction current = (Transaction)parameters["id"];
+			if (!parameters.ContainsKey("transaction")) return;
 
-			List<AlbumItem> receipts = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4", true);
+			_currentTransaction = (Transaction)parameters["transaction"];
+
+			List<AlbumItem> receipts = await _azure.GetAllImages(_currentTransaction.AlbumID, true);
 			receipts.Add(new AlbumItem { IsAddButton = true });
 			foreach (AlbumItem t in receipts)
 			{
@@ -99,7 +108,7 @@ namespace airmily.ViewModels
 				}
 			}
 
-			List<AlbumItem> goods = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4", false);
+			List<AlbumItem> goods = await _azure.GetAllImages(_currentTransaction.AlbumID, false);
 			goods.Add(new AlbumItem { IsAddButton = true });
 			foreach (AlbumItem t in goods)
 			{
@@ -116,7 +125,62 @@ namespace airmily.ViewModels
 						break;
 				}
 			}
-			//}
+		}
+
+		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
+		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
+		{
+			get
+			{
+				if (_onImageTapped == null)
+				{
+					_onImageTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
+					{
+						var item = selected.Item as AlbumItem;
+						if (item == null) return;
+
+						if (!item.IsAddButton)
+						{
+							var parameters = new NavigationParameters {["img"] = item.ImageSrc};
+							await _navigationService.NavigateAsync("", parameters);
+						}
+						else
+						{
+							await CrossMedia.Current.Initialize();
+							if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+							{
+								var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+								{
+									Directory = "ReceiptsAndGoods",
+									Name = "test.jpg",
+									SaveToAlbum = false
+								});
+
+								if (file == null) return;
+
+								AlbumItem newItem = new AlbumItem
+								{
+									ImageName = new Guid().ToString(),
+									IsAddButton = false,
+									IsReceipt = true,
+									Image = new byte[file.GetStream().Length]
+								};
+								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
+
+								if (string.IsNullOrEmpty(_currentTransaction.AlbumID))
+								{
+									_currentTransaction.AlbumID = new Guid().ToString();
+									_azure.UpdateSingleTransaction(_currentTransaction);
+								}
+
+								newItem.Album = _currentTransaction.AlbumID;
+								await _azure.UploadImage(newItem);
+							}
+						}
+					});
+				}
+				return _onImageTapped;
+			}
 		}
 	}
 }
