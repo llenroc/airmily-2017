@@ -240,6 +240,7 @@ namespace airmily.Services.Azure
 			#endregion
 			return album;
 		}
+
 		//Temporary Methods
 		/*public async Task AddItem()
 		{
