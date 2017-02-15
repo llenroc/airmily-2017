@@ -20,8 +20,6 @@ namespace airmily.ViewModels
 		private readonly IPageDialogService _pageDialogService;
 		private readonly INavigationService _navigationService;
 
-		private Transaction _currentTransaction;
-
 		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigation)
 		{
 			_pageDialogService = pageDialogService;
@@ -83,7 +81,6 @@ namespace airmily.ViewModels
 
 
 	    private Transaction _currentTransaction = new Transaction();
-
 	    public Transaction CurrentTransaction
 	    {
 	        get { return _currentTransaction; }
