@@ -30,7 +30,6 @@
             </Grid>
         </Frame>
         <!--First Gallery View-->
-        <Frame Grid.Row="1" HasShadow="False" BackgroundColor="{StaticResource BrandColor}">
             <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -72,10 +71,8 @@
                     </ListView>
                 </Grid>
             </ScrollView>
-        </Frame>
 
         <!--Second Gallery View-->
-        <Frame Grid.Row="2" HasShadow="False" BackgroundColor="{StaticResource BrandColor}">
             <ScrollView BackgroundColor="{StaticResource BrandColorLight}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -117,6 +114,5 @@
                     </ListView>
                 </Grid>
             </ScrollView>
-        </Frame>
     </Grid>
 </ContentPage>
