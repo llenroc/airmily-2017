@@ -16,17 +16,20 @@ namespace airmily.Services.Models
 
 		[JsonIgnore]
 		public byte[] Image { get; set; }
+		[JsonIgnore]
+		public bool IsAddButton { get; set; }
 
-		private ImageSource _imageSrc;
 	    public ImageSource ImageSrc
 	    {
-		    get { return _imageSrc == null ? ImageSource.FromStream(() => new MemoryStream(Image)) : _imageSrc; }
-		    set { if (_imageSrc != value) _imageSrc = value; }
+		    get
+		    {
+			    return !IsAddButton ? ImageSource.FromStream(() => new MemoryStream(Image)) : ImageSource.FromFile("Icon-76.png");
+		    }
 	    }
 
 	    public AlbumItem()
-		{
-
-		}
+	    {
+		    IsAddButton = false;
+	    }
 	}
 }

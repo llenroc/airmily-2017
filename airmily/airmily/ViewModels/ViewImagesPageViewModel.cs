@@ -82,7 +82,7 @@ namespace airmily.ViewModels
 			//Transaction current = (Transaction)parameters["id"];
 
 			List<AlbumItem> receipts = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4", true);
-			receipts.Add(new AlbumItem { ImageSrc = ImageSource.FromResource("Default.png") });
+			receipts.Add(new AlbumItem { IsAddButton = true });
 			foreach (AlbumItem t in receipts)
 			{
 				switch (receipts.IndexOf(t) % 3)
@@ -100,7 +100,7 @@ namespace airmily.ViewModels
 			}
 
 			List<AlbumItem> goods = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4", false);
-			goods.Add(new AlbumItem { ImageSrc = ImageSource.FromResource("Default.png") });
+			goods.Add(new AlbumItem { IsAddButton = true });
 			foreach (AlbumItem t in goods)
 			{
 				switch (goods.IndexOf(t) % 3)
