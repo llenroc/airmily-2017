@@ -32,7 +32,7 @@
             </Grid>
         </Frame>
         <!--First Gallery View-->
-      <Label Grid.Row="1" Grid.ColumnSpan="2" Text="Receipt and Tax Forms" TextColor="White" />
+      <Label Grid.Row="1" Text="Receipt and Tax Forms" TextColor="White" />
       <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="2" Grid.RowSpan="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
