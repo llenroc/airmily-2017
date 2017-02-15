@@ -17,22 +17,13 @@ namespace airmily.ViewModels
 	public class ViewImagesPageViewModel : BindableBase, INavigationAware
 	{
 		private readonly IAzure _azure;
-		private readonly IPageDialogService _pageDialogService;
-		private readonly INavigationService _navigationService;
+		//private readonly IPageDialogService _pageDialogService;
 
-		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigation)
+		public ViewImagesPageViewModel(IAzure azure)//, IPageDialogService pageDialogService)
 		{
-			_pageDialogService = pageDialogService;
+			//_pageDialogService = pageDialogService;
 			_azure = azure;
-			_navigationService = navigation;
 		}
-
-        //private ObservableCollection<AlbumItem> _imageItems;
-        //public ObservableCollection<AlbumItem> ImageItems
-        //{
-        //	get { return _imageItems; }
-        //	set { SetProperty(ref _imageItems, value); }
-        //}
 
 	    #region ObservableCollections
         private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
@@ -79,8 +70,14 @@ namespace airmily.ViewModels
 		}
 	    #endregion
 
-
-	    private Transaction _currentTransaction = new Transaction();
+		private Transaction _currentTransaction = new Transaction
+		{
+			Currency = "GBP",
+			NegativeAmount = true,
+			InternalDifference = "0.00",
+			Amount = "0.00",
+			Description = "Description"
+		};
 	    public Transaction CurrentTransaction
 	    {
 	        get { return _currentTransaction; }
@@ -94,9 +91,10 @@ namespace airmily.ViewModels
 
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
-			if (!parameters.ContainsKey("transaction")) return;
+			if (!parameters.ContainsKey("transaction"))
+				return;
 
-			_currentTransaction = (Transaction)parameters["transaction"];
+			CurrentTransaction = (Transaction)parameters["transaction"];
 
 			List<AlbumItem> receipts = await _azure.GetAllImages(_currentTransaction.AlbumID, true);
 			receipts.Add(new AlbumItem { IsAddButton = true });
@@ -135,6 +133,7 @@ namespace airmily.ViewModels
 			}
 		}
 
+		/*
 		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
 		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
 		{
@@ -150,7 +149,7 @@ namespace airmily.ViewModels
 						if (!item.IsAddButton)
 						{
 							var parameters = new NavigationParameters {["img"] = item.ImageSrc};
-							await _navigationService.NavigateAsync("", parameters);
+							//await _navigationService.NavigateAsync("", parameters);
 						}
 						else
 						{
@@ -190,5 +189,6 @@ namespace airmily.ViewModels
 				return _onImageTapped;
 			}
 		}
+		*/
 	}
 }
