@@ -18,7 +18,7 @@
           <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!--Transaction Information-->
-        <Frame Grid.Row="0" HasShadow="False" BackgroundColor="{StaticResource BrandColorDarker} ">
+        <Frame Grid.Row="0" HasShadow="False" BackgroundColor="{StaticResource BrandColorDark} ">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -27,8 +27,8 @@
               <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
               </Grid.RowDefinitions>
-            <Label Text="Transaction" HorizontalTextAlignment="Start" Grid.Column="0" />
-            <Label Text="£100.00" HorizontalTextAlignment="End"  Grid.Column="1"/>
+            <Label Text="Transaction" TextColor="White" HorizontalTextAlignment="Start" Grid.Column="0" />
+            <Label Text="£100.00" TextColor="White" HorizontalTextAlignment="End"  Grid.Column="1"/>
             </Grid>
         </Frame>
         <!--First Gallery View-->
@@ -41,7 +41,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <ListView Grid.Column="0" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
+                    <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -50,7 +50,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Grid.Column="1" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
+                    <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -59,7 +59,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Grid.Column="2" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="80">
+                    <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="80">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                               <ViewCell>
@@ -84,7 +84,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                   </Grid.RowDefinitions>
-                  <Label Grid.Column="0" Grid.Row="0" Text="Goods" TextColor="White" />
                     <ListView Grid.Column="0" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good1}" RowHeight="100">
                         <ListView.ItemTemplate>
                             <DataTemplate>
