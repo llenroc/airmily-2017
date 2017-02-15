@@ -20,7 +20,7 @@ namespace airmily.ViewModels
             CardHolder = "John Smith",
             Number = "0000********0000",
             Currency = "£",
-            Balance = "100.5"
+            Balance = "0.00"
         };
 
         private DelegateCommand<ItemTappedEventArgs> _onTransactionTapped;

@@ -48,5 +48,19 @@ namespace airmily.Services.Models
 		{
 			return !(a == b);
 		}
+
+		public override bool Equals(object obj)
+		{
+			try { return this == (FFXTransaction)obj; }
+			catch { /*ignored*/ }
+
+			return false;
+		}
+
+		public override int GetHashCode()
+		{
+			// ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
+			return base.GetHashCode();
+		}
 	}
 }

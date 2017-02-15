@@ -219,7 +219,7 @@ namespace airmily.Services.Azure
 		}
 
 		//Temporary Methods
-		public async Task AddItem()
+		/*public async Task AddItem()
 		{
 			//await _usersTable.InsertAsync(new User
 			//{
@@ -236,7 +236,7 @@ namespace airmily.Services.Azure
 			//	ImageName = "Doxie 0124.jpg",
 			//	IsReceipt = true
 			//});
-		}
+		}*/
 
 		//Private Methods
 		private async Task<List<FFXTransaction>> GetLiveTransactions(string ffx, string card)
