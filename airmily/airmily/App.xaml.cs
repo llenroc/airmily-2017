@@ -30,12 +30,6 @@ namespace airmily
 
             var current = new User
             {
-                //UserName = "Ashley",
-                //UserID = "668788",
-                //Active = true,
-                //UnionID = "ovrpnuAIYBHme2uJCbT-FrQZAvVs",
-                //OpenID = "oDDFqw26hj8e22e1waqCRvmx_s8U",
-                //FairFX = "YXNobGV5LnN3YW5zb25AYmVpZXIzNjAuY29tQFN3YW5zb24xOTk2"
                 UserName = "Suzy",
                 UserID = "588842",
                 Active = true,

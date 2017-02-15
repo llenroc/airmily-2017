@@ -20,7 +20,7 @@ namespace airmily.ViewModels
             CardHolder = "John Smith",
             Number = "0000********0000",
             Currency = "£",
-            Balance = "100.5"
+            Balance = "0.00"
         };
 
         private DelegateCommand<ItemTappedEventArgs> _onTransactionTapped;
@@ -63,11 +63,9 @@ namespace airmily.ViewModels
                 if (_onTransactionTapped == null)
                     _onTransactionTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
-                        var transaction = selected.Item as Transaction;
-                        var id = new NavigationParameters {["id"] = transaction.ID};
-                        var parameters = new NavigationParameters{["id"]= id};
+                        var trans = selected.Item as Transaction;
+                        var parameters = new NavigationParameters{["transaction"] = trans};
                         await _navigationService.NavigateAsync("ViewImagesPage", parameters);
-
                     });
 
                 return _onTransactionTapped;
@@ -86,8 +84,8 @@ namespace airmily.ViewModels
 
                 CurrentCard = (Card) parameters["card"];
 
-                await _azure.UpdateTransactions(credentials, CurrentCard.CardID);
-                var ret = await _azure.GetTransactions(CurrentCard.CardID);
+                await _azure.UpdateAllTransactions(credentials, CurrentCard.CardID);
+                var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
                 TransactionsList = new ObservableCollection<Transaction>(ret);
             }
         }

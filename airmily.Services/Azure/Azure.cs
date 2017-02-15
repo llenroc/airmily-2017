@@ -55,13 +55,13 @@ namespace airmily.Services.Azure
 
 		//Public Methods
 		//Cards
-		public async Task<bool> UpdateCards(User credentials)
+		public async Task<bool> UpdateAllCards(User credentials)
 		{
 			if (!credentials.Active)
 				return false;
 
 			Task<List<FFXCard>> liveTask = GetLiveCards(credentials.FairFX);
-			Task<List<Card>> oldTask = GetCards(credentials.UserID, true);
+			Task<List<Card>> oldTask = GetAllCards(credentials.UserID, true);
 
 			await Task.WhenAll(liveTask, oldTask);
 
@@ -87,7 +87,7 @@ namespace airmily.Services.Azure
 			}
 			return ret;
 		}
-		public async Task<List<Card>> GetCards(string userid, bool all = false)
+		public async Task<List<Card>> GetAllCards(string userid, bool all = false)
 		{
 			if (string.IsNullOrEmpty(userid))
 				return new List<Card>();
@@ -98,14 +98,14 @@ namespace airmily.Services.Azure
 		}
 
 		//Transactions
-		public async Task<bool> UpdateTransactions(User credentials, string cardid)
+		public async Task<bool> UpdateAllTransactions(User credentials, string cardid)
 		{
 			if (!credentials.Active)
 				return false;
 
 			// Get the live and database transactions
 			Task<List<FFXTransaction>> liveTask = GetLiveTransactions(credentials.FairFX, cardid);
-			Task<List<Transaction>> oldTask = GetTransactions(cardid, true);
+			Task<List<Transaction>> oldTask = GetAllTransactions(cardid, true);
 
 			await Task.WhenAll(liveTask, oldTask);
 
@@ -173,7 +173,11 @@ namespace airmily.Services.Azure
 
 			return toCreate.Count > 0;
 		}
-		public async Task<List<Transaction>> GetTransactions(string cardid, bool all = false)
+		public async Task UpdateSingleTransaction(Transaction t)
+		{
+			await _transTable.UpdateAsync(t);
+		}
+		public async Task<List<Transaction>> GetAllTransactions(string cardid, bool all = false)
 		{
 			if (string.IsNullOrEmpty(cardid))
 				return new List<Transaction>();
@@ -190,11 +194,10 @@ namespace airmily.Services.Azure
 				return false;
 
 			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-			await blob.UploadFromStreamAsync(new MemoryStream(image.Image));
-			await _albumTable.InsertAsync(image);
+			await Task.WhenAll(blob.UploadFromStreamAsync(new MemoryStream(image.Image)), _albumTable.InsertAsync(image));
 			return true;
 		}
-		public async Task<List<AlbumItem>> GetImages(string albumid)
+		public async Task<List<AlbumItem>> GetAllImages(string albumid)
 		{
 			if (string.IsNullOrEmpty(albumid))
 				return new List<AlbumItem>();
@@ -217,9 +220,32 @@ namespace airmily.Services.Azure
 			#endregion
 			return album;
 		}
+		public async Task<List<AlbumItem>> GetAllImages(string albumid, bool receipts)
+		{
+			if (string.IsNullOrEmpty(albumid))
+				return new List<AlbumItem>();
+
+			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid && a.IsReceipt == receipts);
+			List<AlbumItem> album = await query.ToListAsync();
+
+			#region Download Images
+			foreach (AlbumItem item in album)
+			{
+				if (item.Image == null)
+				{
+					CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(item.ImageName);
+					await blob.FetchAttributesAsync();
+
+					item.Image = new byte[blob.Properties.Length];
+					await blob.DownloadToByteArrayAsync(item.Image, 0);
+				}
+			}
+			#endregion
+			return album;
+		}
 
 		//Temporary Methods
-		public async Task AddItem()
+		/*public async Task AddItem()
 		{
 			//await _usersTable.InsertAsync(new User
 			//{
@@ -236,7 +262,7 @@ namespace airmily.Services.Azure
 			//	ImageName = "Doxie 0124.jpg",
 			//	IsReceipt = true
 			//});
-		}
+		}*/
 
 		//Private Methods
 		private async Task<List<FFXTransaction>> GetLiveTransactions(string ffx, string card)

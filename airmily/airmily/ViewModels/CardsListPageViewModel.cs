@@ -15,11 +15,20 @@ namespace airmily.ViewModels
 
         private ObservableCollection<Card> _cardsList;
 
+<<<<<<< HEAD
 		public ObservableCollection<Card> CardsList 
 		{
 			get { return _cardsList;}
 			set { SetProperty(ref _cardsList, value);}
 		}
+=======
+        public ObservableCollection<Card> CardsList
+        {
+            get { return _cardsList; }
+            set { SetProperty(ref _cardsList, value); }
+        }
+
+>>>>>>> origin/master
 
         private User _currentUser;
 
@@ -41,6 +50,10 @@ namespace airmily.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
         public DelegateCommand<ItemTappedEventArgs> GoToTransactionsListPage
         {
             get
@@ -67,7 +80,7 @@ namespace airmily.ViewModels
                 return;
 
             _currentUser = (User) parameters["user"];
-            var ret = await _azure.GetCards(_currentUser.UserID);
+            var ret = await _azure.GetAllCards(_currentUser.UserID);
             CardsList = new ObservableCollection<Card>(ret);
         }
     }
