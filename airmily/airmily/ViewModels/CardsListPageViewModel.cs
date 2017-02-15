@@ -15,12 +15,20 @@ namespace airmily.ViewModels
 
         private ObservableCollection<Card> _cardsList;
 
+<<<<<<< HEAD
+		public ObservableCollection<Card> CardsList 
+		{
+			get { return _cardsList;}
+			set { SetProperty(ref _cardsList, value);}
+		}
+=======
         public ObservableCollection<Card> CardsList
         {
             get { return _cardsList; }
             set { SetProperty(ref _cardsList, value); }
         }
 
+>>>>>>> origin/master
 
         private User _currentUser;
 
@@ -42,7 +50,10 @@ namespace airmily.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/master
         public DelegateCommand<ItemTappedEventArgs> GoToTransactionsListPage
         {
             get
