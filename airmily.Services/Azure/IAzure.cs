@@ -51,6 +51,13 @@ namespace airmily.Services.Azure
 		/// <param name="albumid">The ID of the album (Should be replaced by the transaction ID?)</param>
 		/// <returns></returns>
 		Task<List<AlbumItem>>	GetImages(string albumid);
+		/// <summary>
+		/// Returns a list of pictures for a particular transaction.
+		/// </summary>
+		/// <param name="albumid">The ID of the album (Should be replaced by the transaction ID?)</param>
+		/// <param name="receipts">Whether to get receipts or goods</param>
+		/// <returns></returns>
+		Task<List<AlbumItem>>	GetImages(string albumid, bool receipts);
 
 		//Task AddItem();
 	}

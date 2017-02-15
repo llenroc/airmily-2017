@@ -13,12 +13,15 @@ namespace airmily.Services.Models
 		public string Album { get; set; }
 		[JsonProperty("receipt")]
 		public bool IsReceipt { get; set; }
+
 		[JsonIgnore]
 		public byte[] Image { get; set; }
 
-	    public Xamarin.Forms.ImageSource ImageSrc
+		private ImageSource _imageSrc;
+	    public ImageSource ImageSrc
 	    {
-	        get { return ImageSource.FromStream(() => new MemoryStream(Image)); }
+		    get { return _imageSrc == null ? ImageSource.FromStream(() => new MemoryStream(Image)) : _imageSrc; }
+		    set { if (_imageSrc != value) _imageSrc = value; }
 	    }
 
 	    public AlbumItem()

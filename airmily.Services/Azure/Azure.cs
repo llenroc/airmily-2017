@@ -217,7 +217,29 @@ namespace airmily.Services.Azure
 			#endregion
 			return album;
 		}
+		public async Task<List<AlbumItem>> GetImages(string albumid, bool receipts)
+		{
+			if (string.IsNullOrEmpty(albumid))
+				return new List<AlbumItem>();
 
+			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid && a.IsReceipt == receipts);
+			List<AlbumItem> album = await query.ToListAsync();
+
+			#region Download Images
+			foreach (AlbumItem item in album)
+			{
+				if (item.Image == null)
+				{
+					CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(item.ImageName);
+					await blob.FetchAttributesAsync();
+
+					item.Image = new byte[blob.Properties.Length];
+					await blob.DownloadToByteArrayAsync(item.Image, 0);
+				}
+			}
+			#endregion
+			return album;
+		}
 		//Temporary Methods
 		/*public async Task AddItem()
 		{
