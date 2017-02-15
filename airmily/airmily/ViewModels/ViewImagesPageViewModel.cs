@@ -21,14 +21,15 @@ namespace airmily.ViewModels
 			_azure = azure;
 		}
 
-		//private ObservableCollection<AlbumItem> _imageItems;
-		//public ObservableCollection<AlbumItem> ImageItems
-		//{
-		//	get { return _imageItems; }
-		//	set { SetProperty(ref _imageItems, value); }
-		//}
+        //private ObservableCollection<AlbumItem> _imageItems;
+        //public ObservableCollection<AlbumItem> ImageItems
+        //{
+        //	get { return _imageItems; }
+        //	set { SetProperty(ref _imageItems, value); }
+        //}
 
-		private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
+	    #region ObservableCollections
+        private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
 		public ObservableCollection<AlbumItem> Receipt1
 		{
 			get { return _receipt1; }
@@ -69,6 +70,16 @@ namespace airmily.ViewModels
 			get { return _good3; }
 			set { SetProperty(ref _good3, value); }
 		}
+	    #endregion
+
+
+	    private Transaction _currentTransaction = new Transaction();
+
+	    public Transaction CurrentTransaction
+	    {
+	        get { return _currentTransaction; }
+            set { SetProperty(ref _currentTransaction, value); }
+	    }
 
 		public void OnNavigatedFrom(NavigationParameters parameters)
 		{
@@ -77,11 +88,10 @@ namespace airmily.ViewModels
 
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
-			//            if (parameters.ContainsKey("id"))
-			//{
-			//Transaction current = (Transaction)parameters["id"];
+			if (parameters.ContainsKey("trans"))
+                _currentTransaction = (Transaction)parameters["trans"];
 
-			List<AlbumItem> receipts = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4", true);
+			List<AlbumItem> receipts = await _azure.GetImages("98C597C2-7322-4D87-A95F-974F513DBFC4", true); //replace with CurrentTransaction.ID
 			receipts.Add(new AlbumItem { IsAddButton = true });
 			foreach (AlbumItem t in receipts)
 			{

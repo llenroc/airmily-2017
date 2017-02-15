@@ -64,8 +64,8 @@ namespace airmily.ViewModels
                     _onTransactionTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
                         var transaction = selected.Item as Transaction;
-                        var id = new NavigationParameters {["id"] = transaction.ID};
-                        var parameters = new NavigationParameters{["id"]= id};
+                        var id = new NavigationParameters {["trans"] = transaction.ID};
+                        var parameters = new NavigationParameters{["trans"]= transaction};
                         await _navigationService.NavigateAsync("ViewImagesPage", parameters);
 
                     });
