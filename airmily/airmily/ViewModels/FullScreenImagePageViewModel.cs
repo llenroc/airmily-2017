@@ -39,7 +39,7 @@ namespace airmily.ViewModels
             {
                 _onCloseButtonClicked = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                 {
-                    await _navigationService.GoBackAsync(parameters);
+                    await _navigationService.GoBackAsync();
                     //change functionality to be a delete button!
                 });
                 return _onCloseButtonClicked;

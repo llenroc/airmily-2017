@@ -6,13 +6,10 @@
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.FullScreenImagePage">
-    <ScrollView>
-        <AbsoluteLayout>
-
+    <AbsoluteLayout>
+        <ScrollView>
             <StackLayout
                 BackgroundColor="Black"
-                VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand"
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All">
 
@@ -21,7 +18,7 @@
                     VerticalOptions="Fill"
                     Source="{Binding Src}" />
             </StackLayout>
-
+        </ScrollView>
             <!--CLOSE ICON/ COULD BE USED AS A DELETE BUTTON-->
             <!--<StackLayout
                 Padding="20"
@@ -48,5 +45,4 @@
                 </Label>
             </StackLayout>-->
         </AbsoluteLayout>
-    </ScrollView>
 </ContentPage>
