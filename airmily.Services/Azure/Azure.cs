@@ -194,11 +194,11 @@ namespace airmily.Services.Azure
 
 			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
 			blob.Properties.ContentType = "image/jpeg"; //Might need to fetch
+			await blob.UploadFromStreamAsync(new MemoryStream(image.Image));
 
-			Task imageTask = blob.UploadFromStreamAsync(new MemoryStream(image.Image));
-			Task albumTask = _albumTable.InsertAsync(image);
+			image.Address = blob.StorageUri.PrimaryUri.ToString();
+			await _albumTable.InsertAsync(image);
 
-			await Task.WhenAll(imageTask, albumTask);
 			return true;
 		}
 		public async Task<bool> DeleteImage(AlbumItem image)
@@ -221,19 +221,6 @@ namespace airmily.Services.Azure
 			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid);
 			List<AlbumItem> album = await query.ToListAsync();
 
-			#region Download Images
-			foreach (AlbumItem item in album)
-			{
-				if (item.Image == null)
-				{
-					CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(item.ImageName);
-					await blob.FetchAttributesAsync();
-
-					item.Image = new byte[blob.Properties.Length];
-					await blob.DownloadToByteArrayAsync(item.Image, 0);
-				}
-			}
-			#endregion
 			return album;
 		}
 		public async Task<List<AlbumItem>> GetAllImages(string albumid, bool receipts)
@@ -244,19 +231,6 @@ namespace airmily.Services.Azure
 			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid && a.IsReceipt == receipts);
 			List<AlbumItem> album = await query.ToListAsync();
 
-			#region Download Images
-			foreach (AlbumItem item in album)
-			{
-				if (item.Image == null)
-				{
-					CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(item.ImageName);
-					await blob.FetchAttributesAsync();
-
-					item.Image = new byte[blob.Properties.Length];
-					await blob.DownloadToByteArrayAsync(item.Image, 0);
-				}
-			}
-			#endregion
 			return album;
 		}
 
