@@ -50,10 +50,10 @@ namespace airmily
             Container.RegisterTypeForNavigation<TransactionsListPage>();
             Container.RegisterTypeForNavigation<ViewImagesPage>();
 
+            Container.RegisterTypeForNavigation<FullScreenImagePage>();
             Container.RegisterTypeForNavigation<ExampleProfilePage>();
             Container.RegisterTypeForNavigation<ExampleDashboardPage>();
-            Container.RegisterTypeForNavigation<FullScreenImagePage>();
-            Container.RegisterTypeForNavigation<FullScreenImagePage>();
+
         }
 
         protected override void ConfigureViewModelLocator()

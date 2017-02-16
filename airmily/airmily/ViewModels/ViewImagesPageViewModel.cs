@@ -12,17 +12,19 @@ using Xamarin.Forms;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 
+
+
 namespace airmily.ViewModels
 {
 	public class ViewImagesPageViewModel : BindableBase, INavigationAware
 	{
 		private readonly IAzure _azure;
 	    private readonly INavigationService _navigationService;
-        //private readonly IPageDialogService _pageDialogService;
+        private readonly IPageDialogService _pageDialogService;
 
-		public ViewImagesPageViewModel(IAzure azure, INavigationService nav)//, IPageDialogService pageDialogService)
+		public ViewImagesPageViewModel(IPageDialogService pageDialogService,IAzure azure, INavigationService nav)//, IPageDialogService pageDialogService)
 		{
-			//_pageDialogService = pageDialogService;
+			_pageDialogService = pageDialogService;
 			_azure = azure;
 		    _navigationService = nav;
 		}
