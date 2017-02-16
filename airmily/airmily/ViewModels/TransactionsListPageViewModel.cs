@@ -22,12 +22,23 @@ namespace airmily.ViewModels
             Currency = "£",
             Balance = "0.00"
         };
+        private User _currentUser;
 
         private DelegateCommand<ItemTappedEventArgs> _onTransactionTapped;
 
         private string _title;
 
         private ObservableCollection<Transaction> _transactionsList;
+
+        private DelegateCommand _refreshCommand;
+
+        private bool _isRefreshing;
+
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set { SetProperty(ref _isRefreshing, value); }
+        }
 
         public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure,
             INavigationService navigationService)
@@ -45,6 +56,27 @@ namespace airmily.ViewModels
             set { SetProperty(ref _transactionsList, value); }
         }
 
+        public DelegateCommand RefreshCommand
+        {
+            get
+            {
+                if(_refreshCommand == null)
+                {
+                    _refreshCommand = new DelegateCommand(refreshList);
+                }
+                return _refreshCommand;
+            }
+        }
+
+        public async void refreshList()
+        {
+            IsRefreshing = true;
+            await _azure.UpdateAllTransactions(CurrentUser, CurrentCard.CardID);
+            var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
+            TransactionsList = null;
+            TransactionsList = new ObservableCollection<Transaction>(ret);
+            IsRefreshing = false;
+        }
         public string Title
         {
             get { return _title; }
@@ -57,6 +89,12 @@ namespace airmily.ViewModels
             set { SetProperty(ref _currentCard, value); }
         }
 
+
+        public User CurrentUser
+        {
+            get { return _currentUser; }
+            set { SetProperty(ref _currentUser, value); }
+        }
         public DelegateCommand<ItemTappedEventArgs> OnTransactionTapped
         {
             get
@@ -81,13 +119,10 @@ namespace airmily.ViewModels
         {
             if (parameters.ContainsKey("card"))
             {
-                var credentials = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
-
+                CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
                 CurrentCard = (Card) parameters["card"];
 
-                // await _azure.UpdateAllTransactions(credentials, CurrentCard.CardID);
-                var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
-                TransactionsList = new ObservableCollection<Transaction>(ret);
+                refreshList();
             }
         }
     }
