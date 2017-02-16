@@ -68,8 +68,8 @@ namespace airmily.ViewModels
 								{
 									IsAddButton = false,
 									IsReceipt = item.IsReceipt,
-									ImageName = Guid.NewGuid().ToString()
-									Image = new byte[file.GetStream().Length],
+									ImageName = Guid.NewGuid().ToString(),
+									Image = new byte[file.GetStream().Length]
 								};
 								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
