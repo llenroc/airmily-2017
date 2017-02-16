@@ -27,8 +27,8 @@
         <Frame Grid.Row="0" Grid.ColumnSpan="2" HasShadow="False" BackgroundColor="{StaticResource BrandColorDark}" BindingContext="{Binding CurrentTransaction}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -39,8 +39,6 @@
         </Frame>
         <!--First Gallery View-->
         <Label Grid.Row="1" Grid.Column="0" Text="Receipt and Tax Forms" TextColor="White" />
-        <Button Grid.Row="1" Grid.Column="1" Text="Add" BorderColor="Transparent"
-                BackgroundColor="{StaticResource SaveButtonColor}" />
         <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="2" Grid.ColumnSpan="2"
                     Grid.RowSpan="1">
             <Grid>
@@ -50,7 +48,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="80">
+                <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="100">
                     <behaviors:Interaction.Behaviors>
                         <behaviors:BehaviorCollection>
                             <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
@@ -65,7 +63,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="80">
+                <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="100">
                     <behaviors:Interaction.Behaviors>
                         <behaviors:BehaviorCollection>
                             <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
@@ -82,7 +80,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="80">
+                <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="100">
                     <behaviors:Interaction.Behaviors>
                         <behaviors:BehaviorCollection>
                             <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
@@ -102,8 +100,6 @@
 
         <!--Second Gallery View-->
         <Label Grid.Row="3" Grid.Column="0" Text="Goods" TextColor="White" />
-        <Button Grid.Row="3" Grid.Column="1" Text="Add" BorderColor="Transparent"
-                BackgroundColor="{StaticResource SaveButtonColor}" />
 
         <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="4" Grid.ColumnSpan="2"
                     Grid.RowSpan="1">

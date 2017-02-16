@@ -17,12 +17,14 @@ namespace airmily.ViewModels
 	public class ViewImagesPageViewModel : BindableBase, INavigationAware
 	{
 		private readonly IAzure _azure;
-		//private readonly IPageDialogService _pageDialogService;
+	    private readonly INavigationService _navigationService;
+        //private readonly IPageDialogService _pageDialogService;
 
-		public ViewImagesPageViewModel(IAzure azure)//, IPageDialogService pageDialogService)
+		public ViewImagesPageViewModel(IAzure azure, INavigationService nav)//, IPageDialogService pageDialogService)
 		{
 			//_pageDialogService = pageDialogService;
 			_azure = azure;
+		    _navigationService = nav;
 		}
 
 	    #region ObservableCollections
@@ -95,9 +97,9 @@ namespace airmily.ViewModels
 				return;
 
 			CurrentTransaction = (Transaction)parameters["transaction"];
-
-			List<AlbumItem> receipts = await _azure.GetAllImages(_currentTransaction.AlbumID, true);
-			receipts.Add(new AlbumItem { IsAddButton = true });
+            
+			List<AlbumItem> receipts = await _azure.GetAllImages("98C597C2-7322-4D87-A95F-974F513DBFC4", true); //"_currentTransaction.AlbumID"
+            receipts.Add(new AlbumItem { IsAddButton = true });
 			foreach (AlbumItem t in receipts)
 			{
 				switch (receipts.IndexOf(t) % 3)
@@ -133,7 +135,7 @@ namespace airmily.ViewModels
 			}
 		}
 
-		/*
+
 		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
 		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
 		{
@@ -148,47 +150,46 @@ namespace airmily.ViewModels
 
 						if (!item.IsAddButton)
 						{
-							var parameters = new NavigationParameters {["img"] = item.ImageSrc};
-							//await _navigationService.NavigateAsync("", parameters);
+							var parameters = new NavigationParameters {["Src"] = item.ImageSrc};
+							await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
 						}
-						else
-						{
-							await CrossMedia.Current.Initialize();
-							if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
-							{
-								var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-								{
-									Directory = "ReceiptsAndGoods",
-									Name = "test.jpg",
-									SaveToAlbum = false
-								});
+						//else
+						//{
+						//	await CrossMedia.Current.Initialize();
+						//	if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+						//	{
+						//		var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+						//		{
+						//			Directory = "ReceiptsAndGoods",
+						//			Name = "test.jpg",
+						//			SaveToAlbum = false
+						//		});
 
-								if (file == null) return;
+						//		if (file == null) return;
 
-								AlbumItem newItem = new AlbumItem
-								{
-									ImageName = new Guid().ToString(),
-									IsAddButton = false,
-									IsReceipt = true,
-									Image = new byte[file.GetStream().Length]
-								};
-								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
+						//		AlbumItem newItem = new AlbumItem
+						//		{
+						//			ImageName = new Guid().ToString(),
+						//			IsAddButton = false,
+						//			IsReceipt = true,
+						//			Image = new byte[file.GetStream().Length]
+						//		};
+						//		file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
-								if (string.IsNullOrEmpty(_currentTransaction.AlbumID))
-								{
-									_currentTransaction.AlbumID = new Guid().ToString();
-									_azure.UpdateSingleTransaction(_currentTransaction);
-								}
+						//		if (string.IsNullOrEmpty(_currentTransaction.AlbumID))
+						//		{
+						//			_currentTransaction.AlbumID = new Guid().ToString();
+						//			_azure.UpdateSingleTransaction(_currentTransaction);
+						//		}
 
-								newItem.Album = _currentTransaction.AlbumID;
-								await _azure.UploadImage(newItem);
-							}
-						}
+						//		newItem.Album = _currentTransaction.AlbumID;
+						//		await _azure.UploadImage(newItem);
+						//	}
+						//}
 					});
 				}
 				return _onImageTapped;
 			}
 		}
-		*/
 	}
 }
