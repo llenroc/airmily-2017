@@ -1,51 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:behaviors1="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.FullScreenImagePage">
-<ScrollView>
-  <AbsoluteLayout>
+    <ScrollView>
+        <AbsoluteLayout>
 
-    <StackLayout
-      BackgroundColor="Black"
-      VerticalOptions="FillAndExpand"
-      HorizontalOptions="FillAndExpand"
-      AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-      AbsoluteLayout.LayoutFlags="All">
+            <StackLayout
+                BackgroundColor="Black"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All">
 
-      <Image
-        HorizontalOptions="Fill"
-        VerticalOptions="Fill"
-        Source="{Binding Src}"
-					/>
-    </StackLayout>
+                <Image
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    Source="{Binding Src}" />
+            </StackLayout>
 
-    <!--CLOSE ICON-->
-    <StackLayout
-      Padding="20"
-      HorizontalOptions="End"
-      VerticalOptions="Start"
-      AbsoluteLayout.LayoutBounds="0, 0, 1, .1"
-      AbsoluteLayout.LayoutFlags="All"  >
-      <Label
-        FontSize="30"
-        Text="&#xf00d;"
-        HorizontalTextAlignment="End"
-        VerticalTextAlignment="Center"
-        TextColor="White"
-        HeightRequest="30"
-        WidthRequest="30"
-        Style="{StaticResource FontIcon}">
-        <!--<behaviors1:Interaction.Behaviors>
-          <behaviors1:BehaviorCollection>
-            <behaviors1:EventToCommand EventName="ItemTapped" Command="{Binding OnCloseButtonClicked}"
-                                      PassEventArgument="True" />
-          </behaviors1:BehaviorCollection>
-        </behaviors1:Interaction.Behaviors>-->
-      </Label>
-    </StackLayout>
-  </AbsoluteLayout>
-  </ScrollView>
+            <!--CLOSE ICON/ COULD BE USED AS A DELETE BUTTON-->
+            <!--<StackLayout
+                Padding="20"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, .1"
+                AbsoluteLayout.LayoutFlags="All">
+                <Label
+                    FontSize="30"
+                    Text="&#xf00d;"
+                    HorizontalTextAlignment="End"
+                    VerticalTextAlignment="Center"
+                    TextColor="White"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    Style="{StaticResource FontIcon}">
+
+                    <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnCloseButtonClicked}"
+                                                      PassEventArgument="True" />
+                        </behaviors:BehaviorCollection>
+                    </behaviors:Interaction.Behaviors>
+                </Label>
+            </StackLayout>-->
+        </AbsoluteLayout>
+    </ScrollView>
 </ContentPage>

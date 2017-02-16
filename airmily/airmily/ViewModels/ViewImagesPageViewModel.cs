@@ -161,7 +161,7 @@ namespace airmily.ViewModels
 
 						if (!item.IsAddButton)
 						{
-							var parameters = new NavigationParameters {["Src"] = item};
+							var parameters = new NavigationParameters {["Src"] = item, ["Trans"] = CurrentTransaction};
 							await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
 						}
 						else
