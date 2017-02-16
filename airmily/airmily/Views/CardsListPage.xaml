@@ -8,6 +8,7 @@
              xmlns:artina="clr-namespace:UXDivers;assembly=UXDivers.Artina.Shared"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="airmily.Views.CardsListPage"
+             BackgroundColor="#FDB813"
              Title="{Binding Title}">
     <StackLayout>
         <!--<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">

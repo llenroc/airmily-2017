@@ -5,6 +5,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
+             BackgroundColor="#FDB813"
              x:Class="airmily.Views.FullScreenImagePage">
     <AbsoluteLayout>
         <ScrollView>
