@@ -19,8 +19,11 @@ namespace airmily.ViewModels
 
         private DelegateCommand<ItemTappedEventArgs> _goToTransactionsListPage;
 
+        private DelegateCommand _refreshCommand;
+
         private string _title;
 
+        private bool _isRefreshing;
         public CardsListPageViewModel(INavigationService navigationService, IAzure azure)
         {
             _navigationService = navigationService;
@@ -41,6 +44,11 @@ namespace airmily.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set { SetProperty(ref _isRefreshing, value); }
+        }
         public DelegateCommand<ItemTappedEventArgs> GoToTransactionsListPage
         {
             get
@@ -57,6 +65,28 @@ namespace airmily.ViewModels
             }
         }
 
+        public DelegateCommand RefreshCommand
+        {
+            get
+            {
+                if (_refreshCommand == null)
+                {
+                    _refreshCommand = new DelegateCommand(refreshList);
+                }
+                return _refreshCommand;
+            }
+        }
+
+        public async void refreshList()
+        {
+            IsRefreshing = true;
+            CardsList = null;
+            await _azure.UpdateAllCards(_currentUser);
+            var ret = await _azure.GetAllCards(_currentUser.UserID);
+            CardsList = new ObservableCollection<Card>(ret);
+            IsRefreshing = false;
+        }
+
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
         }
@@ -67,9 +97,7 @@ namespace airmily.ViewModels
                 return;
 
             _currentUser = (User) parameters["user"];
-            await _azure.UpdateAllCards(_currentUser);
-            var ret = await _azure.GetAllCards(_currentUser.UserID);
-            CardsList = new ObservableCollection<Card>(ret);
+            refreshList();
         }
     }
 }
