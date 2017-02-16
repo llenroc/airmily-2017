@@ -22,11 +22,11 @@ namespace airmily.ViewModels
 	    private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
 
-		public ViewImagesPageViewModel(IPageDialogService pageDialogService,IAzure azure, INavigationService nav)//, IPageDialogService pageDialogService)
+		public ViewImagesPageViewModel(IPageDialogService pageDialogService,IAzure azure, INavigationService navigationService)//, IPageDialogService pageDialogService)
 		{
 			_pageDialogService = pageDialogService;
 			_azure = azure;
-		    _navigationService = nav;
+		    _navigationService = navigationService;
 		}
 	    #region ObservableCollections
         private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
