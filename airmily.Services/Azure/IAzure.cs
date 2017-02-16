@@ -7,8 +7,7 @@ namespace airmily.Services.Azure
 	public interface IAzure
 	{
 		/// <summary>
-		/// Checks FairFX, and if there are any new cards, it creates them.
-		/// Could also do with updating balance, status etc. of existing cards.
+		/// Creates any cards not in the database, and updates the balance and status of exiting cards
 		/// </summary>
 		/// <param name="credentials">The User object for their FairFX login</param>
 		/// <returns>Whether any new cards were created or not</returns>
@@ -38,12 +37,18 @@ namespace airmily.Services.Azure
 		Task<List<Transaction>>	GetAllTransactions(string cardid, bool all = false);
 
 		/// <summary>
-		/// Untested
 		/// Creates the AlbumItem row and uploads the image
 		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		Task<bool>				UploadImage(AlbumItem item);
+		/// <param name="image">The item to create</param>
+		/// <returns>Returns false if the item isn't valid</returns>
+		Task<bool>				UploadImage(AlbumItem image);
+		/// <summary>
+		/// UNTESTED
+		/// Deletes the AlbumItem row and image
+		/// </summary>
+		/// <param name="image">The item to delete</param>
+		/// <returns>Returns false if the item isn't valid</returns>
+		Task<bool>				DeleteImage(AlbumItem image);
 		/// <summary>
 		/// Returns a list of pictures for a particular transaction.
 		/// This gets all of the attached images, which can then be sorted between goods and receipts.

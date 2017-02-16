@@ -173,7 +173,8 @@ namespace airmily.ViewModels
 								{
 									Directory = "ReceiptsAndGoods",
 									Name = "test.jpg",
-									SaveToAlbum = false
+									SaveToAlbum = false,
+									CompressionQuality = 92
 								});
 
 								if (file == null) return;
