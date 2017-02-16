@@ -174,17 +174,17 @@ namespace airmily.ViewModels
 									Directory = "ReceiptsAndGoods",
 									Name = "test.jpg",
 									SaveToAlbum = false,
-									CompressionQuality = 92
+									CompressionQuality = 50
 								});
 
 								if (file == null) return;
 
 								AlbumItem newItem = new AlbumItem
 								{
-									ImageName = new Guid().ToString(),
 									IsAddButton = false,
-									IsReceipt = true,
-									Image = new byte[file.GetStream().Length]
+									IsReceipt = item.IsReceipt,
+									Image = new byte[file.GetStream().Length],
+									ImageName = Guid.NewGuid().ToString()
 								};
 								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
