@@ -28,7 +28,6 @@ namespace airmily.ViewModels
 			_azure = azure;
 		    _navigationService = nav;
 		}
-
 	    #region ObservableCollections
         private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
 		public ObservableCollection<AlbumItem> Receipt1
