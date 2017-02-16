@@ -11,7 +11,8 @@
              BackgroundColor="#FDB813">
 
     <StackLayout>
-        <Frame HasShadow="True" Padding="10" BackgroundColor="{StaticResource BrandColorDarker}" BindingContext="{Binding CurrentCard}">
+        <Frame HasShadow="True" Padding="10" BackgroundColor="{StaticResource BrandColorDarker}"
+               BindingContext="{Binding CurrentCard}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

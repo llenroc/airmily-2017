@@ -29,7 +29,8 @@ namespace airmily.ViewModels
 
         private ObservableCollection<Transaction> _transactionsList;
 
-        public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
+        public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure,
+            INavigationService navigationService)
         {
             _pageDialogService = pageDialogService;
             _azure = azure;
@@ -64,7 +65,7 @@ namespace airmily.ViewModels
                     _onTransactionTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
                         var trans = selected.Item as Transaction;
-                        var parameters = new NavigationParameters{["transaction"] = trans};
+                        var parameters = new NavigationParameters {["transaction"] = trans};
                         await _navigationService.NavigateAsync("ViewImagesPage", parameters);
                     });
 
@@ -84,7 +85,7 @@ namespace airmily.ViewModels
 
                 CurrentCard = (Card) parameters["card"];
 
-               // await _azure.UpdateAllTransactions(credentials, CurrentCard.CardID);
+                // await _azure.UpdateAllTransactions(credentials, CurrentCard.CardID);
                 var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
                 TransactionsList = new ObservableCollection<Transaction>(ret);
             }
