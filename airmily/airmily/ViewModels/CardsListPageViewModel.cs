@@ -15,12 +15,6 @@ namespace airmily.ViewModels
 
         private ObservableCollection<Card> _cardsList;
 
-        public ObservableCollection<Card> CardsList
-        {
-            get { return _cardsList; }
-            set { SetProperty(ref _cardsList, value); }
-        }
-
         private User _currentUser;
 
         private DelegateCommand<ItemTappedEventArgs> _goToTransactionsListPage;
@@ -35,12 +29,18 @@ namespace airmily.ViewModels
             Title = "Cards";
         }
 
+        public ObservableCollection<Card> CardsList
+        {
+            get { return _cardsList; }
+            set { SetProperty(ref _cardsList, value); }
+        }
+
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
-		
+
         public DelegateCommand<ItemTappedEventArgs> GoToTransactionsListPage
         {
             get
@@ -59,7 +59,6 @@ namespace airmily.ViewModels
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-
         }
 
         public async void OnNavigatedTo(NavigationParameters parameters)
@@ -68,7 +67,7 @@ namespace airmily.ViewModels
                 return;
 
             _currentUser = (User) parameters["user"];
-	        await _azure.UpdateAllCards(_currentUser);
+            await _azure.UpdateAllCards(_currentUser);
             var ret = await _azure.GetAllCards(_currentUser.UserID);
             CardsList = new ObservableCollection<Card>(ret);
         }
