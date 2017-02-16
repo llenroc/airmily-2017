@@ -98,9 +98,20 @@ namespace airmily.ViewModels
 				return;
 
 			CurrentTransaction = (Transaction)parameters["transaction"];
-            
-			List<AlbumItem> receipts = await _azure.GetAllImages("98C597C2-7322-4D87-A95F-974F513DBFC4", true); //"_currentTransaction.AlbumID"
-            receipts.Add(new AlbumItem { IsAddButton = true });
+			RefreshImages();
+		}
+
+		public async void RefreshImages()
+		{
+			_receipt1.Clear();
+			_receipt2.Clear();
+			_receipt3.Clear();
+			_good1.Clear();
+			_good2.Clear();
+			_good3.Clear();
+
+			List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
+			receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = true });
 			foreach (AlbumItem t in receipts)
 			{
 				switch (receipts.IndexOf(t) % 3)
@@ -117,8 +128,8 @@ namespace airmily.ViewModels
 				}
 			}
 
-			List<AlbumItem> goods = await _azure.GetAllImages(_currentTransaction.AlbumID, false);
-			goods.Add(new AlbumItem { IsAddButton = true });
+			List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
+			goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 			foreach (AlbumItem t in goods)
 			{
 				switch (goods.IndexOf(t) % 3)
@@ -135,7 +146,6 @@ namespace airmily.ViewModels
 				}
 			}
 		}
-
 
 		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
 		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
@@ -154,39 +164,76 @@ namespace airmily.ViewModels
 							var parameters = new NavigationParameters {["Src"] = item};
 							await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
 						}
-						//else
-						//{
-						//	await CrossMedia.Current.Initialize();
-						//	if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
-						//	{
-						//		var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-						//		{
-						//			Directory = "ReceiptsAndGoods",
-						//			Name = "test.jpg",
-						//			SaveToAlbum = false
-						//		});
+						else
+						{
+							await CrossMedia.Current.Initialize();
+							if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+							{
+								var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+								{
+									Directory = "ReceiptsAndGoods",
+									Name = "test.jpg",
+									SaveToAlbum = false
+								});
 
-						//		if (file == null) return;
+								if (file == null) return;
 
-						//		AlbumItem newItem = new AlbumItem
-						//		{
-						//			ImageName = new Guid().ToString(),
-						//			IsAddButton = false,
-						//			IsReceipt = true,
-						//			Image = new byte[file.GetStream().Length]
-						//		};
-						//		file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
+								AlbumItem newItem = new AlbumItem
+								{
+									ImageName = new Guid().ToString(),
+									IsAddButton = false,
+									IsReceipt = true,
+									Image = new byte[file.GetStream().Length]
+								};
+								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
-						//		if (string.IsNullOrEmpty(_currentTransaction.AlbumID))
-						//		{
-						//			_currentTransaction.AlbumID = new Guid().ToString();
-						//			_azure.UpdateSingleTransaction(_currentTransaction);
-						//		}
+								newItem.Album = CurrentTransaction.ID;
+								await _azure.UploadImage(newItem);
 
-						//		newItem.Album = _currentTransaction.AlbumID;
-						//		await _azure.UploadImage(newItem);
-						//	}
-						//}
+								if (newItem.IsReceipt)
+								{
+									if (_receipt1.Contains(item))
+									{
+										_receipt1.Remove(item);
+										_receipt1.Add(newItem);
+										_receipt2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_receipt2.Contains(item))
+									{
+										_receipt2.Remove(item);
+										_receipt2.Add(newItem);
+										_receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_receipt3.Contains(item))
+									{
+										_receipt3.Remove(item);
+										_receipt3.Add(newItem);
+										_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+								}
+								else
+								{
+									if (_good1.Contains(item))
+									{
+										_good1.Remove(item);
+										_good1.Add(newItem);
+										_good2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_good2.Contains(item))
+									{
+										_good2.Remove(item);
+										_good2.Add(newItem);
+										_good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_good3.Contains(item))
+									{
+										_good3.Remove(item);
+										_good3.Add(newItem);
+										_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+								}
+							}
+						}
 					});
 				}
 				return _onImageTapped;

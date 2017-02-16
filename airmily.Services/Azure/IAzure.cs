@@ -30,11 +30,6 @@ namespace airmily.Services.Azure
 		/// <returns>Whether any new transactions were created or not</returns>
 		Task<bool>				UpdateAllTransactions(User credentials, string cardid);
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		Task					UpdateSingleTransaction(Transaction t);
-		/// <summary>
 		/// Returns a list of transactions for a particular card.
 		/// </summary>
 		/// <param name="cardid">The ID of the card</param>

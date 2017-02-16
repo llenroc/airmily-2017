@@ -68,6 +68,7 @@ namespace airmily.ViewModels
                 return;
 
             _currentUser = (User) parameters["user"];
+	        await _azure.UpdateAllCards(_currentUser);
             var ret = await _azure.GetAllCards(_currentUser.UserID);
             CardsList = new ObservableCollection<Card>(ret);
         }

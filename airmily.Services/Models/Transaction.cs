@@ -8,8 +8,6 @@ namespace airmily.Services.Models
 	[JsonObject]
 	public class Transaction : FFXTransaction
 	{
-		[JsonProperty("albumID")]
-		public string AlbumID { get; set; }
 		[JsonProperty("userID")]
 		public string UserID { get; set; }
 		[JsonProperty("cardID")]
@@ -28,7 +26,7 @@ namespace airmily.Services.Models
 			CardID = card;
 			UserID = user;
 		}
-		public Transaction(string desc, string date, string post, string curr, string amou, bool ngtv, string diff, string card, string user, string albm)
+		public Transaction(string desc, string date, string post, string curr, string amou, bool ngtv, string diff, string card, string user)
 		{
 			Description = desc;
 			TransDate = date;
@@ -39,7 +37,6 @@ namespace airmily.Services.Models
 			InternalDifference = diff;
 			CardID = card;
 			UserID = user;
-			AlbumID = albm;
 		}
 
 		[JsonIgnore]
