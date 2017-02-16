@@ -12,19 +12,22 @@ using Xamarin.Forms;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 
+
+
 namespace airmily.ViewModels
 {
 	public class ViewImagesPageViewModel : BindableBase, INavigationAware
 	{
 		private readonly IAzure _azure;
-		//private readonly IPageDialogService _pageDialogService;
+	    private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _pageDialogService;
 
-		public ViewImagesPageViewModel(IAzure azure)//, IPageDialogService pageDialogService)
+		public ViewImagesPageViewModel(IPageDialogService pageDialogService,IAzure azure, INavigationService navigationService)//, IPageDialogService pageDialogService)
 		{
-			//_pageDialogService = pageDialogService;
+			_pageDialogService = pageDialogService;
 			_azure = azure;
+		    _navigationService = navigationService;
 		}
-
 	    #region ObservableCollections
         private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
 		public ObservableCollection<AlbumItem> Receipt1
@@ -158,8 +161,8 @@ namespace airmily.ViewModels
 
 						if (!item.IsAddButton)
 						{
-							var parameters = new NavigationParameters {["img"] = item.ImageSrc};
-							//await _navigationService.NavigateAsync("", parameters);
+							var parameters = new NavigationParameters {["Src"] = item.ImageSrc};
+							await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
 						}
 						else
 						{
@@ -177,9 +180,9 @@ namespace airmily.ViewModels
 
 								AlbumItem newItem = new AlbumItem
 								{
-									ImageName = Guid.NewGuid().ToString() + ".jpg",
+									ImageName = new Guid().ToString(),
 									IsAddButton = false,
-									IsReceipt = item.IsReceipt,
+									IsReceipt = true,
 									Image = new byte[file.GetStream().Length]
 								};
 								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
