@@ -160,7 +160,7 @@ namespace airmily.Services.Azure
 					}
 				}
 
-				if (add)
+				if (add)	//Debugging here
 					toCreate.Add(t);
 			}
 
@@ -172,10 +172,6 @@ namespace airmily.Services.Azure
 			}
 
 			return toCreate.Count > 0;
-		}
-		public async Task UpdateSingleTransaction(Transaction t)
-		{
-			await _transTable.UpdateAsync(t);
 		}
 		public async Task<List<Transaction>> GetAllTransactions(string cardid, bool all = false)
 		{
@@ -194,7 +190,12 @@ namespace airmily.Services.Azure
 				return false;
 
 			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-			await Task.WhenAll(blob.UploadFromStreamAsync(new MemoryStream(image.Image)), _albumTable.InsertAsync(image));
+			blob.Properties.ContentType = "image/jpeg";	//Might need to fetch
+
+			Task imageTask = blob.UploadFromStreamAsync(new MemoryStream(image.Image));
+			Task albumTask = _albumTable.InsertAsync(image);
+
+			await Task.WhenAll(imageTask, albumTask);
 			return true;
 		}
 		public async Task<List<AlbumItem>> GetAllImages(string albumid)

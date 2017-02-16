@@ -95,9 +95,20 @@ namespace airmily.ViewModels
 				return;
 
 			CurrentTransaction = (Transaction)parameters["transaction"];
+			RefreshImages();
+		}
 
-			List<AlbumItem> receipts = await _azure.GetAllImages(_currentTransaction.AlbumID, true);
-			receipts.Add(new AlbumItem { IsAddButton = true });
+		public async void RefreshImages()
+		{
+			_receipt1.Clear();
+			_receipt2.Clear();
+			_receipt3.Clear();
+			_good1.Clear();
+			_good2.Clear();
+			_good3.Clear();
+
+			List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
+			receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = true });
 			foreach (AlbumItem t in receipts)
 			{
 				switch (receipts.IndexOf(t) % 3)
@@ -114,8 +125,8 @@ namespace airmily.ViewModels
 				}
 			}
 
-			List<AlbumItem> goods = await _azure.GetAllImages(_currentTransaction.AlbumID, false);
-			goods.Add(new AlbumItem { IsAddButton = true });
+			List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
+			goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 			foreach (AlbumItem t in goods)
 			{
 				switch (goods.IndexOf(t) % 3)
@@ -133,7 +144,6 @@ namespace airmily.ViewModels
 			}
 		}
 
-		/*
 		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
 		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
 		{
@@ -167,21 +177,58 @@ namespace airmily.ViewModels
 
 								AlbumItem newItem = new AlbumItem
 								{
-									ImageName = new Guid().ToString(),
+									ImageName = Guid.NewGuid().ToString() + ".jpg",
 									IsAddButton = false,
-									IsReceipt = true,
+									IsReceipt = item.IsReceipt,
 									Image = new byte[file.GetStream().Length]
 								};
 								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
-								if (string.IsNullOrEmpty(_currentTransaction.AlbumID))
-								{
-									_currentTransaction.AlbumID = new Guid().ToString();
-									_azure.UpdateSingleTransaction(_currentTransaction);
-								}
-
-								newItem.Album = _currentTransaction.AlbumID;
+								newItem.Album = CurrentTransaction.ID;
 								await _azure.UploadImage(newItem);
+
+								if (newItem.IsReceipt)
+								{
+									if (_receipt1.Contains(item))
+									{
+										_receipt1.Remove(item);
+										_receipt1.Add(newItem);
+										_receipt2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_receipt2.Contains(item))
+									{
+										_receipt2.Remove(item);
+										_receipt2.Add(newItem);
+										_receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_receipt3.Contains(item))
+									{
+										_receipt3.Remove(item);
+										_receipt3.Add(newItem);
+										_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+								}
+								else
+								{
+									if (_good1.Contains(item))
+									{
+										_good1.Remove(item);
+										_good1.Add(newItem);
+										_good2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_good2.Contains(item))
+									{
+										_good2.Remove(item);
+										_good2.Add(newItem);
+										_good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+									else if (_good3.Contains(item))
+									{
+										_good3.Remove(item);
+										_good3.Add(newItem);
+										_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+									}
+								}
 							}
 						}
 					});
@@ -189,6 +236,5 @@ namespace airmily.ViewModels
 				return _onImageTapped;
 			}
 		}
-		*/
 	}
 }
