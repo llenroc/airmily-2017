@@ -77,11 +77,11 @@ namespace airmily.Services.Azure
 					if (oldCards.Length > 1) throw new Exception("Multiple cards were found with the ID " + card.CardID + " when there should only be one.");
 
 					if (oldCards[0].Update(card))
-						await _cardsTable.UpdateAsync(oldCards[0]);		// Not properly tested
+						await _cardsTable.UpdateAsync(oldCards[0]);     // Not properly tested
 
 					continue;
 				}
-				
+
 				await _cardsTable.InsertAsync(new Card(card, credentials.UserID));
 				ret = true;
 			}
@@ -160,7 +160,7 @@ namespace airmily.Services.Azure
 					}
 				}
 
-				if (add)	//Debugging here
+				if (add)    //Debugging here
 					toCreate.Add(t);
 			}
 
@@ -178,9 +178,15 @@ namespace airmily.Services.Azure
 			if (string.IsNullOrEmpty(cardid))
 				return new List<Transaction>();
 
-			IMobileServiceTableQuery<Transaction> query = !all ? _transTable.Where(t => t.CardID == cardid && t.Description != "Card Load" && !t.Description.StartsWith("Card Transfer") && !t.Deleted) : _transTable.Where(t => t.CardID == cardid && !t.Deleted);
+			IMobileServiceTableQuery<Transaction> query = all
+				? _transTable.OrderByDescending(t => t.TransDate)
+					.ThenByDescending(t => t.InternalDifference)
+					.Where(t => t.CardID == cardid)
+				: _transTable.OrderByDescending(t => t.TransDate)
+					.ThenByDescending(t => t.InternalDifference)
+					.Where(t => t.CardID == cardid && t.Description != "Card Load" && !t.Description.StartsWith("Card Transfer"));
 
-			return (await query.ToListAsync()).OrderByDescending(t => t.TransDate).ToList();
+			return await query.ToListAsync();
 		}
 
 		//Images
@@ -190,7 +196,7 @@ namespace airmily.Services.Azure
 				return false;
 
 			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-			blob.Properties.ContentType = "image/jpeg";	//Might need to fetch
+			blob.Properties.ContentType = "image/jpeg"; //Might need to fetch
 
 			Task imageTask = blob.UploadFromStreamAsync(new MemoryStream(image.Image));
 			Task albumTask = _albumTable.InsertAsync(image);

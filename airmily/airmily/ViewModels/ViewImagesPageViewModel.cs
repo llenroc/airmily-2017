@@ -162,7 +162,7 @@ namespace airmily.ViewModels
 						if (!item.IsAddButton)
 						{
 							var parameters = new NavigationParameters {["Src"] = item.ImageSrc};
-							await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
+							//await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
 						}
 						else
 						{
@@ -173,7 +173,8 @@ namespace airmily.ViewModels
 								{
 									Directory = "ReceiptsAndGoods",
 									Name = "test.jpg",
-									SaveToAlbum = false
+									SaveToAlbum = false,
+									CompressionQuality = 92
 								});
 
 								if (file == null) return;
