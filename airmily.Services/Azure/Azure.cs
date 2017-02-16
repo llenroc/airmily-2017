@@ -54,7 +54,6 @@ namespace airmily.Services.Azure
 		}
 
 		//Public Methods
-		//Cards
 		public async Task<bool> UpdateAllCards(User credentials)
 		{
 			if (!credentials.Active)
@@ -77,7 +76,7 @@ namespace airmily.Services.Azure
 					if (oldCards.Length > 1) throw new Exception("Multiple cards were found with the ID " + card.CardID + " when there should only be one.");
 
 					if (oldCards[0].Update(card))
-						await _cardsTable.UpdateAsync(oldCards[0]);     // Not properly tested
+						await _cardsTable.UpdateAsync(oldCards[0]);
 
 					continue;
 				}
@@ -97,7 +96,6 @@ namespace airmily.Services.Azure
 			return (await query.ToListAsync()).OrderBy(c => c.CardHolder).ToList();
 		}
 
-		//Transactions
 		public async Task<bool> UpdateAllTransactions(User credentials, string cardid)
 		{
 			if (!credentials.Active)
@@ -189,7 +187,6 @@ namespace airmily.Services.Azure
 			return await query.ToListAsync();
 		}
 
-		//Images
 		public async Task<bool> UploadImage(AlbumItem image)
 		{
 			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
@@ -200,6 +197,18 @@ namespace airmily.Services.Azure
 
 			Task imageTask = blob.UploadFromStreamAsync(new MemoryStream(image.Image));
 			Task albumTask = _albumTable.InsertAsync(image);
+
+			await Task.WhenAll(imageTask, albumTask);
+			return true;
+		}
+		public async Task<bool> DeleteImage(AlbumItem image)
+		{
+			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
+				return false;
+
+			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
+			Task imageTask = blob.DeleteIfExistsAsync();
+			Task albumTask = _albumTable.DeleteAsync(image);
 
 			await Task.WhenAll(imageTask, albumTask);
 			return true;
