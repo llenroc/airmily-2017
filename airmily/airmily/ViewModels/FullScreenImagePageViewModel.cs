@@ -19,9 +19,9 @@ namespace airmily.ViewModels
             get { return _src;}
             set { SetProperty(ref _src, value); }
         }
-        public FullScreenImagePageViewModel(INavigationService nav)
+        public FullScreenImagePageViewModel(INavigationService navigationService)
         {
-            _navigationService = nav;
+            _navigationService = navigationService;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
