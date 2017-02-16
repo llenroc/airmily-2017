@@ -7,7 +7,7 @@ namespace airmily.Views
         public FullScreenImagePage()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+           //NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

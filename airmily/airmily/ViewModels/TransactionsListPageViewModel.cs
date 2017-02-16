@@ -84,7 +84,7 @@ namespace airmily.ViewModels
 
                 CurrentCard = (Card) parameters["card"];
 
-                await _azure.UpdateAllTransactions(credentials, CurrentCard.CardID);
+               // await _azure.UpdateAllTransactions(credentials, CurrentCard.CardID);
                 var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
                 TransactionsList = new ObservableCollection<Transaction>(ret);
             }

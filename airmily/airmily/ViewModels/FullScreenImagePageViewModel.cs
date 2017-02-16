@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using airmily.Services.Models;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -19,6 +20,13 @@ namespace airmily.ViewModels
             get { return _src;}
             set { SetProperty(ref _src, value); }
         }
+        private AlbumItem _image;
+
+        public AlbumItem Image
+        {
+            get { return _image; }
+            set { SetProperty(ref _image, value); }
+        }
         public FullScreenImagePageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -32,7 +40,11 @@ namespace airmily.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             //add image as param
-
+            if (parameters.ContainsKey("Src"))
+            {
+                Image = (AlbumItem)parameters["Src"];
+                Src = Image.ImageSrc;
+            }
         }
 
         public void OnCloseButtonClicked()

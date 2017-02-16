@@ -16,9 +16,8 @@
       AbsoluteLayout.LayoutFlags="All">
 
       <Image
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand"
-        Scale="2"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
         Source="{Binding Src}"
 					/>
     </StackLayout>
@@ -39,12 +38,12 @@
         HeightRequest="30"
         WidthRequest="30"
         Style="{StaticResource FontIcon}">
-        <behaviors1:Interaction.Behaviors>
+        <!--<behaviors1:Interaction.Behaviors>
           <behaviors1:BehaviorCollection>
             <behaviors1:EventToCommand EventName="ItemTapped" Command="{Binding OnCloseButtonClicked}"
                                       PassEventArgument="True" />
           </behaviors1:BehaviorCollection>
-        </behaviors1:Interaction.Behaviors>
+        </behaviors1:Interaction.Behaviors>-->
       </Label>
     </StackLayout>
   </AbsoluteLayout>
