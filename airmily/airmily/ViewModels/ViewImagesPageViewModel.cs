@@ -116,10 +116,9 @@ namespace airmily.ViewModels
 
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
-			if (!parameters.ContainsKey("transaction"))
-				return;
-
-			CurrentTransaction = (Transaction)parameters["transaction"];
+			if (!parameters.ContainsKey("transaction")) return;
+			if (!parameters.ContainsKey("refreshing"))
+				CurrentTransaction = (Transaction) parameters["transaction"];
 
 			_receipt1.Clear();
 			_receipt2.Clear();
@@ -130,9 +129,8 @@ namespace airmily.ViewModels
 
 		    List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
 		    foreach (AlbumItem t in receipts)
-		    {
-                Receipts.Add(t);		        
-		    }
+                Receipts.Add(t);
+
             receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = true });
 			foreach (AlbumItem t in receipts)
 				switch (receipts.IndexOf(t) % 3)
@@ -150,9 +148,8 @@ namespace airmily.ViewModels
 
 			List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
             foreach (AlbumItem t in goods)
-            {
                 Goods.Add(t);
-            }
+
             goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 			foreach (AlbumItem t in goods)
 				switch (goods.IndexOf(t) % 3)

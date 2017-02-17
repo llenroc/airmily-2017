@@ -7,6 +7,13 @@ namespace airmily.Services.Azure
 	public interface IAzure
 	{
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userid"></param>
+		/// <returns></returns>
+		Task<List<User>>		GetUser(string userid);
+
+		/// <summary>
 		/// Creates any cards not in the database, and updates the balance and status of exiting cards
 		/// </summary>
 		/// <param name="credentials">The User object for their FairFX login</param>
@@ -63,7 +70,19 @@ namespace airmily.Services.Azure
 		/// <param name="receipts">Whether to get receipts or goods</param>
 		/// <returns></returns>
 		Task<List<AlbumItem>>	GetAllImages(string albumid, bool receipts);
-
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="c"></param>
+		/// <returns></returns>
+		Task					AddComment(Comment c);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="imageid"></param>
+		/// <returns></returns>
+		Task<List<Comment>>		GetComments(string imageid);
 		//Task AddItem();
 	}
 }
