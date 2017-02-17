@@ -7,43 +7,55 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              BackgroundColor="#FDB813"
              x:Class="airmily.Views.FullScreenImagePage">
-    <AbsoluteLayout>
-        <ScrollView>
-            <StackLayout
-                BackgroundColor="Black"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All">
 
-                <Image
-                    HorizontalOptions="Fill"
-                    VerticalOptions="Fill"
-                    Source="{Binding Src}" />
-            </StackLayout>
-        </ScrollView>
-            <!--CLOSE ICON/ COULD BE USED AS A DELETE BUTTON-->
-            <!--<StackLayout
-                Padding="20"
-                HorizontalOptions="End"
-                VerticalOptions="Start"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, .1"
-                AbsoluteLayout.LayoutFlags="All">
-                <Label
-                    FontSize="30"
-                    Text="&#xf00d;"
-                    HorizontalTextAlignment="End"
-                    VerticalTextAlignment="Center"
-                    TextColor="White"
-                    HeightRequest="30"
-                    WidthRequest="30"
-                    Style="{StaticResource FontIcon}">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Delete" Icon="logo.png" Command="{Binding DeleteImage}"></ToolbarItem>
+	</ContentPage.ToolbarItems>
 
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnCloseButtonClicked}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                </Label>
-            </StackLayout>-->
-        </AbsoluteLayout>
+	<ScrollView>
+		<StackLayout>
+			<Image
+				HorizontalOptions="Fill"
+				VerticalOptions="Fill"
+				Source="{Binding Src}" />
+
+			<!--Comments Section-->
+			<ListView ItemsSource="{Binding Comments}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+
+								<Label Text="{Binding Main}"	TextColor="White" HorizontalTextAlignment="Start"	Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+								<Label Text="{Binding Value}"	TextColor="White" HorizontalTextAlignment="Start"	Grid.Row="1" Grid.Column="0" />
+								<Label Text="{Binding Detail}"	TextColor="White" HorizontalTextAlignment="End"		Grid.Row="1" Grid.Column="1" />
+							</Grid>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+			
+			<!--New Comment-->
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="80" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<Entry	Text="{Binding AddCommentText, Mode=TwoWay}" Placeholder="Write a new comment" Grid.Row="0" Grid.Column="0" />
+				<Button	Text="Send" BorderColor="{StaticResource BrandColorDarker}" BorderWidth="1" Command="{Binding AddComment}" Grid.Row="0" Grid.Column="1"/>
+			</Grid>
+		</StackLayout>
+	</ScrollView>
 </ContentPage>

@@ -25,6 +25,7 @@ namespace airmily.Services.Azure
 		private IMobileServiceTable<Card> _cardsTable;
 		private IMobileServiceTable<Transaction> _transTable;
 		private IMobileServiceTable<AlbumItem> _albumTable;
+		private IMobileServiceTable<Comment> _commsTable;
 
 		//Storage
 		private CloudStorageAccount _storageAccount;
@@ -42,6 +43,7 @@ namespace airmily.Services.Azure
 				_cardsTable = _mobileClient.GetTable<Card>();
 				_transTable = _mobileClient.GetTable<Transaction>();
 				_albumTable = _mobileClient.GetTable<AlbumItem>();
+				_commsTable = _mobileClient.GetTable<Comment>();
 
 				_storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=airmilystorage;AccountKey=" + "RRdg9CkiTZVa6DNI5erUaRaAOiU6yAfUhxu0Hd7yZHAd5XAO/EvUyhvXBcrwUXt4QiHGZfQsbI6cZYeaFnS/2A==");
 				_storageClient = _storageAccount.CreateCloudBlobClient();
@@ -54,6 +56,15 @@ namespace airmily.Services.Azure
 		}
 
 		//Public Methods
+		public async Task<List<User>> GetUser(string userid)
+		{
+			if (string.IsNullOrEmpty(userid))
+				return new List<User>();
+
+			IMobileServiceTableQuery<User> query = _usersTable.Where(u => u.UserID == userid);
+			return await query.ToListAsync();
+		}
+
 		public async Task<bool> UpdateAllCards(User credentials)
 		{
 			if (!credentials.Active)
@@ -203,14 +214,15 @@ namespace airmily.Services.Azure
 		}
 		public async Task<bool> DeleteImage(AlbumItem image)
 		{
-			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
-				return false;
+			//image.Deleted = true;
+			//await _albumTable.UpdateAsync(image);
+			await _albumTable.DeleteAsync(image);
 
-			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-			Task imageTask = blob.DeleteIfExistsAsync();
-			Task albumTask = _albumTable.DeleteAsync(image);
+			//CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
+			//Task imageTask = blob.DeleteIfExistsAsync();
+			//Task albumTask = _albumTable.DeleteAsync(image);
 
-			await Task.WhenAll(imageTask, albumTask);
+			//await Task.WhenAll(imageTask, albumTask);
 			return true;
 		}
 		public async Task<List<AlbumItem>> GetAllImages(string albumid)
@@ -232,6 +244,27 @@ namespace airmily.Services.Azure
 			List<AlbumItem> album = await query.ToListAsync();
 
 			return album;
+		}
+
+		public async Task AddComment(Comment c)
+		{
+			if (string.IsNullOrEmpty(c.Message) || string.IsNullOrEmpty(c.UserID) || string.IsNullOrEmpty(c.ImageID))
+				return;
+
+			await _commsTable.InsertAsync(c);
+		}
+		public async Task<List<Comment>> GetComments(string imageid)
+		{
+			if (string.IsNullOrEmpty(imageid))
+				return new List<Comment>();
+
+			IMobileServiceTableQuery<Comment> query = _commsTable.Where(c => c.ImageID == imageid);
+			List<Comment> ret = await query.ToListAsync();
+
+			foreach (Comment c in ret)
+				c.From = (await GetUser(c.UserID)).First();
+
+			return ret;
 		}
 
 		//Temporary Methods
