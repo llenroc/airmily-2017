@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Microsoft.Practices.Unity.Utility;
@@ -40,11 +39,10 @@ namespace airmily.ViewModels
 		{
 			get
 			{
-				if (_onImageTapped == null)
-					_onImageTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
-					{
-						AlbumItem item = selected.Item as AlbumItem;
-						if (item == null) return;
+				return _onImageTapped ?? (_onImageTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
+				{
+					AlbumItem item = selected.Item as AlbumItem;
+					if (item == null) return;
 
 						if (!item.IsAddButton)
 						{
@@ -66,9 +64,15 @@ namespace airmily.ViewModels
                             //var parameters = new NavigationParameters { ["Src"] = item };
                             //await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
                         }
-						else
+						
+					else
+					{
+						string action = await _pageDialogService.DisplayActionSheetAsync(null, "Cancel", null, "Take New Picture", "Add From Camera Roll");
+						if (action != "Take New Picture" && action != "Add From Camera Roll") return;
+
+						await CrossMedia.Current.Initialize();
+						if (action == "Take New Picture")
 						{
-							await CrossMedia.Current.Initialize();
 							if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
 							{
 								var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
@@ -78,67 +82,22 @@ namespace airmily.ViewModels
 									SaveToAlbum = false,
 									CompressionQuality = 75
 								});
-
-								if (file == null) return;
-
-								AlbumItem newItem = new AlbumItem
-								{
-									IsAddButton = false,
-									IsReceipt = item.IsReceipt,
-									ImageName = Guid.NewGuid().ToString(),
-									Image = new byte[file.GetStream().Length]
-								};
-								file.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
-
-								newItem.Album = CurrentTransaction.ID;
-								await _azure.UploadImage(newItem);
-
-								if (newItem.IsReceipt)
-								{
-									if (_receipt1.Contains(item))
-									{
-										_receipt1.Remove(item);
-										_receipt1.Add(newItem);
-										_receipt2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-									}
-									else if (_receipt2.Contains(item))
-									{
-										_receipt2.Remove(item);
-										_receipt2.Add(newItem);
-										_receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-									}
-									else if (_receipt3.Contains(item))
-									{
-										_receipt3.Remove(item);
-										_receipt3.Add(newItem);
-										_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-									}
-								}
-								else
-								{
-									if (_good1.Contains(item))
-									{
-										_good1.Remove(item);
-										_good1.Add(newItem);
-										_good2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-									}
-									else if (_good2.Contains(item))
-									{
-										_good2.Remove(item);
-										_good2.Add(newItem);
-										_good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-									}
-									else if (_good3.Contains(item))
-									{
-										_good3.Remove(item);
-										_good3.Add(newItem);
-										_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-									}
-								}
+								await AddPicture(item, file);
 							}
 						}
-					});
-				return _onImageTapped;
+						else if (action == "Add From Camera Roll")
+						{
+							if (CrossMedia.Current.IsPickPhotoSupported)
+							{
+								var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+								{
+									CompressionQuality = 75
+								});
+								await AddPicture(item, file);
+							}
+						}
+					}
+				}));
 			}
 		}
 
@@ -207,6 +166,65 @@ namespace airmily.ViewModels
 						_good3.Add(t);
 						break;
 				}
+		}
+
+		public async Task AddPicture(AlbumItem item, MediaFile image)
+		{
+			if (image == null) return;
+
+			AlbumItem newItem = new AlbumItem
+			{
+				IsAddButton = false,
+				IsReceipt = item.IsReceipt,
+				Album = CurrentTransaction.ID,
+				ImageName = Guid.NewGuid().ToString(),
+				Image = new byte[image.GetStream().Length]
+			};
+			image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
+			await _azure.UploadImage(newItem);
+
+			if (newItem.IsReceipt)
+			{
+				if (_receipt1.Contains(item))
+				{
+					_receipt1.Remove(item);
+					_receipt1.Add(newItem);
+					_receipt2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+				}
+				else if (_receipt2.Contains(item))
+				{
+					_receipt2.Remove(item);
+					_receipt2.Add(newItem);
+					_receipt3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+				}
+				else if (_receipt3.Contains(item))
+				{
+					_receipt3.Remove(item);
+					_receipt3.Add(newItem);
+					_receipt1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+				}
+			}
+			else
+			{
+				if (_good1.Contains(item))
+				{
+					_good1.Remove(item);
+					_good1.Add(newItem);
+					_good2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+				}
+				else if (_good2.Contains(item))
+				{
+					_good2.Remove(item);
+					_good2.Add(newItem);
+					_good3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+				}
+				else if (_good3.Contains(item))
+				{
+					_good3.Remove(item);
+					_good3.Add(newItem);
+					_good1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+				}
+			}
 		}
 
 		#region ObservableCollections
