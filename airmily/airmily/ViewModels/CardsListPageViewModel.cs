@@ -91,7 +91,7 @@ namespace airmily.ViewModels
         {
         }
 
-        public async void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(NavigationParameters parameters)
         {
             if (!parameters.ContainsKey("user"))
                 return;

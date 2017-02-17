@@ -9,22 +9,53 @@
     <CarouselPage.ItemTemplate>
         <DataTemplate>
             <ContentPage>
-                <AbsoluteLayout>
                     <ScrollView>
-                        <StackLayout
-                            BackgroundColor="Black"
-                            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                            AbsoluteLayout.LayoutFlags="All">
-
+                        <StackLayout BackgroundColor="Black">
                             <Image
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Fill"
                                 Source="{Binding image.ImageSrc}" />
+                            <ListView ItemsSource="{Binding comments}">
+                              <ListView.ItemTemplate>
+                                <DataTemplate>
+                                  <ViewCell>
+                                    <ContentView>
+                                      <Grid>
+                                        <Grid.RowDefinitions>
+                                          <RowDefinition Height="*"/>
+                                          <RowDefinition Height="*"/>
+                                          <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                          <ColumnDefinition Width="Auto"/>
+                                          <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
+                                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Main}"/>
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Detail}"/>
+                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Value}"/>
+                                        
+                                      </Grid>
+                                    </ContentView>
+                                  </ViewCell>
+                                </DataTemplate>
+                              </ListView.ItemTemplate>
+                            </ListView>
+                          
+                          <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="Auto" />
+                              <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                              <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
 
+                            <Entry	Text="{Binding AddCommentText, Mode=TwoWay}" Placeholder="Write a new comment" Grid.Row="0" Grid.Column="0" />
+                            <Button	Text="Send" BorderColor="{StaticResource BrandColorDarker}" BorderWidth="1" Command="{Binding AddComment}" Grid.Row="0" Grid.Column="1"/>
+                          </Grid>
                         </StackLayout>
                     </ScrollView>
-                </AbsoluteLayout>
             </ContentPage>
         </DataTemplate>
     </CarouselPage.ItemTemplate>

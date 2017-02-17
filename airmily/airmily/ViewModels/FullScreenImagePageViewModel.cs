@@ -89,7 +89,7 @@ namespace airmily.ViewModels
 			}
 		}
 
-		public string AddCommentText { get; set; }
+	
 
 		public FullScreenImagePageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
 		{
