@@ -5,7 +5,7 @@
               xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
               prism:ViewModelLocator.AutowireViewModel="True"
               x:Class="airmily.Views.CarouselImageGalleryPage"
-              ItemsSource="{Binding Images}">
+              ItemsSource="{Binding ImagesTest}">
     <CarouselPage.ItemTemplate>
         <DataTemplate>
             <ContentPage>
@@ -19,7 +19,7 @@
                             <Image
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Fill"
-                                Source="{Binding ImageSrc}" />
+                                Source="{Binding image.ImageSrc}" />
 
 
                         </StackLayout>
