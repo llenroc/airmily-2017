@@ -53,6 +53,7 @@ namespace airmily
             Container.RegisterTypeForNavigation<FullScreenImagePage>();
             Container.RegisterTypeForNavigation<ExampleProfilePage>();
             Container.RegisterTypeForNavigation<ExampleDashboardPage>();
+            Container.RegisterTypeForNavigation<CarouselImageGalleryPage>();
         }
 
         protected override void ConfigureViewModelLocator()

@@ -5,7 +5,6 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using UXDivers.Artina.Grial;
-
 namespace airmily.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -26,8 +25,7 @@ namespace airmily.iOS
             Appearance.Configure();
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-
-			global::Xamarin.Forms.Forms.Init();
+            global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);

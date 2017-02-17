@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using airmily.Services.Azure;
 using airmily.Services.Models;
+using Microsoft.Practices.Unity.Utility;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Prism.Commands;
@@ -44,11 +44,27 @@ namespace airmily.ViewModels
 					AlbumItem item = selected.Item as AlbumItem;
 					if (item == null) return;
 
-					if (!item.IsAddButton)
-					{
-						var parameters = new NavigationParameters {["image"] = item};
-						await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
-					}
+						if (!item.IsAddButton)
+						{
+						    
+                            ////CarouselVersion
+						    if (item.IsReceipt == true)
+						    {
+                                var parameters = new NavigationParameters {["Images"] = Receipts};
+						        await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
+						    }
+						    else
+						    {
+						        var parameters = new NavigationParameters {["Images"] = Goods};
+                                await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
+
+                            }
+
+                            ////FullScreenVersion
+                            //var parameters = new NavigationParameters { ["Src"] = item };
+                            //await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
+                        }
+						
 					else
 					{
 						string action = await _pageDialogService.DisplayActionSheetAsync(null, "Cancel", null, "Take New Picture", "Add From Camera Roll");
@@ -110,8 +126,11 @@ namespace airmily.ViewModels
 			_good2.Clear();
 			_good3.Clear();
 
-			List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
-			receipts.Add(new AlbumItem {IsAddButton = true, IsReceipt = true});
+		    List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
+		    foreach (AlbumItem t in receipts)
+                Receipts.Add(t);
+
+            receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = true });
 			foreach (AlbumItem t in receipts)
 				switch (receipts.IndexOf(t) % 3)
 				{
@@ -127,7 +146,10 @@ namespace airmily.ViewModels
 				}
 
 			List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
-			goods.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+            foreach (AlbumItem t in goods)
+                Goods.Add(t);
+
+            goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 			foreach (AlbumItem t in goods)
 				switch (goods.IndexOf(t) % 3)
 				{
@@ -252,6 +274,22 @@ namespace airmily.ViewModels
 			set { SetProperty(ref _good3, value); }
 		}
 
-		#endregion
-	}
+	    private ObservableCollection<AlbumItem> _receipts = new ObservableCollection<AlbumItem>();
+
+	    public ObservableCollection<AlbumItem> Receipts
+	    {
+            get { return _receipts; }
+            set { SetProperty(ref _receipts, value); }
+	    }
+
+        private ObservableCollection<AlbumItem> _goods = new ObservableCollection<AlbumItem>();
+
+        public ObservableCollection<AlbumItem> Goods
+        {
+            get { return _goods; }
+            set { SetProperty(ref _goods, value); }
+        }
+
+        #endregion
+    }
 }
