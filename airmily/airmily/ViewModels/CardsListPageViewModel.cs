@@ -71,19 +71,21 @@ namespace airmily.ViewModels
             {
                 if (_refreshCommand == null)
                 {
-                    _refreshCommand = new DelegateCommand(refreshList);
+                    _refreshCommand = new DelegateCommand(RefreshList);
                 }
                 return _refreshCommand;
             }
         }
 
-        public async void refreshList()
+        public async void RefreshList()
         {
             IsRefreshing = true;
+
             CardsList = null;
             await _azure.UpdateAllCards(_currentUser);
             var ret = await _azure.GetAllCards(_currentUser.UserID);
             CardsList = new ObservableCollection<Card>(ret);
+
             IsRefreshing = false;
         }
 
@@ -97,7 +99,7 @@ namespace airmily.ViewModels
                 return;
 
             _currentUser = (User) parameters["user"];
-            refreshList();
+            RefreshList();
         }
     }
 }

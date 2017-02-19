@@ -62,13 +62,13 @@ namespace airmily.ViewModels
             {
                 if(_refreshCommand == null)
                 {
-                    _refreshCommand = new DelegateCommand(refreshList);
+                    _refreshCommand = new DelegateCommand(RefreshList);
                 }
                 return _refreshCommand;
             }
         }
 
-        public async void refreshList()
+        public async void RefreshList()
         {
             IsRefreshing = true;
             await _azure.UpdateAllTransactions(CurrentUser, CurrentCard.CardID);
@@ -115,14 +115,14 @@ namespace airmily.ViewModels
         {
         }
 
-        public async void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(NavigationParameters parameters)
         {
             if (parameters.ContainsKey("card"))
             {
                 CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
                 CurrentCard = (Card) parameters["card"];
 
-                refreshList();
+                RefreshList();
             }
         }
     }
