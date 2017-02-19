@@ -1,8 +1,10 @@
-﻿using Microsoft.Azure.Mobile.Server;
+﻿using airmily.Services.AppService;
+using airmily.Services.ModelsAppService;
+using Microsoft.Azure.Mobile.Server;
 
 namespace airmily.AppService.DataObjects
 {
-    public class TodoItem : EntityData
+    public class TodoItem : EntityData, ITodoItem
     {
         public string Text { get; set; }
 

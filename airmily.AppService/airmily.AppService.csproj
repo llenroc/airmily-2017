@@ -249,6 +249,12 @@
     <None Include="Properties\PublishProfiles\airmilyAppService - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\airmilyAppService.pubxml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\airmily.Services\airmily.Services.csproj">
+      <Project>{F53B6FC5-15ED-4D39-9947-881E859B4B61}</Project>
+      <Name>airmily.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

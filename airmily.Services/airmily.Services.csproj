@@ -36,10 +36,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppService\AppService.cs" />
+    <Compile Include="AppService\AppServiceSettings.cs" />
+    <Compile Include="ModelsAppService\EntityDataOS.cs" />
+    <Compile Include="AppService\IAppService.cs" />
     <Compile Include="Azure\Azure.cs" />
     <Compile Include="Azure\IAzure.cs" />
     <Compile Include="Exceptions\TrackSeriesError.cs" />
     <Compile Include="Exceptions\TrackSeriesException.cs" />
+    <Compile Include="ModelsAppService\ITodoItem.cs" />
+    <Compile Include="ModelsAppService\TodoItem.cs" />
     <Compile Include="ModelsExample\Actor.cs" />
     <Compile Include="ModelsExample\SampleDefinition.cs" />
     <Compile Include="Models\AlbumItem.cs" />
