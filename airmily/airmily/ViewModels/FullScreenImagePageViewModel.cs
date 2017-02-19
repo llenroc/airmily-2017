@@ -67,27 +67,28 @@ namespace airmily.ViewModels
 			}
 		}
 
-		private Command _addComment;
-		public Command AddComment
-		{
-			get
-			{
-				return _addComment ?? (_addComment = new Command(async () =>
-				{
-					if (string.IsNullOrEmpty(AddCommentText)) return;
+        // NOTE: Removed to fix build problem.
+		//private Command _addComment;
+		//public Command AddComment
+		//{
+		//	get
+		//	{
+		//		return _addComment ?? (_addComment = new Command(async () =>
+		//		{
+		//			if (string.IsNullOrEmpty(AddCommentText)) return;
 
-					Comment newComment = new Comment
-					{
-						ImageID = Image.ID,
-						UserID = "588842",
-						Message = AddCommentText
-					};
-					await _azure.AddComment(newComment);
-					AddCommentText = "";
-					RefreshComments(Image.ID);
-				}));
-			}
-		}
+		//			Comment newComment = new Comment
+		//			{
+		//				ImageID = Image.ID,
+		//				UserID = "588842",
+		//				Message = AddCommentText
+		//			};
+		//			await _azure.AddComment(newComment);
+		//			AddCommentText = "";
+		//			RefreshComments(Image.ID);
+		//		}));
+		//	}
+		//}
 
 	
 
