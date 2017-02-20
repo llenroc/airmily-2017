@@ -48,6 +48,7 @@
     <Compile Include="Azure\IAzure.cs" />
     <Compile Include="Exceptions\TrackSeriesError.cs" />
     <Compile Include="Exceptions\TrackSeriesException.cs" />
+    <Compile Include="ModelsAppService\IEntityDataOS.cs" />
     <Compile Include="ModelsAppService\ITodoItem.cs" />
     <Compile Include="IModels\IUser.cs" />
     <Compile Include="ModelsAppService\TodoItem.cs" />
