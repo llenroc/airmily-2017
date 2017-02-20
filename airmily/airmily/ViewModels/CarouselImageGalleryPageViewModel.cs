@@ -28,6 +28,7 @@ namespace airmily.ViewModels
             _navigationService = navigationService;
         }
 
+        #region OnNavStuff
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
             
@@ -47,11 +48,56 @@ namespace airmily.ViewModels
                     {
                         temp.comments.Add(c);
                     }
+                    temp.AddCommentText = "";
                     ImagesTest.Add(temp);
                 }
             }
         }
+        #endregion
 
+
+
+        private DelegateCommand<object> _addComment;
+        public DelegateCommand<object> AddCommentCmd
+        {
+            get
+            {
+                if (_addComment == null)
+                {
+                    _addComment = new DelegateCommand<object>(AddComment);
+                }
+                return _addComment;
+   
+            }
+        }
+        private ImagesWithComments _selectedImage = new ImagesWithComments();
+        public ImagesWithComments selectedImage
+        {
+            get{ return _selectedImage; }
+        set{ SetProperty(ref _selectedImage, value); }
+        }
+
+        private async void AddComment()
+        {
+            var testselectedImage = selectedImage;
+            if (string.IsNullOrEmpty(testselectedImage.AddCommentText))
+            {
+                return;
+            }
+
+            Comment newComment = new Comment
+            {
+                ImageID = testselectedImage.image.ID,
+                UserID = "588842",
+                Message = testselectedImage.AddCommentText
+            };
+            await _azure.AddComment(newComment);
+            testselectedImage.AddCommentText = "";
+        }
+
+
+
+        #region Observable Collections
         private ObservableCollection<AlbumItem> _images;
         public ObservableCollection<AlbumItem> Images
         {
@@ -65,27 +111,33 @@ namespace airmily.ViewModels
             get { return _receipts; }
             set { SetProperty(ref _receipts, value); }
         }
-
         private ObservableCollection<ImagesWithComments> _imagesTest = new ObservableCollection<ImagesWithComments>();
-
         public ObservableCollection<ImagesWithComments> ImagesTest
         {
             get { return _imagesTest; }
             set { SetProperty(ref _imagesTest, value); }
         }
+        #endregion
+
+
     }
 
     public class ImagesWithComments : BindableBase
     {
+        private readonly IAzure _azure;
         public AlbumItem image { get; set; }
 
         private ObservableCollection<Comment> _comments = new ObservableCollection<Comment>();
+        
 
         public ObservableCollection<Comment> comments
         {
             get {return _comments;}
             set { SetProperty(ref _comments, value); }
         }
+
+        public string AddCommentText { get; set; }
+
         //public string AddCommentText { get; set; }
         //private Command _addComment;
         //public Command AddComment
