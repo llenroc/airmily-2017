@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 namespace airmily.Services.Azure
 {
+	/* TODO
+	 * Return IEnumerables instead of Lists
+	 * Ping restapi.fairfx.com for Updating connectivity
+	 * Ping airmilyapp.azurewebsites.net for Sync connectivity
+	 */
+
 	public interface IAzure
 	{
 		/// <summary>
@@ -83,6 +89,11 @@ namespace airmily.Services.Azure
 		/// <param name="imageid"></param>
 		/// <returns></returns>
 		Task<List<Comment>>		GetComments(string imageid);
-		//Task AddItem();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		Task SyncAsync();
 	}
 }

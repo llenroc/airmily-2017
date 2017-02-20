@@ -38,13 +38,22 @@
   <ItemGroup>
     <Compile Include="AppService\AppService.cs" />
     <Compile Include="AppService\AppServiceSettings.cs" />
-    <Compile Include="ModelsAppService\EntityDataOS.cs" />
+    <Compile Include="Azure\AzureSettings.cs" />
+    <Compile Include="Interfaces\IAlbumItem.cs" />
+    <Compile Include="Interfaces\ICard.cs" />
+    <Compile Include="Interfaces\IComment.cs" />
+    <Compile Include="Interfaces\IFFXCard.cs" />
+    <Compile Include="Interfaces\IFFXTransaction.cs" />
+    <Compile Include="Interfaces\ITransaction.cs" />
+    <Compile Include="Models\EntityDataOfflineSync.cs" />
     <Compile Include="AppService\IAppService.cs" />
     <Compile Include="Azure\Azure.cs" />
     <Compile Include="Azure\IAzure.cs" />
     <Compile Include="Exceptions\TrackSeriesError.cs" />
     <Compile Include="Exceptions\TrackSeriesException.cs" />
+    <Compile Include="Interfaces\IEntityDataOfflineSync.cs" />
     <Compile Include="ModelsAppService\ITodoItem.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="ModelsAppService\TodoItem.cs" />
     <Compile Include="ModelsExample\Actor.cs" />
     <Compile Include="ModelsExample\SampleDefinition.cs" />
@@ -52,7 +61,6 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\FFXCard.cs" />
     <Compile Include="Models\FFXSession.cs" />
-    <Compile Include="Models\BaseSchema.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="ModelsExample\Episode.cs" />
     <Compile Include="ModelsExample\Genre.cs" />
@@ -67,6 +75,7 @@
     <Compile Include="ModelsExample\TmdbRequest.cs" />
     <Compile Include="ModelsExample\TmdbVideo.cs" />
     <Compile Include="Models\FFXTransaction.cs" />
+    <Compile Include="Interfaces\IFFXSession.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

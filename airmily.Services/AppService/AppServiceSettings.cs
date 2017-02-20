@@ -4,5 +4,7 @@ namespace airmily.Services.AppService
     {
         // Replace strings with your Azure Mobile App endpoint.
         public static string ApplicationUrl = @"https://airmilyappservice.azurewebsites.net";
+
+        public static string LocalSQLiteStore = "airmilyAppService.db";
     }
 }

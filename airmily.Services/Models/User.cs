@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using airmily.Services.Interfaces;
+using Newtonsoft.Json;
 
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class User : BaseSchema
+	public class User : EntityDataOfflineSync, IUser
 	{
 		[JsonProperty("username")]
 		public string UserName { get; set; }

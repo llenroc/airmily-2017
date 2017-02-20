@@ -1,8 +1,9 @@
+using airmily.Services.Models;
 using Newtonsoft.Json;
 
 namespace airmily.Services.ModelsAppService
 {
-    public class TodoItem : EntityDataOS, ITodoItem
+    public class TodoItem : EntityDataOfflineSync, ITodoItem
     {
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
