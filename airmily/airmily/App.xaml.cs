@@ -45,7 +45,7 @@ namespace airmily
         protected override void RegisterTypes()
         {
             Container.RegisterType<IAzure, Azure>();
-            Container.RegisterType<IAppService, MockService>();
+            Container.RegisterType<IAppService, AppService>();
 
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<CardsListPage>();
