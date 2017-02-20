@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class AlbumItem : BaseSchema
+	public class AlbumItem : EntityDataOfflineSync, IAlbumItem
 	{
 		[JsonProperty("image")]
 		public string ImageName { get; set; }

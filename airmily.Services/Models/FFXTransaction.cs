@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class FFXTransaction : BaseSchema
+	public class FFXTransaction : EntityDataOfflineSync, IFFXTransaction
 	{
 		[JsonProperty("description")]
 		public string Description { get; set; }

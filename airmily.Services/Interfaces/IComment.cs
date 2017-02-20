@@ -1,6 +1,4 @@
-﻿using airmily.Services.Models;
-
-namespace airmily.Services.IModels
+﻿namespace airmily.Services.Interfaces
 {
 	public interface IComment
 	{
@@ -10,6 +8,6 @@ namespace airmily.Services.IModels
 		
 		string UserID { get; set; }
 
-		User From { get; set; }
+		string Date { get; set; }
 	}
 }

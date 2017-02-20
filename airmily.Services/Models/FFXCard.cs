@@ -1,10 +1,10 @@
-﻿using System;
+﻿using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class FFXCard
+	public class FFXCard : EntityDataOfflineSync, IFFXCard
 	{
 		[JsonProperty("id")]
 		public string CardID { get; set; }

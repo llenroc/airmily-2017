@@ -1,4 +1,4 @@
-﻿namespace airmily.Services.IModels
+﻿namespace airmily.Services.Interfaces
 {
 	public interface IUser
 	{

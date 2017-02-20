@@ -1,4 +1,4 @@
-﻿namespace airmily.Services.IModels
+﻿namespace airmily.Services.Interfaces
 {
 	public interface IAlbumItem
 	{
@@ -9,11 +9,5 @@
 		bool IsReceipt { get; set; }
 
 		string Address { get; set; }
-
-		byte[] Image { get; set; }
-
-		bool IsAddButton { get; set; }
-
-		Xamarin.Forms.ImageSource ImageSrc { get; set; }
 	}
 }

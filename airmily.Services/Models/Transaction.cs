@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class Transaction : FFXTransaction
+	public class Transaction : FFXTransaction, ITransaction
 	{
 		[JsonProperty("userID")]
 		public string UserID { get; set; }

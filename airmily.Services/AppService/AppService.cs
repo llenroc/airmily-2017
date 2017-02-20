@@ -42,7 +42,7 @@ namespace airmily.Services.AppService
 
         public async Task SaveTaskAsync(TodoItem item)
         {
-            if (item.Id == null)
+            if (item.ID == null)
                 await this._todoTable.InsertAsync(item);
             else
                 await this._todoTable.UpdateAsync(item);
@@ -56,6 +56,7 @@ namespace airmily.Services.AppService
         /// <returns></returns>
         public async Task SyncAsync()
         {
+			// This crashes - Double check it
             //var connected = await Plugin.Connectivity.CrossConnectivity.Current.IsReachable(airmily.Services.AppService.AppServiceSettings.ApplicationUrl);
             //if (connected == false)
             //    return;

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using airmily.Services.Azure;
+﻿using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace airmily.Services.Models
 {
-	public class Comment : BaseSchema
+	public class Comment : EntityDataOfflineSync, IComment
 	{
 		[JsonProperty("imageid")]
 		public string ImageID { get; set; }
@@ -19,13 +14,13 @@ namespace airmily.Services.Models
 		[JsonProperty("userid")]
 		public string UserID { get; set; }
 
+		[JsonProperty("date")]
+		public string Date { get; set; }
 
 		[JsonIgnore]
 		public User From { get; set; }
 
-		public Comment()
-		{
-		}
+		public Comment() { }
 
 		[JsonIgnore]
 		public string Main
@@ -36,7 +31,7 @@ namespace airmily.Services.Models
 		[JsonIgnore]
 		public string Detail
 		{
-			get { return Created.ToString("HH:mm - dd MMM") ?? DateTime.Now.ToString("HH:mm - dd MMM"); }
+			get { return Date; }
 		}
 
 		[JsonIgnore]

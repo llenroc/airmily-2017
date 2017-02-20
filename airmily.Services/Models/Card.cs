@@ -1,11 +1,12 @@
 ﻿using System;
+using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class Card : BaseSchema
+	public class Card : EntityDataOfflineSync, ICard
 	{
 		[JsonProperty("cardID")]
 		public string CardID { get; set; }
@@ -23,7 +24,6 @@ namespace airmily.Services.Models
 		public bool Active { get; set; }
 
 		public Card() { }
-
 		public Card(FFXCard card, string user)
 		{
 			CardID = card.CardID;
@@ -33,6 +33,26 @@ namespace airmily.Services.Models
 			Currency = card.Currency.Code;
 			Balance = (Convert.ToDouble(card.Available) - Convert.ToDouble(card.Blocked)).ToString("F");
 			Active = card.CardStatus.Current;
+		}
+		public bool Update(FFXCard c)
+		{
+			bool changed = false;
+
+			string newBalance = (Convert.ToDouble(c.Available) - Convert.ToDouble(c.Blocked)).ToString("F");
+			bool newActive = c.CardStatus.Current;
+
+			if (Active != newActive)
+			{
+				Active = newActive;
+				changed = true;
+			}
+			if (Balance != newBalance)
+			{
+				Balance = newBalance;
+				changed = true;
+			}
+
+			return changed;
 		}
 
 		[JsonIgnore]
@@ -59,27 +79,6 @@ namespace airmily.Services.Models
 				}
 				return symbol + Balance;
 			}
-		}
-
-		public bool Update(FFXCard c)
-		{
-			bool changed = false;
-
-			string newBalance = (Convert.ToDouble(c.Available) - Convert.ToDouble(c.Blocked)).ToString("F");
-			bool newActive = c.CardStatus.Current;
-
-			if (Active != newActive)
-			{
-				Active = newActive;
-				changed = true;
-			}
-			if (Balance != newBalance)
-			{
-				Balance = newBalance;
-				changed = true;
-			}
-
-			return changed;
 		}
 	}
 }

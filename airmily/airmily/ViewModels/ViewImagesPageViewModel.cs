@@ -45,27 +45,27 @@ namespace airmily.ViewModels
 					AlbumItem item = selected.Item as AlbumItem;
 					if (item == null) return;
 
-						if (!item.IsAddButton)
+					if (!item.IsAddButton)
+					{
+
+						////CarouselVersion
+						if (item.IsReceipt == true)
 						{
-						    
-                            ////CarouselVersion
-						    if (item.IsReceipt == true)
-						    {
-                                var parameters = new NavigationParameters {["Images"] = Receipts};
-						        await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
-						    }
-						    else
-						    {
-						        var parameters = new NavigationParameters {["Images"] = Goods};
-                                await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
+							var parameters = new NavigationParameters { ["Images"] = Receipts };
+							await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
+						}
+						else
+						{
+							var parameters = new NavigationParameters { ["Images"] = Goods };
+							await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
 
-                            }
+						}
 
-                            ////FullScreenVersion
-                            //var parameters = new NavigationParameters { ["Src"] = item };
-                            //await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
-                        }
-						
+						////FullScreenVersion
+						//var parameters = new NavigationParameters { ["Src"] = item };
+						//await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
+					}
+
 					else
 					{
 						string action = await _pageDialogService.DisplayActionSheetAsync(null, "Cancel", null, "Take New Picture", "Add From Camera Roll");
@@ -118,7 +118,7 @@ namespace airmily.ViewModels
 		{
 			if (!parameters.ContainsKey("transaction")) return;
 			if (!parameters.ContainsKey("refreshing"))
-				CurrentTransaction = (Transaction) parameters["transaction"];
+				CurrentTransaction = (Transaction)parameters["transaction"];
 
 			_receipt1.Clear();
 			_receipt2.Clear();
@@ -127,11 +127,11 @@ namespace airmily.ViewModels
 			_good2.Clear();
 			_good3.Clear();
 
-		    List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
-		    foreach (AlbumItem t in receipts)
-                Receipts.Add(t);
+			List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
+			foreach (AlbumItem t in receipts)
+				Receipts.Add(t);
 
-            receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = true });
+			receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = true });
 			foreach (AlbumItem t in receipts)
 				switch (receipts.IndexOf(t) % 3)
 				{
@@ -147,10 +147,10 @@ namespace airmily.ViewModels
 				}
 
 			List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
-            foreach (AlbumItem t in goods)
-                Goods.Add(t);
+			foreach (AlbumItem t in goods)
+				Goods.Add(t);
 
-            goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+			goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 			foreach (AlbumItem t in goods)
 				switch (goods.IndexOf(t) % 3)
 				{
@@ -179,7 +179,12 @@ namespace airmily.ViewModels
 				Image = new byte[image.GetStream().Length]
 			};
 			image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
-			await _azure.UploadImage(newItem);
+
+			if (!await _azure.UploadImage(newItem))
+			{
+				await _pageDialogService.DisplayAlertAsync("Error", "Couldn't upload image. Please make sure you are connected to the internet.", "Cancel");
+				return;
+			}
 
 			if (newItem.IsReceipt)
 			{
@@ -187,19 +192,19 @@ namespace airmily.ViewModels
 				{
 					_receipt1.Remove(item);
 					_receipt1.Add(newItem);
-					_receipt2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+					_receipt2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
 				else if (_receipt2.Contains(item))
 				{
 					_receipt2.Remove(item);
 					_receipt2.Add(newItem);
-					_receipt3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+					_receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
 				else if (_receipt3.Contains(item))
 				{
 					_receipt3.Remove(item);
 					_receipt3.Add(newItem);
-					_receipt1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+					_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
 			}
 			else
@@ -208,19 +213,19 @@ namespace airmily.ViewModels
 				{
 					_good1.Remove(item);
 					_good1.Add(newItem);
-					_good2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+					_good2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
 				else if (_good2.Contains(item))
 				{
 					_good2.Remove(item);
 					_good2.Add(newItem);
-					_good3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+					_good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
 				else if (_good3.Contains(item))
 				{
 					_good3.Remove(item);
 					_good3.Add(newItem);
-					_good1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+					_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
 			}
 		}
@@ -275,22 +280,22 @@ namespace airmily.ViewModels
 			set { SetProperty(ref _good3, value); }
 		}
 
-	    private ObservableCollection<AlbumItem> _receipts = new ObservableCollection<AlbumItem>();
+		private ObservableCollection<AlbumItem> _receipts = new ObservableCollection<AlbumItem>();
 
-	    public ObservableCollection<AlbumItem> Receipts
-	    {
-            get { return _receipts; }
-            set { SetProperty(ref _receipts, value); }
-	    }
+		public ObservableCollection<AlbumItem> Receipts
+		{
+			get { return _receipts; }
+			set { SetProperty(ref _receipts, value); }
+		}
 
-        private ObservableCollection<AlbumItem> _goods = new ObservableCollection<AlbumItem>();
+		private ObservableCollection<AlbumItem> _goods = new ObservableCollection<AlbumItem>();
 
-        public ObservableCollection<AlbumItem> Goods
-        {
-            get { return _goods; }
-            set { SetProperty(ref _goods, value); }
-        }
+		public ObservableCollection<AlbumItem> Goods
+		{
+			get { return _goods; }
+			set { SetProperty(ref _goods, value); }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

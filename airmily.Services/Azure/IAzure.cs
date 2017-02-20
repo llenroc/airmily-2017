@@ -89,6 +89,11 @@ namespace airmily.Services.Azure
 		/// <param name="imageid"></param>
 		/// <returns></returns>
 		Task<List<Comment>>		GetComments(string imageid);
-		//Task AddItem();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		Task SyncAsync();
 	}
 }

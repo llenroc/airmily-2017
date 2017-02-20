@@ -1,5 +1,4 @@
-﻿using airmily.Services.AppService;
-using airmily.Services.ModelsAppService;
+﻿using airmily.Services.ModelsAppService;
 using Microsoft.Azure.Mobile.Server;
 
 namespace airmily.AppService.DataObjects
