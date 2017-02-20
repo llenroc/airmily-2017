@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using airmily.Services.AppService;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Prism.Commands;
@@ -11,6 +13,7 @@ namespace airmily.ViewModels
     public class CardsListPageViewModel : BindableBase, INavigationAware
     {
         private readonly IAzure _azure;
+        private readonly IAppService _appService;
         private readonly INavigationService _navigationService;
 
         private ObservableCollection<Card> _cardsList;
@@ -24,10 +27,11 @@ namespace airmily.ViewModels
         private string _title;
 
         private bool _isRefreshing;
-        public CardsListPageViewModel(INavigationService navigationService, IAzure azure)
+        public CardsListPageViewModel(INavigationService navigationService, IAzure azure, IAppService appService)
         {
             _navigationService = navigationService;
             _azure = azure;
+            _appService = appService;
 
             Title = "Cards";
         }
@@ -93,13 +97,17 @@ namespace airmily.ViewModels
         {
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public async void OnNavigatedTo(NavigationParameters parameters)
         {
             if (!parameters.ContainsKey("user"))
                 return;
 
             _currentUser = (User) parameters["user"];
             RefreshList();
+
+            var todoItems = await _appService.GetTodoItemsAsync();
+            foreach (var item in todoItems)
+                Debug.WriteLine("{0}: {1}", item.Text, item.Complete);
         }
     }
 }

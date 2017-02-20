@@ -1,4 +1,5 @@
 ﻿using airmily.Ext;
+using airmily.Services.AppService;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using airmily.Views;
@@ -44,6 +45,7 @@ namespace airmily
         protected override void RegisterTypes()
         {
             Container.RegisterType<IAzure, Azure>();
+            Container.RegisterType<IAppService, MockService>();
 
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<CardsListPage>();

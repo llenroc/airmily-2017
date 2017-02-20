@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace airmily.Services.AppService
 {
     public interface IAppService
     {
-        Task<ObservableCollection<TodoItem>> GetTodoItemsAsync();
+        Task<IEnumerable<TodoItem>> GetTodoItemsAsync();
 
         Task SaveTaskAsync(TodoItem item);
 

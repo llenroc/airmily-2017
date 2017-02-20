@@ -25,6 +25,8 @@ namespace airmily.iOS
             Appearance.Configure();
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            SQLitePCL.CurrentPlatform.Init();
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));
 
