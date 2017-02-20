@@ -38,6 +38,10 @@
   <ItemGroup>
     <Compile Include="AppService\AppService.cs" />
     <Compile Include="AppService\AppServiceSettings.cs" />
+    <Compile Include="IModels\IAlbumItem.cs" />
+    <Compile Include="IModels\ICard.cs" />
+    <Compile Include="IModels\IComment.cs" />
+    <Compile Include="IModels\IFFXCard.cs" />
     <Compile Include="ModelsAppService\EntityDataOS.cs" />
     <Compile Include="AppService\IAppService.cs" />
     <Compile Include="Azure\Azure.cs" />
@@ -45,6 +49,7 @@
     <Compile Include="Exceptions\TrackSeriesError.cs" />
     <Compile Include="Exceptions\TrackSeriesException.cs" />
     <Compile Include="ModelsAppService\ITodoItem.cs" />
+    <Compile Include="IModels\IUser.cs" />
     <Compile Include="ModelsAppService\TodoItem.cs" />
     <Compile Include="ModelsExample\Actor.cs" />
     <Compile Include="ModelsExample\SampleDefinition.cs" />

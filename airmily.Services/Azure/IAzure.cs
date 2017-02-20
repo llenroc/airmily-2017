@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 namespace airmily.Services.Azure
 {
+	/* TODO
+	 * Return IEnumerables instead of Lists
+	 * Ping restapi.fairfx.com for Updating connectivity
+	 * Ping airmilyapp.azurewebsites.net for Sync connectivity
+	 */
+
 	public interface IAzure
 	{
 		/// <summary>
