@@ -1,61 +1,74 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+              xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"            
               prism:ViewModelLocator.AutowireViewModel="True"
               x:Class="airmily.Views.CarouselImageGalleryPage"
-              ItemsSource="{Binding ImagesTest}">
+              x:Name="Root"
+              ItemsSource="{Binding ImagesTest}"
+              SelectedItem="{Binding selectedImage}"
+              
+  >
     <CarouselPage.ItemTemplate>
         <DataTemplate>
             <ContentPage>
-                    <ScrollView>
-                        <StackLayout BackgroundColor="Black">
-                            <Image
-                                HorizontalOptions="Fill"
-                                VerticalOptions="Fill"
-                                Source="{Binding image.ImageSrc}" />
-                            <ListView ItemsSource="{Binding comments}">
-                              <ListView.ItemTemplate>
+                <ScrollView>
+                    <StackLayout>
+                        <Image
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                            Source="{Binding image.ImageSrc}" />                     
+                        <ListView ItemsSource="{Binding comments}" HasUnevenRows="True" HeightRequest="200" MinimumHeightRequest="50">
+                            <ListView.ItemTemplate>
                                 <DataTemplate>
-                                  <ViewCell>
-                                    <ContentView>
-                                      <Grid>
-                                        <Grid.RowDefinitions>
-                                          <RowDefinition Height="*"/>
-                                          <RowDefinition Height="*"/>
-                                          <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                          <ColumnDefinition Width="Auto"/>
-                                          <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                    <ViewCell>
+                                        <ContentView>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
 
-                                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Main}"/>
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Detail}"/>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Value}"/>
-                                        
-                                      </Grid>
-                                    </ContentView>
-                                  </ViewCell>
+                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                       Text="{Binding Main}" />
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Detail}" />
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Value}" />
+
+                                            </Grid>
+                                        </ContentView>
+                                    </ViewCell>
                                 </DataTemplate>
-                              </ListView.ItemTemplate>
-                            </ListView>
-                          
-                          <Grid>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                              <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <Entry	Text="{Binding AddCommentText, Mode=TwoWay}" Placeholder="Write a new comment" Grid.Row="0" Grid.Column="0" />
-                            <Button	Text="Send" BorderColor="{StaticResource BrandColorDarker}" BorderWidth="1" Command="{Binding AddComment}" Grid.Row="0" Grid.Column="1"/>
-                          </Grid>
-                        </StackLayout>
-                    </ScrollView>
+                            <Entry Text="{Binding AddCommentText, Mode=TwoWay}" Placeholder="Write a new comment"
+                                   Grid.Row="0" Grid.Column="0" />
+                            <Button Text="Send" BorderColor="{StaticResource BrandColorDarker}" BorderWidth="1"
+                                     Grid.Row="0" Grid.Column="1" Command="{Binding Source={x:Reference Root}, Path=BindingContext.AddCommentCmd}">
+                                <!--<behaviors:Interaction.Behaviors>
+                                    <behaviors:BehaviorCollection>
+                                        <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding Source={x:Reference Root}, Path=BindingContext.AddCommentCmd}" CommandParameter="{Binding Source={x:Reference Root}, Path=ImagesTest}" PassEventArgument="False" />
+                                    </behaviors:BehaviorCollection>
+                                </behaviors:Interaction.Behaviors>-->
+                            </Button>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </DataTemplate>
     </CarouselPage.ItemTemplate>
