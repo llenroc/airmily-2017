@@ -36,7 +36,9 @@ namespace airmily.Services.Azure
 		private CloudStorageAccount _storageAccount;
 		private CloudBlobClient _storageClient;
 		private CloudBlobContainer _storageContainer;
-
+		private static ObservableCollection<AlbumItem> _offlineImageCache = new ObservableCollection<AlbumItem>();
+		private static bool _syncincOfflineImages = false;
+		 
 		//Ctor
 		public Azure()
 		{
@@ -61,6 +63,8 @@ namespace airmily.Services.Azure
 				_storageAccount = CloudStorageAccount.Parse(AzureSettings.StorageConnectionString);
 				_storageClient = _storageAccount.CreateCloudBlobClient();
 				_storageContainer = _storageClient.GetContainerReference("images");
+
+				CrossConnectivity.Current.ConnectivityChanged += ConnectivityChanged;
 			}
 			catch (Exception ex)
 			{
@@ -74,7 +78,7 @@ namespace airmily.Services.Azure
 			if (string.IsNullOrEmpty(userid))
 				return new List<User>();
 
-			await SyncAsync();
+			await SyncUsersAsync();
 
 			IMobileServiceTableQuery<User> query = _usersTable.Where(u => u.UserID == userid);
 			return await query.ToListAsync();
@@ -110,7 +114,7 @@ namespace airmily.Services.Azure
 				await _cardsTable.InsertAsync(new Card(card, credentials.UserID));
 				ret = true;
 			}
-			await SyncAsync();
+			await SyncCardsAsync();
 			return ret;
 		}
 		public async Task<List<Card>> GetAllCards(string userid, bool all = false)
@@ -118,7 +122,7 @@ namespace airmily.Services.Azure
 			if (string.IsNullOrEmpty(userid))
 				return new List<Card>();
 
-			await SyncAsync();
+			await SyncCardsAsync();
 
 			IMobileServiceTableQuery<Card> query = !all ? _cardsTable.Where(c => c.UserID == userid && c.Active == true) : _cardsTable.Where(c => c.UserID == userid);
 
@@ -197,7 +201,7 @@ namespace airmily.Services.Azure
 				Transaction newT = new Transaction(t, cardid, credentials.UserID);
 				await _transTable.InsertAsync(newT);
 			}
-			await SyncAsync();
+			await SyncTransactionsAsync();
 
 			return toCreate.Count > 0;
 		}
@@ -206,7 +210,7 @@ namespace airmily.Services.Azure
 			if (string.IsNullOrEmpty(cardid))
 				return new List<Transaction>();
 
-			await SyncAsync();
+			await SyncTransactionsAsync();
 
 			IMobileServiceTableQuery<Transaction> query = all
 				? _transTable.OrderByDescending(t => t.TransDate)
@@ -224,15 +228,20 @@ namespace airmily.Services.Azure
 			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
 				return false;
 
-			if (!CrossConnectivity.Current.IsConnected) return false;
+			if (CrossConnectivity.Current.IsConnected)
+			{
+				CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
+				blob.Properties.ContentType = "image/jpeg";
+				await blob.UploadFromStreamAsync(new MemoryStream(image.Image));
 
-			CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-			blob.Properties.ContentType = "image/jpeg";
-			await blob.UploadFromStreamAsync(new MemoryStream(image.Image));
-
-			image.Address = blob.StorageUri.PrimaryUri.ToString();
-			await _albumTable.InsertAsync(image);
-			await SyncAsync();
+				image.Address = blob.StorageUri.PrimaryUri.ToString();
+				await _albumTable.InsertAsync(image);
+				await SyncAlbumItemsAsync();
+			}
+			else
+			{
+				_offlineImageCache.Add(image);
+			}
 
 			return true;
 		}
@@ -241,7 +250,7 @@ namespace airmily.Services.Azure
 			//image.Deleted = true;
 			//await _albumTable.UpdateAsync(image);
 			await _albumTable.DeleteAsync(image);
-			await SyncAsync();
+			await SyncAlbumItemsAsync();
 
 			//CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
 			//Task imageTask = blob.DeleteIfExistsAsync();
@@ -255,7 +264,7 @@ namespace airmily.Services.Azure
 			if (string.IsNullOrEmpty(albumid))
 				return new List<AlbumItem>();
 
-			await SyncAsync();
+			await SyncAlbumItemsAsync();
 
 			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid);
 			List<AlbumItem> album = await query.ToListAsync();
@@ -267,7 +276,7 @@ namespace airmily.Services.Azure
 			if (string.IsNullOrEmpty(albumid))
 				return new List<AlbumItem>();
 
-			await SyncAsync();
+			await SyncAlbumItemsAsync();
 
 			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid && a.IsReceipt == receipts);
 			List<AlbumItem> album = await query.ToListAsync();
@@ -282,14 +291,14 @@ namespace airmily.Services.Azure
 
 			await _commsTable.InsertAsync(c);
 
-			await SyncAsync();
+			await SyncCommentsAsync();
 		}
 		public async Task<List<Comment>> GetComments(string imageid)
 		{
 			if (string.IsNullOrEmpty(imageid))
 				return new List<Comment>();
 
-			await SyncAsync();
+			await SyncCommentsAsync();
 
 			IMobileServiceTableQuery<Comment> query = _commsTable.Where(c => c.ImageID == imageid);
 			List<Comment> ret = await query.ToListAsync();
@@ -300,11 +309,11 @@ namespace airmily.Services.Azure
 			return ret;
 		}
 
-		public async Task SyncAsync()
+		public async Task SyncAllAsync()
 		{
 			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
 			{
-				Debug.WriteLine("skipped sync");
+				Debug.WriteLine("Skipped sync");
 				return;
 			}
 
@@ -316,6 +325,221 @@ namespace airmily.Services.Azure
 				await _cardsTable.PullAsync("allCards", _cardsTable.CreateQuery());
 				await _transTable.PullAsync("allTrans", _transTable.CreateQuery());
 				await _albumTable.PullAsync("allAlbum", _albumTable.CreateQuery());
+				await _commsTable.PullAsync("allComms", _commsTable.CreateQuery());
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling. A real application would handle the various errors like network conditions,
+			// server conflicts and others via the IMobileServiceSyncHandler.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						//Update failed, reverting to server's copy.
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change.
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
+		}
+		public async Task SyncUsersAsync()
+		{
+			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
+			{
+				Debug.WriteLine("Skipped sync");
+				return;
+			}
+
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+			try
+			{
+				await _mobileClient.SyncContext.PushAsync();
+				await _usersTable.PullAsync("allUsers", _usersTable.CreateQuery());
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling. A real application would handle the various errors like network conditions,
+			// server conflicts and others via the IMobileServiceSyncHandler.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						//Update failed, reverting to server's copy.
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change.
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
+		}
+		public async Task SyncCardsAsync()
+		{
+			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
+			{
+				Debug.WriteLine("Skipped sync");
+				return;
+			}
+
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+			try
+			{
+				await _mobileClient.SyncContext.PushAsync();
+				await _cardsTable.PullAsync("allCards", _cardsTable.CreateQuery());
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling. A real application would handle the various errors like network conditions,
+			// server conflicts and others via the IMobileServiceSyncHandler.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						//Update failed, reverting to server's copy.
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change.
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
+		}
+		public async Task SyncTransactionsAsync()
+		{
+			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
+			{
+				Debug.WriteLine("Skipped sync");
+				return;
+			}
+
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+			try
+			{
+				await _mobileClient.SyncContext.PushAsync();
+				await _transTable.PullAsync("allTrans", _transTable.CreateQuery());
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling. A real application would handle the various errors like network conditions,
+			// server conflicts and others via the IMobileServiceSyncHandler.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						//Update failed, reverting to server's copy.
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change.
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
+		}
+		public async Task SyncAlbumItemsAsync()
+		{
+			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
+			{
+				Debug.WriteLine("Skipped sync");
+				return;
+			}
+
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+			try
+			{
+				await _mobileClient.SyncContext.PushAsync();
+				await _albumTable.PullAsync("allAlbum", _albumTable.CreateQuery());
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling. A real application would handle the various errors like network conditions,
+			// server conflicts and others via the IMobileServiceSyncHandler.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						//Update failed, reverting to server's copy.
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change.
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
+		}
+		public async Task SyncCommentsAsync()
+		{
+			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
+			{
+				Debug.WriteLine("Skipped sync");
+				return;
+			}
+
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+			try
+			{
+				await _mobileClient.SyncContext.PushAsync();
 				await _commsTable.PullAsync("allComms", _commsTable.CreateQuery());
 			}
 			catch (MobileServicePushFailedException exc)
@@ -454,6 +678,28 @@ namespace airmily.Services.Azure
 			string[] unencrypted = Convert.FromBase64String(encrypted).Aggregate("", (current, b) => current + (char)b).Split('@');
 			return (unencrypted[1] != "beier360.com" || unencrypted.Length != 3) ? null : new[] { unencrypted[0] + "@" + unencrypted[1], unencrypted[2] };
 			//return (unencrypted[0] != SALT || unencrypted[2] != "beier360.com" || unencrypted.Length != 4) ? null : unencrypted;
+		}
+
+		private void ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+		{
+			if (!e.IsConnected)
+				return;
+
+			if (_syncincOfflineImages)
+				return;
+
+			_syncincOfflineImages = true;
+			UploadOfflineImages();
+		}
+
+		private async void UploadOfflineImages()
+		{
+			foreach (AlbumItem image in _offlineImageCache)
+			{
+				await UploadImage(image);
+			}
+			_offlineImageCache.Clear();
+			_syncincOfflineImages = true;
 		}
 	}
 }

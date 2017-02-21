@@ -2,7 +2,7 @@
 {
 	public static class AzureSettings
 	{
-		public static string ApplicationUrl = @"https://airmilyappserviceash.azurewebsites.net";
+		public static string ApplicationUrl = @"https://airmilyapp.azurewebsites.net";
 
 		public static string LocalSQLiteStore = @"airmilyAppService.db";
 

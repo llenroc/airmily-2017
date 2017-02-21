@@ -27,7 +27,10 @@ namespace airmily.Services.Models
 	    {
 		    get
 		    {
-				return !IsAddButton ? ImageSource.FromUri(new Uri(Address)) : ImageSource.FromFile("AddImageIcon.png");
+			    if (IsAddButton)
+				    return ImageSource.FromFile("AddImageIcon.png");
+
+				return !string.IsNullOrEmpty(Address) ? ImageSource.FromUri(new Uri(Address)) : ImageSource.FromFile("Icon-76.png");
 		    }
 	    }
 

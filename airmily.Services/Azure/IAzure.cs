@@ -53,6 +53,7 @@ namespace airmily.Services.Azure
 		/// Creates the AlbumItem row and uploads the image
 		/// </summary>
 		/// <param name="image">The item to create</param>
+		/// <param name="sync"></param>
 		/// <returns>Returns false if the item isn't valid</returns>
 		Task<bool>				UploadImage(AlbumItem image);
 		/// <summary>
@@ -94,6 +95,10 @@ namespace airmily.Services.Azure
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		Task SyncAsync();
+		Task SyncUsersAsync();
+		Task SyncCardsAsync();
+		Task SyncTransactionsAsync();
+		Task SyncAlbumItemsAsync();
+		Task SyncCommentsAsync();
 	}
 }
