@@ -74,9 +74,7 @@ namespace airmily.ViewModels
         {
             IsRefreshing = true;
 
-            HockeyApp.MetricsManager.TrackEvent("Transaction List Refreshed",
-                new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
-                new Dictionary<string, double> {{"Measurement", 1}});
+            HockeyApp.MetricsManager.TrackEvent("Transaction List Refreshed");
 
             await _azure.UpdateAllTransactions(CurrentUser, CurrentCard.CardID);
             var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
@@ -132,9 +130,7 @@ namespace airmily.ViewModels
                 CurrentCard = (Card) parameters["card"];
 
                 RefreshList();
-                HockeyApp.MetricsManager.TrackEvent("Transaction Page Loaded",
-                    new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
-                    new Dictionary<string, double> {{"Step", 1.1}});
+                HockeyApp.MetricsManager.TrackEvent("Transaction Page Loaded");
             }
         }
     }

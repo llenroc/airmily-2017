@@ -58,9 +58,7 @@ namespace airmily.ViewModels
         {
             get
             {
-                HockeyApp.MetricsManager.TrackEvent("TransactionClicked",
-                new Dictionary<string, string> { { "Time", DateTime.UtcNow.ToString() } },
-                new Dictionary<string, double> { { "Step", 1.1 } });
+                HockeyApp.MetricsManager.TrackEvent("TransactionClicked");
 
                 if (_goToTransactionsListPage == null)
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
@@ -90,9 +88,7 @@ namespace airmily.ViewModels
         {
             IsRefreshing = true;
 
-            HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed",
-                new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
-                new Dictionary<string, double> {{"Measurement", 1}});
+            HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed");
 
 
             CardsList = null;

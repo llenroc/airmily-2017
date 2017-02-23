@@ -34,7 +34,6 @@ namespace airmily.ViewModels
 			get { return _currentTransaction; }
 			set { SetProperty(ref _currentTransaction, value); }
 		}
-
 		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
 		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
 		{
@@ -101,19 +100,16 @@ namespace airmily.ViewModels
 				}));
 			}
 		}
-
 		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
 		{
 			_pageDialogService = pageDialogService;
 			_azure = azure;
 			_navigationService = navigationService;
 		}
-
 		public void OnNavigatedFrom(NavigationParameters parameters)
 		{
 
 		}
-
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
 			if (!parameters.ContainsKey("transaction")) return;
@@ -164,11 +160,8 @@ namespace airmily.ViewModels
 						_good3.Add(t);
 						break;
 				}
-		    HockeyApp.MetricsManager.TrackEvent("Images Page Loaded",
-		        new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
-		        new Dictionary<string, double> {{"Step", 1.1}});
+		    HockeyApp.MetricsManager.TrackEvent("Images Page Loaded");
         }
-
 		public async Task AddPicture(AlbumItem item, MediaFile image)
 		{
 			if (image == null) return;
@@ -209,9 +202,7 @@ namespace airmily.ViewModels
 					_receipt3.Add(newItem);
 					_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
-			    HockeyApp.MetricsManager.TrackEvent("Receipt Added",
-			        new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
-			        new Dictionary<string, double> {{"Step", 1.1}});
+			    HockeyApp.MetricsManager.TrackEvent("Receipt Added");
             }
 			else
 			{
@@ -233,9 +224,7 @@ namespace airmily.ViewModels
 					_good3.Add(newItem);
 					_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 			    }
-			    HockeyApp.MetricsManager.TrackEvent("Goods Added",
-			        new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
-			        new Dictionary<string, double> {{"Step", 1.1}});
+			    HockeyApp.MetricsManager.TrackEvent("Goods Added");
 			}
 		}
 

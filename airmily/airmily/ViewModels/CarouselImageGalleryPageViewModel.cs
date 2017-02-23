@@ -96,9 +96,11 @@ namespace airmily.ViewModels
 			};
 			await _azure.AddComment(newComment);
 			await Refresh();
-		}
+            HockeyApp.MetricsManager.TrackEvent("Comment Added");
 
-		private bool _deleting = false;
+        }
+
+        private bool _deleting = false;
 		private async void DeleteComment(ViewCell cell)
 		{
 			Comment c = cell.BindingContext as Comment;
