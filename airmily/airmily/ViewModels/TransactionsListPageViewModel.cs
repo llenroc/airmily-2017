@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Prism.Commands;
@@ -123,6 +124,7 @@ namespace airmily.ViewModels
                 CurrentCard = (Card) parameters["card"];
 
                 RefreshList();
+
             }
         }
     }

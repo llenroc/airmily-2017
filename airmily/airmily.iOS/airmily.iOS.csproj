@@ -135,6 +135,14 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="HockeySDK, Version=1.0.6229.18486, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HockeySDK.Xamarin.4.1.1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HockeySDK.iOSBindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HockeySDK.Xamarin.4.1.1\lib\Xamarin.iOS10\HockeySDK.iOSBindings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.8.2\lib\netstandard1.1\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>

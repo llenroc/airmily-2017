@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using airmily.Services.AppService;
 using airmily.Services.Azure;
@@ -31,8 +32,7 @@ namespace airmily.ViewModels
             _navigationService = navigationService;
             _azure = azure;
 
-            Title = "Cards";
-        }
+            Title = "Cards";}
 
         public ObservableCollection<Card> CardsList
         {
@@ -95,7 +95,7 @@ namespace airmily.ViewModels
         {
         }
 
-        public async void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(NavigationParameters parameters)
         {
             if (!parameters.ContainsKey("user"))
                 return;
