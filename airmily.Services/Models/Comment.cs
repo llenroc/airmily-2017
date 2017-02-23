@@ -1,4 +1,5 @@
-﻿using airmily.Services.Interfaces;
+﻿using System;
+using airmily.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace airmily.Services.Models
@@ -15,12 +16,18 @@ namespace airmily.Services.Models
 		public string UserID { get; set; }
 
 		[JsonProperty("date")]
-		public string Date { get; set; }
+		public DateTime? Date { get; set; }
 
 		[JsonIgnore]
 		public User From { get; set; }
 
-		public Comment() { }
+		public Comment() { CurrentType = GalleryType.Comment; }
+
+		[JsonIgnore]
+		public AlbumItem Image { get; set; }
+
+		[JsonIgnore]
+		public GalleryType CurrentType { get; set; }
 
 		[JsonIgnore]
 		public string Main
@@ -31,7 +38,7 @@ namespace airmily.Services.Models
 		[JsonIgnore]
 		public string Detail
 		{
-			get { return Date; }
+			get { return Date.HasValue ? Date.Value.ToString("HH:mm - dd MMM") : "Missing Date"; }
 		}
 
 		[JsonIgnore]
@@ -40,4 +47,9 @@ namespace airmily.Services.Models
 			get { return From.UserName ?? "Unknown"; }
 		}
 	}
+
+	public enum GalleryType
+	{
+		Image, Comment, AddComment
+	};
 }

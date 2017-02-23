@@ -1,4 +1,6 @@
-﻿namespace airmily.Services.Interfaces
+﻿using System;
+
+namespace airmily.Services.Interfaces
 {
 	public interface IComment
 	{
@@ -8,6 +10,6 @@
 		
 		string UserID { get; set; }
 
-		string Date { get; set; }
+		DateTime? Date { get; set; }
 	}
 }
