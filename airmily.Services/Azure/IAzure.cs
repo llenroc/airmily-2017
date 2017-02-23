@@ -90,15 +90,17 @@ namespace airmily.Services.Azure
 		/// <param name="imageid"></param>
 		/// <returns></returns>
 		Task<List<Comment>>		GetComments(string imageid);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="c"></param>
+		/// <returns></returns>
+		Task					DeleteComment(Comment c);
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		Task SyncUsersAsync();
-		Task SyncCardsAsync();
-		Task SyncTransactionsAsync();
-		Task SyncAlbumItemsAsync();
-		Task SyncCommentsAsync();
+		Task SyncAsync();
 	}
 }

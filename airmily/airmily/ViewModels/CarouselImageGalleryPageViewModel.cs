@@ -3,8 +3,10 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Microsoft.Practices.ObjectBuilder2;
@@ -14,156 +16,148 @@ using Xamarin.Forms;
 
 namespace airmily.ViewModels
 {
-    public class CarouselImageGalleryPageViewModel : BindableBase, INavigationAware
-    {
-        private readonly IAzure _azure;
-        private readonly INavigationService _navigationService;
-        private readonly IPageDialogService _pageDialogService;
+	public class CarouselImageGalleryPageViewModel : BindableBase, INavigationAware
+	{
+		private readonly IAzure _azure;
+		private readonly INavigationService _navigationService;
+		private readonly IPageDialogService _pageDialogService;
 
+		private DelegateCommand _addCommentCmd;
+		public DelegateCommand AddCommentCmd
+		{
+			get { return _addCommentCmd ?? (_addCommentCmd = new DelegateCommand(AddComment)); }
+		}
 
-        public CarouselImageGalleryPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
-        {
-            _pageDialogService = pageDialogService;
-            _azure = azure;
-            _navigationService = navigationService;
-        }
+		private DelegateCommand<ViewCell> _deleteCmd;
+		public DelegateCommand<ViewCell> DeleteCmd { get { return _deleteCmd ?? (_deleteCmd = new DelegateCommand<ViewCell>(DeleteComment)); } }
 
-        #region OnNavStuff
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
-            
-        }
+		private DelegateCommand _refreshCmd;
+		public DelegateCommand RefreshCmd
+		{
+			get { return _refreshCmd ?? (_refreshCmd = new DelegateCommand(async () => await Refresh())); }
+		}
 
-        public async void OnNavigatedTo(NavigationParameters parameters)
-        {
-            if (parameters.ContainsKey("Images"))
-            {
-                Images = (ObservableCollection<AlbumItem>) parameters["Images"];
-                foreach (AlbumItem t in Images)
-                {
-                    ImagesWithComments temp = new ImagesWithComments();
-                    temp.image = t;
-                    List<Comment> Tcomments = await _azure.GetComments(t.ID);
-                    foreach (Comment c in Tcomments)
-                    {
-                        temp.comments.Add(c);
-                    }
-                    temp.AddCommentText = "";
-                    ImagesTest.Add(temp);
-                }
-            }
-        }
-        #endregion
+		private ImagesWithComments _selectedImage = new ImagesWithComments();
+		public ImagesWithComments SelectedImage
+		{
+			get { return _selectedImage; }
+			set { SetProperty(ref _selectedImage, value); }
+		}
 
+		private ObservableCollection<ImagesWithComments> _images = new ObservableCollection<ImagesWithComments>();
+		public ObservableCollection<ImagesWithComments> Images
+		{
+			get { return _images; }
+			set { SetProperty(ref _images, value); }
+		}
 
+		public CarouselImageGalleryPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
+		{
+			_pageDialogService = pageDialogService;
+			_azure = azure;
+			_navigationService = navigationService;
+		}
 
-        private DelegateCommand<object> _addComment;
-        public DelegateCommand<object> AddCommentCmd
-        {
-            get
-            {
-                if (_addComment == null)
-                {
-                    _addComment = new DelegateCommand<object>(AddComment);
-                }
-                return _addComment;
-   
-            }
-        }
-        private ImagesWithComments _selectedImage = new ImagesWithComments();
-        public ImagesWithComments selectedImage
-        {
-            get{ return _selectedImage; }
-        set{ SetProperty(ref _selectedImage, value); }
-        }
+		public void OnNavigatedFrom(NavigationParameters parameters)
+		{
 
-        private async void AddComment()
-        {
-            var testselectedImage = selectedImage;
-            if (string.IsNullOrEmpty(testselectedImage.AddCommentText))
-            {
-                return;
-            }
+		}
 
-            Comment newComment = new Comment
-            {
-                ImageID = testselectedImage.image.ID,
-                UserID = "588842",
-                Message = testselectedImage.AddCommentText
-            };
-            await _azure.AddComment(newComment);
-            testselectedImage.AddCommentText = "";
-        }
+		public async void OnNavigatedTo(NavigationParameters parameters)
+		{
+			if (parameters.ContainsKey("Images"))
+			{
+				var albumItems = (ObservableCollection<AlbumItem>)parameters["Images"];
+				foreach (AlbumItem t in albumItems)
+				{
+					ImagesWithComments temp = new ImagesWithComments();
 
+					temp.Items.Add(new Comment { CurrentType = GalleryType.Image, Image = t });
+					temp.Items.AddRange(await _azure.GetComments(t.ID));
+					temp.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
+					
+					temp.AddCommentText = "";
+					Images.Add(temp);
+				}
+			}
+		}
 
+		private async void AddComment()
+		{
+			if (string.IsNullOrEmpty(SelectedImage.AddCommentText))
+				return;
 
-        #region Observable Collections
-        private ObservableCollection<AlbumItem> _images;
-        public ObservableCollection<AlbumItem> Images
-        {
-            get { return _images; }
-            set { SetProperty(ref _images, value); }
-        }
+			Comment newComment = new Comment
+			{
+				ImageID = SelectedImage.Items.First().Image.ID,
+				UserID = "588842",
+				Message = SelectedImage.AddCommentText,
+				Date = DateTime.Now
+			};
+			await _azure.AddComment(newComment);
+			await Refresh();
+		}
 
-        private ObservableCollection<AlbumItem> _receipts;
-        public ObservableCollection<AlbumItem> Receipts
-        {
-            get { return _receipts; }
-            set { SetProperty(ref _receipts, value); }
-        }
-        private ObservableCollection<ImagesWithComments> _imagesTest = new ObservableCollection<ImagesWithComments>();
-        public ObservableCollection<ImagesWithComments> ImagesTest
-        {
-            get { return _imagesTest; }
-            set { SetProperty(ref _imagesTest, value); }
-        }
-        #endregion
+		private bool _deleting = false;
+		private async void DeleteComment(ViewCell cell)
+		{
+			Comment c = cell.BindingContext as Comment;
+			if (c == null)
+				return;
 
+			if (!_deleting)
+			{
+				_deleting = true;
+				await _azure.DeleteComment(c);
+				await Refresh();
+				_deleting = false;
+			}
+		}
 
-    }
+		private async Task Refresh()
+		{
+			/*
+			SelectedImage.Items.RemoveRange(1, SelectedImage.Items.Count - 1);
 
-    public class ImagesWithComments : BindableBase
-    {
-        private readonly IAzure _azure;
-        public AlbumItem image { get; set; }
+			Comment image = SelectedImage.Items.First();
+			List<Comment> c = await _azure.GetComments(image.Image.ID);
 
-        private ObservableCollection<Comment> _comments = new ObservableCollection<Comment>();
-        
+			SelectedImage.Items.AddRange(c);
+			SelectedImage.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
 
-        public ObservableCollection<Comment> comments
-        {
-            get {return _comments;}
-            set { SetProperty(ref _comments, value); }
-        }
+			SelectedImage.AddCommentText = "";
+			*/
+		}
+	}
 
-        public string AddCommentText { get; set; }
+	public class ImagesWithComments : BindableBase
+	{
+		private List<Comment> _items = new List<Comment>();
+		public List<Comment> Items { get { return _items; } set { SetProperty(ref _items, value); } }
+		
+		public string AddCommentText { get; set; }
+	}
 
-        //public string AddCommentText { get; set; }
-        //private Command _addComment;
-        //public Command AddComment
-        //{
-        //    get
-        //    {
-        //        return _addComment ?? (_addComment = new Command(async () =>
-        //        {
-        //            if (string.IsNullOrEmpty(AddCommentText)) return;
+	public class GalleryDataTemplateSelector : DataTemplateSelector
+	{
+		public DataTemplate ImageTemplate { get; set; }
+		public DataTemplate CommentTemplate { get; set; }
+		public DataTemplate AddCommentTemplate { get; set; }
 
-        //            Comment newComment = new Comment
-        //            {
-        //                ImageID = Image.ID,
-        //                UserID = "588842",
-        //                Message = AddCommentText
-        //            };
-        //            await _azure.AddComment(newComment);
-        //            AddCommentText = "";
-        //            RefreshComments(Image.ID);
-        //        }));
-        //    }
-        //}
-        public ImagesWithComments()
-        {
+		protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+		{
+			Comment c = (Comment)item;
+			if (c == null) return AddCommentTemplate;
 
-        }
-    } 
-
+			switch (c.CurrentType)
+			{
+				default:
+					return CommentTemplate;
+				case GalleryType.Image:
+					return ImageTemplate;
+				case GalleryType.AddComment:
+					return AddCommentTemplate;
+			}
+		}
+	}
 }
