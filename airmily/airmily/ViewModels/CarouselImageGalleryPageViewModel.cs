@@ -93,6 +93,10 @@ namespace airmily.ViewModels
             };
             await _azure.AddComment(newComment);
             testselectedImage.AddCommentText = "";
+
+            HockeyApp.MetricsManager.TrackEvent("Comment added",
+            new Dictionary<string, string> { { "Time", DateTime.UtcNow.ToString() } },
+            new Dictionary<string, double> { { "Step", 1.1 } });
         }
 
 

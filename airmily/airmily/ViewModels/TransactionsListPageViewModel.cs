@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using airmily.Services.Azure;
 using airmily.Services.Models;
@@ -72,6 +73,11 @@ namespace airmily.ViewModels
         public async void RefreshList()
         {
             IsRefreshing = true;
+
+            HockeyApp.MetricsManager.TrackEvent("Transaction List Refreshed",
+                new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
+                new Dictionary<string, double> {{"Measurement", 1}});
+
             await _azure.UpdateAllTransactions(CurrentUser, CurrentCard.CardID);
             var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
             TransactionsList = null;
@@ -118,13 +124,17 @@ namespace airmily.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
+
+
             if (parameters.ContainsKey("card"))
             {
                 CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
                 CurrentCard = (Card) parameters["card"];
 
                 RefreshList();
-
+                HockeyApp.MetricsManager.TrackEvent("Transaction Page Loaded",
+                    new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
+                    new Dictionary<string, double> {{"Step", 1.1}});
             }
         }
     }

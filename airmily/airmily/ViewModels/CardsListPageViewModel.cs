@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using airmily.Services.AppService;
@@ -8,7 +9,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
-
+using HockeyApp;
 namespace airmily.ViewModels
 {
     public class CardsListPageViewModel : BindableBase, INavigationAware
@@ -27,6 +28,8 @@ namespace airmily.ViewModels
         private string _title;
 
         private bool _isRefreshing;
+
+        
         public CardsListPageViewModel(INavigationService navigationService, IAzure azure)
         {
             _navigationService = navigationService;
@@ -55,6 +58,10 @@ namespace airmily.ViewModels
         {
             get
             {
+                HockeyApp.MetricsManager.TrackEvent("TransactionClicked",
+                new Dictionary<string, string> { { "Time", DateTime.UtcNow.ToString() } },
+                new Dictionary<string, double> { { "Step", 1.1 } });
+
                 if (_goToTransactionsListPage == null)
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
@@ -83,6 +90,11 @@ namespace airmily.ViewModels
         {
             IsRefreshing = true;
 
+            HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed",
+                new Dictionary<string, string> {{"Time", DateTime.UtcNow.ToString()}},
+                new Dictionary<string, double> {{"Measurement", 1}});
+
+
             CardsList = null;
             await _azure.UpdateAllCards(_currentUser);
             var ret = await _azure.GetAllCards(_currentUser.UserID);
@@ -97,7 +109,7 @@ namespace airmily.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (!parameters.ContainsKey("user"))
+            if(!parameters.ContainsKey("user"))
                 return;
 
             _currentUser = (User) parameters["user"];
