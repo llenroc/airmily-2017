@@ -103,7 +103,7 @@ namespace airmily.Services.Azure
 				Card[] oldCards = oldList.Where(c => c.CardID == card.CardID).ToArray();
 				if (oldCards.Length > 0)
 				{
-					if (oldCards.Length > 1) throw new Exception("Multiple cards were found with the ID " + card.CardID + " when there should only be one.");
+					//if (oldCards.Length > 1) throw new Exception("Multiple cards were found with the ID " + card.CardID + " when there should only be one.");
 
 					if (oldCards[0].Update(card))
 						await _cardsTable.UpdateAsync(oldCards[0]);

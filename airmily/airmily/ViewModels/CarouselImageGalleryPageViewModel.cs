@@ -57,14 +57,14 @@ namespace airmily.ViewModels
 
 
 
-        private DelegateCommand<object> _addComment;
-        public DelegateCommand<object> AddCommentCmd
+        private DelegateCommand _addComment;
+        public DelegateCommand AddCommentCmd
         {
             get
             {
                 if (_addComment == null)
                 {
-                    _addComment = new DelegateCommand<object>(AddComment);
+                    _addComment = new DelegateCommand(AddComment);
                 }
                 return _addComment;
    
@@ -124,7 +124,6 @@ namespace airmily.ViewModels
 
     public class ImagesWithComments : BindableBase
     {
-        private readonly IAzure _azure;
         public AlbumItem image { get; set; }
 
         private ObservableCollection<Comment> _comments = new ObservableCollection<Comment>();

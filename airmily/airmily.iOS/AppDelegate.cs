@@ -5,6 +5,8 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using UXDivers.Artina.Grial;
+using HockeyApp.iOS;
+
 namespace airmily.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -23,6 +25,11 @@ namespace airmily.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Appearance.Configure();
+
+            var manager = BITHockeyManager.SharedHockeyManager;             //Should work
+            manager.Configure("1578f0ce30e440b98f4478e239d38dd6");          //Works
+            manager.StartManager();
+            manager.Authenticator.AuthenticateInstallation(); //Obsolete for crash only builds (assuming we're using it for more) 
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             SQLitePCL.CurrentPlatform.Init();
