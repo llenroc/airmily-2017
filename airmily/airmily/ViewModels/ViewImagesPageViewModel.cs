@@ -102,6 +102,19 @@ namespace airmily.ViewModels
 			}
 		}
 
+		private DelegateCommand _refreshCmd;
+		public DelegateCommand RefreshCmd
+		{
+			get
+			{
+				return _refreshCmd ?? (_refreshCmd = new DelegateCommand(async () => await Refresh()));
+			}
+			set
+			{
+				SetProperty(ref _refreshCmd, value);
+			}
+		}
+
 		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
 		{
 			_pageDialogService = pageDialogService;
@@ -120,6 +133,11 @@ namespace airmily.ViewModels
 			if (!parameters.ContainsKey("refreshing"))
 				CurrentTransaction = (Transaction)parameters["transaction"];
 
+			await Refresh();
+		}
+
+		public async Task Refresh()
+		{
 			_receipt1.Clear();
 			_receipt2.Clear();
 			_receipt3.Clear();

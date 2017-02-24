@@ -114,6 +114,7 @@ namespace airmily.ViewModels
 			}
 		}
 
+		// BUG TODO: Refreshing the comments doesn't work. It just crashes
 		private async Task Refresh()
 		{
 			/*

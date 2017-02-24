@@ -22,7 +22,7 @@ namespace airmily.Services.Azure
 {
 	public class Azure : IAzure
 	{
-		private readonly bool debugging = false;
+		private readonly bool _debugging = false;
 
 		//Mobile
 		private MobileServiceClient _mobileClient;
@@ -144,11 +144,11 @@ namespace airmily.Services.Azure
 			// Sort them by date
 			try
 			{
-				Debug.WriteLineIf(debugging, "Sorting 1 " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Sorting 1 " + DateTime.Now.Millisecond);
 				liveList = liveList.OrderBy(t => t.TransDate).ToList();
-				Debug.WriteLineIf(debugging, "Sorting 2 " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Sorting 2 " + DateTime.Now.Millisecond);
 				oldList = oldList.OrderBy(t => t.TransDate).ToList();
-				Debug.WriteLineIf(debugging, "Sorting 3 " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Sorting 3 " + DateTime.Now.Millisecond);
 			}
 			catch (Exception ex)
 			{
@@ -322,12 +322,19 @@ namespace airmily.Services.Azure
 			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 			try
 			{
+				Debug.WriteLineIf(_debugging, "Push");
 				await _mobileClient.SyncContext.PushAsync(); //Causes an ArgumentOutOfRangeException, when dragging to refresh comments. Doesn't get caught
+				Debug.WriteLineIf(_debugging, "Pull Users");
 				await _usersTable.PullAsync("allUsers", _usersTable.CreateQuery());
+				Debug.WriteLineIf(_debugging, "Pull Cards");
 				await _cardsTable.PullAsync("allCards", _cardsTable.CreateQuery());
+				Debug.WriteLineIf(_debugging, "Pull Trans");
 				await _transTable.PullAsync("allTrans", _transTable.CreateQuery());
+				Debug.WriteLineIf(_debugging, "Pull Album");
 				await _albumTable.PullAsync("allAlbum", _albumTable.CreateQuery());
+				Debug.WriteLineIf(_debugging, "Pull Comms");
 				await _commsTable.PullAsync("allComms", _commsTable.CreateQuery());
+				Debug.WriteLineIf(_debugging, "Done");
 			}
 			catch (MobileServicePushFailedException exc)
 			{
@@ -370,7 +377,7 @@ namespace airmily.Services.Azure
 		//Private Methods
 		private async Task<List<FFXTransaction>> GetLiveTransactions(string ffx, string card)
 		{
-			Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+			Debug.WriteLineIf(_debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.FairFXUrl))
 			{
 				Debug.WriteLine("skipped transactions update");
@@ -380,7 +387,7 @@ namespace airmily.Services.Azure
 			string[] creds = DecodeCredentials(ffx);
 			if (creds == null) return new List<FFXTransaction>();
 
-			Debug.WriteLineIf(debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+			Debug.WriteLineIf(_debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 			using (HttpClient client = new HttpClient() { BaseAddress = new Uri(AzureSettings.FairFXUrl) })
 			{
@@ -392,24 +399,24 @@ namespace airmily.Services.Azure
 					new KeyValuePair<string, string>("domain", "corporate")
 				});
 
-				Debug.WriteLineIf(debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				HttpResponseMessage loginResp = await client.PostAsync("/rest/auth", loginContent);
 				if (!loginResp.IsSuccessStatusCode) return new List<FFXTransaction>();
 
-				Debug.WriteLineIf(debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				FFXSession session = JsonConvert.DeserializeObject<FFXSession>(await loginResp.Content.ReadAsStringAsync());
 
-				Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				HttpResponseMessage transResp = await client.GetAsync("/rest/card/transactions/" + card + "/-/" + session.SessionID);     // Lasts at least 7-8 seconds
 
-				Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				List<FFXTransaction> ret = transResp.IsSuccessStatusCode ? JsonConvert.DeserializeObject<List<FFXTransaction>>(await transResp.Content.ReadAsStringAsync()) : new List<FFXTransaction>();
 
-				Debug.WriteLineIf(debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				return ret;
 			}
@@ -417,7 +424,7 @@ namespace airmily.Services.Azure
 
 		private async Task<List<FFXCard>> GetLiveCards(string ffx)
 		{
-			Debug.WriteLineIf(debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+			Debug.WriteLineIf(_debugging, "Live 1 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.FairFXUrl))
 			{
 				Debug.WriteLine("skipped cards update");
@@ -426,7 +433,7 @@ namespace airmily.Services.Azure
 			string[] creds = DecodeCredentials(ffx);
 			if (creds == null) return new List<FFXCard>();
 
-			Debug.WriteLineIf(debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+			Debug.WriteLineIf(_debugging, "Live 2 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 			using (HttpClient client = new HttpClient() { BaseAddress = new Uri(AzureSettings.FairFXUrl) })
 			{
@@ -438,26 +445,26 @@ namespace airmily.Services.Azure
 					new KeyValuePair<string, string>("domain", "corporate")
 				});
 
-				Debug.WriteLineIf(debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 3 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				HttpResponseMessage loginResp = await client.PostAsync("/rest/auth", loginContent);
 				if (!loginResp.IsSuccessStatusCode) return new List<FFXCard>();
 
-				Debug.WriteLineIf(debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 4 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				FFXSession session = JsonConvert.DeserializeObject<FFXSession>(await loginResp.Content.ReadAsStringAsync());
 
-				Debug.WriteLineIf(debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 5 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				HttpResponseMessage cardsResp = await client.GetAsync("/rest/card/list/-/" + session.SessionID);
 
-				Debug.WriteLineIf(debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 6 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				List<FFXCard> ret = cardsResp.IsSuccessStatusCode
 					? JsonConvert.DeserializeObject<List<FFXCard>>(await cardsResp.Content.ReadAsStringAsync())
 					: new List<FFXCard>();
 
-				Debug.WriteLineIf(debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
+				Debug.WriteLineIf(_debugging, "Live 7 " + DateTime.Now.Second + " " + DateTime.Now.Millisecond);
 
 				return ret;
 			}
@@ -496,6 +503,96 @@ namespace airmily.Services.Azure
 			}
 			_offlineImageCache.Clear();
 			_syncincOfflineImages = true;
+		}
+	}
+
+	public class LoggingHandler : DelegatingHandler
+	{
+		private bool logRequestResponseBody;
+
+		public LoggingHandler(bool logRequestResponseBody = false)
+		{
+			this.logRequestResponseBody = logRequestResponseBody;
+		}
+
+		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+		{
+			Debug.WriteLine("Request: {0} {1}", request.Method, request.RequestUri.ToString());
+
+			if (logRequestResponseBody && request.Content != null)
+			{
+				var requestContent = await request.Content.ReadAsStringAsync();
+				Debug.WriteLine(requestContent);
+			}
+
+			Debug.WriteLine("HEADERS");
+
+			foreach (var header in request.Headers)
+			{
+				Debug.WriteLine(string.Format("{0}:{1}", header.Key, string.Join(",", header.Value)));
+			}
+
+			var response = await base.SendAsync(request, cancellationToken);
+
+			Debug.WriteLine("Response: {0}", response.StatusCode);
+
+			if (logRequestResponseBody)
+			{
+				var responseContent = await response.Content.ReadAsStringAsync();
+				Debug.WriteLine(responseContent);
+			}
+
+			return response;
+		}
+	}
+
+	public class MobileServiceSQLiteStoreWithLogging : MobileServiceSQLiteStore
+	{
+		private bool logResults;
+		private bool logParameters;
+
+		public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false)
+			: base(fileName)
+		{
+			this.logResults = logResults;
+			this.logParameters = logParameters;
+		}
+
+		protected async new Task<IList<Newtonsoft.Json.Linq.JObject>> ExecuteQueryAsync(string tableName, string sql, IDictionary<string, object> parameters)
+		{
+			Debug.WriteLine(sql);
+
+			if (logParameters)
+				PrintDictionary(parameters);
+			
+			var result = await base.ExecuteQueryAsync(tableName, sql, parameters);
+
+			if (logResults && result != null)
+			{
+				foreach (var token in result)
+					Debug.WriteLine(token);
+			}
+
+			return result;
+		}
+
+		protected override void ExecuteNonQueryInternal(string sql, IDictionary<string, object> parameters)
+		{
+			Debug.WriteLine(sql);
+
+			if (logParameters)
+				PrintDictionary(parameters);
+
+			base.ExecuteNonQueryInternal(sql, parameters);
+		}
+
+		private void PrintDictionary(IDictionary<string, object> dictionary)
+		{
+			if (dictionary == null)
+				return;
+
+			foreach (var pair in dictionary)
+				Debug.WriteLine("{0}:{1}", pair.Key, pair.Value);
 		}
 	}
 }

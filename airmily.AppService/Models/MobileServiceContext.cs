@@ -26,7 +26,11 @@ namespace airmily.AppService.Models
         {
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<User> Users { get; set; }
+		public DbSet<Card> Cards { get; set; }
+		public DbSet<Transaction> Transactions { get; set; }
+		public DbSet<AlbumItem> AlbumItems { get; set; }
+		public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

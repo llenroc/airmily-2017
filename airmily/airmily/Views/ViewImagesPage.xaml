@@ -11,6 +11,11 @@
              x:Class="airmily.Views.ViewImagesPage"
              BackgroundColor="{StaticResource BrandColorLight}">
 
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Refresh" Command="{Binding RefreshCmd}">
+		</ToolbarItem>
+	</ContentPage.ToolbarItems>
+	
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
