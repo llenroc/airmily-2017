@@ -29,6 +29,7 @@ namespace airmily.iOS
             var manager = BITHockeyManager.SharedHockeyManager;             //Should work
             manager.Configure("1578f0ce30e440b98f4478e239d38dd6");          //Works
             manager.StartManager();
+            HockeyApp.MetricsManager.TrackEvent("Feedback");
             manager.Authenticator.AuthenticateInstallation(); //Obsolete for crash only builds (assuming we're using it for more) 
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();

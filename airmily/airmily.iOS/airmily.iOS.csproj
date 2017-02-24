@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Appearance.cs" />
     <Compile Include="CustomRenderers\RoundedBoxViewRenderer.cs" />
+    <Compile Include="Feedback.cs" />
     <Compile Include="iOSInitializer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

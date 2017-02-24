@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using airmily.Interfaces;
 using airmily.Services.AppService;
 using airmily.Services.Azure;
 using airmily.Services.Models;
@@ -110,6 +111,10 @@ namespace airmily.ViewModels
 
             _currentUser = (User) parameters["user"];
             RefreshList();
+
+            var feedback = DependencyService.Get<IFeedback>();
+            if(feedback != null)
+                feedback.feedback();
         }
     }
 }

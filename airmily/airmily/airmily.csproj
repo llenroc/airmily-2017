@@ -42,6 +42,7 @@
     </Compile>
     <Compile Include="Ext\INavigationServiceExt.cs" />
     <Compile Include="Ext\IEventAggregatorExt.cs" />
+    <Compile Include="Interfaces\IFeedback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CardsListPageViewModel.cs" />
     <Compile Include="ViewModels\CarouselImageGalleryPageViewModel.cs" />
