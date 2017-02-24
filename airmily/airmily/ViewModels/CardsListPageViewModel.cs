@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using airmily.Interfaces;
 using airmily.Services.AppService;
 using airmily.Services.Azure;
 using airmily.Services.Models;
@@ -8,7 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
-
+using HockeyApp;
 namespace airmily.ViewModels
 {
     public class CardsListPageViewModel : BindableBase, INavigationAware
@@ -27,6 +29,8 @@ namespace airmily.ViewModels
         private string _title;
 
         private bool _isRefreshing;
+
+        
         public CardsListPageViewModel(INavigationService navigationService, IAzure azure)
         {
             _navigationService = navigationService;
@@ -55,6 +59,8 @@ namespace airmily.ViewModels
         {
             get
             {
+                HockeyApp.MetricsManager.TrackEvent("TransactionClicked");
+
                 if (_goToTransactionsListPage == null)
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
@@ -83,6 +89,9 @@ namespace airmily.ViewModels
         {
             IsRefreshing = true;
 
+            HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed");
+
+
             CardsList = null;
             await _azure.UpdateAllCards(_currentUser);
             var ret = await _azure.GetAllCards(_currentUser.UserID);
@@ -97,11 +106,15 @@ namespace airmily.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (!parameters.ContainsKey("user"))
+            if(!parameters.ContainsKey("user"))
                 return;
 
             _currentUser = (User) parameters["user"];
             RefreshList();
+
+            //var feedback = DependencyService.Get<IFeedback>();
+            //if(feedback != null)
+                //feedback.feedback();
         }
     }
 }

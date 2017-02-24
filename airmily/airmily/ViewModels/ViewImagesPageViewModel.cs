@@ -182,7 +182,8 @@ namespace airmily.ViewModels
 						_good3.Add(t);
 						break;
 				}
-		}
+		    HockeyApp.MetricsManager.TrackEvent("Images Page Loaded");
+        }
 
 		public async Task AddPicture(AlbumItem item, MediaFile image)
 		{
@@ -224,7 +225,8 @@ namespace airmily.ViewModels
 					_receipt3.Add(newItem);
 					_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
-			}
+			    HockeyApp.MetricsManager.TrackEvent("Receipt Added");
+            }
 			else
 			{
 				if (_good1.Contains(item))
@@ -244,7 +246,8 @@ namespace airmily.ViewModels
 					_good3.Remove(item);
 					_good3.Add(newItem);
 					_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-				}
+			    }
+			    HockeyApp.MetricsManager.TrackEvent("Goods Added");
 			}
 		}
 
