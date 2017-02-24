@@ -65,6 +65,7 @@
     <Compile Include="Views\Controls\CardItemTemplateView.xaml.cs">
       <DependentUpon>CardItemTemplateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\ContentPageShView.cs" />
     <Compile Include="Views\Controls\ImageViewGalleryTemplate.xaml.cs">
       <DependentUpon>ImageViewGalleryTemplate.xaml</DependentUpon>
     </Compile>

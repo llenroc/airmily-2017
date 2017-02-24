@@ -112,9 +112,9 @@ namespace airmily.ViewModels
             _currentUser = (User) parameters["user"];
             RefreshList();
 
-            var feedback = DependencyService.Get<IFeedback>();
-            if(feedback != null)
-                feedback.feedback();
+            //var feedback = DependencyService.Get<IFeedback>();
+            //if(feedback != null)
+                //feedback.feedback();
         }
     }
 }

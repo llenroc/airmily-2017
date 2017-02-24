@@ -1,8 +1,9 @@
-﻿using Xamarin.Forms;
+﻿using airmily.Views.Controls;
+using Xamarin.Forms;
 
 namespace airmily.Views
 {
-    public partial class TransactionsListPage : ContentPage
+    public partial class TransactionsListPage : ContentPageShView
     {
         public TransactionsListPage()
         {

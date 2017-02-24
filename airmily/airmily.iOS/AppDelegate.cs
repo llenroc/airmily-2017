@@ -37,7 +37,7 @@ namespace airmily.iOS
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new iOSInitializer()));
-
+            UIApplication.SharedApplication.ApplicationSupportsShakeToEdit = true;
 
 
             return base.FinishedLaunching(app, options);
