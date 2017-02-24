@@ -34,6 +34,7 @@ namespace airmily.ViewModels
 			get { return _currentTransaction; }
 			set { SetProperty(ref _currentTransaction, value); }
 		}
+
 		private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
 		public DelegateCommand<ItemTappedEventArgs> OnImageTapped
 		{
@@ -100,22 +101,43 @@ namespace airmily.ViewModels
 				}));
 			}
 		}
+
+		private DelegateCommand _refreshCmd;
+		public DelegateCommand RefreshCmd
+		{
+			get
+			{
+				return _refreshCmd ?? (_refreshCmd = new DelegateCommand(async () => await Refresh()));
+			}
+			set
+			{
+				SetProperty(ref _refreshCmd, value);
+			}
+		}
+
 		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
 		{
 			_pageDialogService = pageDialogService;
 			_azure = azure;
 			_navigationService = navigationService;
 		}
+
 		public void OnNavigatedFrom(NavigationParameters parameters)
 		{
 
 		}
+
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
 			if (!parameters.ContainsKey("transaction")) return;
 			if (!parameters.ContainsKey("refreshing"))
 				CurrentTransaction = (Transaction)parameters["transaction"];
 
+			await Refresh();
+		}
+
+		public async Task Refresh()
+		{
 			_receipt1.Clear();
 			_receipt2.Clear();
 			_receipt3.Clear();
@@ -162,6 +184,7 @@ namespace airmily.ViewModels
 				}
 		    HockeyApp.MetricsManager.TrackEvent("Images Page Loaded");
         }
+
 		public async Task AddPicture(AlbumItem item, MediaFile image)
 		{
 			if (image == null) return;

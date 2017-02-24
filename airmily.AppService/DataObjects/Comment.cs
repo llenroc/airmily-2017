@@ -1,4 +1,5 @@
-﻿using airmily.Services.Interfaces;
+﻿using System;
+using airmily.Services.Interfaces;
 using Microsoft.Azure.Mobile.Server;
 using Newtonsoft.Json;
 
@@ -17,6 +18,6 @@ namespace airmily.AppService.DataObjects
 		public string UserID { get; set; }
 
 		[JsonProperty("date")]
-		public string Date { get; set; }
+		public DateTime? Date { get; set; }
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Web.Http;
+using airmily.AppService.Migrations;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Authentication;
 using Microsoft.Azure.Mobile.Server.Config;
@@ -18,7 +20,7 @@ namespace airmily.AppService
                 .UseDefaultConfiguration()
                 .ApplyTo(config);
 
-            // Use Entity Framework Code First to create database tables based on your DbContext
+			// Use Entity Framework Code First to create database tables based on your DbContext
             Database.SetInitializer(new MobileServiceInitializer());
 
             MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
@@ -35,8 +37,10 @@ namespace airmily.AppService
                     TokenHandler = config.GetAppServiceTokenHandler()
                 });
             }
+			
+			config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-            app.UseWebApi(config);
+			app.UseWebApi(config);
         }
     }
 }
