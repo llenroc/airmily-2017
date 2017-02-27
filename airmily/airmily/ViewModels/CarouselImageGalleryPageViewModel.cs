@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using airmily.Interfaces;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Microsoft.Practices.ObjectBuilder2;
@@ -21,6 +22,7 @@ namespace airmily.ViewModels
 		private readonly IAzure _azure;
 		private readonly INavigationService _navigationService;
 		private readonly IPageDialogService _pageDialogService;
+	    private readonly IAuth _auth;
 
 		private DelegateCommand _addCommentCmd;
 		public DelegateCommand AddCommentCmd
@@ -50,11 +52,12 @@ namespace airmily.ViewModels
 			set { SetProperty(ref _images, value); }
 		}
 
-		public CarouselImageGalleryPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
+		public CarouselImageGalleryPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService, IAuth auth)
 		{
 			_pageDialogService = pageDialogService;
 			_azure = azure;
 			_navigationService = navigationService;
+		    _auth = auth;
 		}
 		public void OnNavigatedFrom(NavigationParameters parameters)
 		{
@@ -82,7 +85,7 @@ namespace airmily.ViewModels
 			Comment newComment = new Comment
 			{
 				ImageID = SelectedImage.Items.First().Image.ID,
-				UserID = "588842",
+				UserID = _auth.getCurrentUser().UserID,
 				Message = SelectedImage.AddCommentText,
 				Date = DateTime.Now
 			};

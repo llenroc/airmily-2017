@@ -17,17 +17,18 @@ namespace airmily.ViewModels
     {
         private readonly IAzure _azure;
         private readonly INavigationService _navigationService;
+        private readonly IAuth _auth;
 
         private ObservableCollection<Card> _cardsList;
-        private User _currentUser;
         private DelegateCommand<ItemTappedEventArgs> _goToTransactionsListPage;
         private DelegateCommand _refreshCommand;
         private string _title;
         private bool _isRefreshing;
-        public CardsListPageViewModel(INavigationService navigationService, IAzure azure)
+        public CardsListPageViewModel(INavigationService navigationService, IAzure azure, IAuth auth)
         {
             _navigationService = navigationService;
             _azure = azure;
+            _auth = auth;
             Title = "Cards";
         }
         public ObservableCollection<Card> CardsList
@@ -54,7 +55,7 @@ namespace airmily.ViewModels
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
                         var card = selected.Item as Card;
-                        var parameters = new NavigationParameters {["card"] = card, ["ffx"] = _currentUser};
+                        var parameters = new NavigationParameters {["card"] = card};
                         await _navigationService.NavigateAsync("TransactionsListPage", parameters);
                     });
                 return _goToTransactionsListPage;
@@ -76,8 +77,8 @@ namespace airmily.ViewModels
             IsRefreshing = true;
             HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed");
             CardsList = null;
-            await _azure.UpdateAllCards(_currentUser);
-            var ret = await _azure.GetAllCards(_currentUser.UserID);
+            await _azure.UpdateAllCards(_auth.getCurrentUser());
+            var ret = await _azure.GetAllCards(_auth.getCurrentUser().UserID);
             CardsList = new ObservableCollection<Card>(ret);
             IsRefreshing = false;
         }
@@ -88,7 +89,9 @@ namespace airmily.ViewModels
         {
             if (!parameters.ContainsKey("user"))
                 return;
-            _currentUser = (User) parameters["user"];
+            _auth.setCurrentUser((User)parameters["user"]);
+            //_currentUser = (User) parameters["user"];  //OLD WAY
+
             RefreshList();
         }
     }

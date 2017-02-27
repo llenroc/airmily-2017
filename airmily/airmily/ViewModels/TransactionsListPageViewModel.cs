@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using airmily.Interfaces;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Prism.Commands;
@@ -16,6 +17,7 @@ namespace airmily.ViewModels
         private readonly IAzure _azure;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
+        private readonly IAuth _auth;
 
         private Card _currentCard = new Card
         {
@@ -24,7 +26,6 @@ namespace airmily.ViewModels
             Currency = "£",
             Balance = "0.00"
         };
-        private User _currentUser;
         private DelegateCommand<ItemTappedEventArgs> _onTransactionTapped;
         private string _title;
         private ObservableCollection<Transaction> _transactionsList;
@@ -36,11 +37,12 @@ namespace airmily.ViewModels
             set { SetProperty(ref _isRefreshing, value); }
         }
         public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure,
-            INavigationService navigationService)
+            INavigationService navigationService, IAuth auth)
         {
             _pageDialogService = pageDialogService;
             _azure = azure;
             _navigationService = navigationService;
+            _auth = auth;
             Title = "Transactions";
         }
         public ObservableCollection<Transaction> TransactionsList
@@ -65,7 +67,7 @@ namespace airmily.ViewModels
 
             HockeyApp.MetricsManager.TrackEvent("Transaction List Refreshed");
 
-            await _azure.UpdateAllTransactions(CurrentUser, CurrentCard.CardID);
+            await _azure.UpdateAllTransactions(_auth.getCurrentUser(), CurrentCard.CardID);
             var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
             TransactionsList = null;
             TransactionsList = new ObservableCollection<Transaction>(ret);
@@ -80,11 +82,6 @@ namespace airmily.ViewModels
         {
             get { return _currentCard; }
             set { SetProperty(ref _currentCard, value); }
-        }
-        public User CurrentUser
-        {
-            get { return _currentUser; }
-            set { SetProperty(ref _currentUser, value); }
         }
         public DelegateCommand<ItemTappedEventArgs> OnTransactionTapped
         {
@@ -107,7 +104,7 @@ namespace airmily.ViewModels
         {
             if (parameters.ContainsKey("card"))
             {
-                CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
+               // CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
                 CurrentCard = (Card) parameters["card"];
                 RefreshList();
                 HockeyApp.MetricsManager.TrackEvent("Transaction Page Loaded");

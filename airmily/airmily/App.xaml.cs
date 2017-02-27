@@ -1,4 +1,5 @@
 ﻿using airmily.Ext;
+using airmily.Interfaces;
 using airmily.Services.AppService;
 using airmily.Services.Azure;
 using airmily.Services.Models;
@@ -38,6 +39,7 @@ namespace airmily
                 OpenID = "",
                 FairFX = "c3V6eS5waWVyY2VAYmVpZXIzNjAuY29tQEp1TGkyMjM="
             };
+
             var parameters = new NavigationParameters {["user"] = current};
             NavigationService.NavigateAsync("NavigationPage/CardsListPage", parameters);
         }
@@ -45,6 +47,7 @@ namespace airmily
         protected override void RegisterTypes()
         {
             Container.RegisterType<IAzure, Azure>();
+            Container.RegisterType<IAuth, Auth>();
 
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<CardsListPage>();
