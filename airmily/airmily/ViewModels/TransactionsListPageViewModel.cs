@@ -31,6 +31,7 @@ namespace airmily.ViewModels
         private ObservableCollection<Transaction> _transactionsList;
         private DelegateCommand _refreshCommand;
         private bool _isRefreshing;
+        private Transaction _selectedTransaction;
         public bool IsRefreshing
         {
             get { return _isRefreshing; }
@@ -61,6 +62,11 @@ namespace airmily.ViewModels
                 return _refreshCommand;
             }
         }
+        public Transaction SelectedTransaction
+        {
+            get { return _selectedTransaction; }
+            set { SetProperty(ref _selectedTransaction, value); }
+        }
         public async void RefreshList()
         {
             IsRefreshing = true;
@@ -73,6 +79,7 @@ namespace airmily.ViewModels
             TransactionsList = new ObservableCollection<Transaction>(ret);
             IsRefreshing = false;
         }
+
         public string Title
         {
             get { return _title; }
@@ -92,6 +99,7 @@ namespace airmily.ViewModels
                     {
                         var trans = selected.Item as Transaction;
                         var parameters = new NavigationParameters {["transaction"] = trans};
+                        SelectedTransaction = null;
                         await _navigationService.NavigateAsync("ViewImagesPage", parameters);
                     });
                 return _onTransactionTapped;
@@ -104,7 +112,7 @@ namespace airmily.ViewModels
         {
             if (parameters.ContainsKey("card"))
             {
-               // CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
+                // CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
                 CurrentCard = (Card) parameters["card"];
                 RefreshList();
                 HockeyApp.MetricsManager.TrackEvent("Transaction Page Loaded");

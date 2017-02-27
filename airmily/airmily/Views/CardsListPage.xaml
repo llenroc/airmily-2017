@@ -13,7 +13,7 @@
     <StackLayout>
         <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="True"
                   IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}"
-                  RefreshCommand="{Binding RefreshCommand}">
+                  RefreshCommand="{Binding RefreshCommand}" SelectedItem="{Binding SelectedCard, Mode=TwoWay}">
             <behaviors:Interaction.Behaviors>
                 <behaviors:BehaviorCollection>
                     <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}"
