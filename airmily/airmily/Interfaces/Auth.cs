@@ -11,7 +11,7 @@ namespace airmily.Interfaces
 {
     public class Auth : IAuth
     {
-        private User _currentUser;
+        static private User _currentUser;
 
         public User getCurrentUser()
         {

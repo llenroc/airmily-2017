@@ -5,15 +5,13 @@
              x:Class="airmily.Views.Controls.TransItemView">
     <ContentView.Content>
         <Grid BackgroundColor="Black">
-            <Image
-                BackgroundColor="{StaticResource BrandColorLighter}"
-                Aspect="AspectFill"
-                Opacity=".7" />
+            <Image BackgroundColor="{StaticResource BrandColorLighter}"
+                  Aspect="AspectFill"
+                  Opacity=".7" />
 
-            <Grid
-                ColumnSpacing="0"
-                RowSpacing="0"
-                Padding="20">
+            <Grid ColumnSpacing="0"
+                  RowSpacing="0"
+                  Padding="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
