@@ -6,17 +6,17 @@ namespace airmily.Services.Models
 	[JsonObject]
 	public class User : EntityDataOfflineSync, IUser
 	{
-		[JsonProperty("username")]
+		[JsonProperty]
 		public string UserName { get; set; }
-		[JsonProperty("userID")]
+		[JsonProperty]
 		public string UserID { get; set; }
-		[JsonProperty("unionID")]
+		[JsonProperty]
 		public string UnionID { get; set; }
-		[JsonProperty("openID")]
+		[JsonProperty]
 		public string OpenID { get; set; }
-		[JsonProperty("fairfx")]
+		[JsonProperty]
 		public string FairFX { get; set; }
-		[JsonProperty("active")]
+		[JsonProperty]
 		public bool Active { get; set; }
 
 		public User() { }

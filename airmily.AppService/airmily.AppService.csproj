@@ -255,9 +255,6 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\airmilyAppService - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\airmilyAppService.pubxml" />
-    <None Include="Properties\PublishProfiles\airmilyAppServiceAsh - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airmilyAppServiceAsh - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\airmilyAppServiceAsh - Web Deploy.pubxml" />
   </ItemGroup>

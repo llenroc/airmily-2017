@@ -21,7 +21,7 @@ namespace airmily.ViewModels
 
         private Card _currentCard = new Card
         {
-            CardHolder = "John Smith",
+            User = "John Smith",
             Number = "0000********0000",
             Currency = "£",
             Balance = "0.00"
@@ -67,7 +67,7 @@ namespace airmily.ViewModels
 
             HockeyApp.MetricsManager.TrackEvent("Transaction List Refreshed");
 
-            await _azure.UpdateAllTransactions(_auth.getCurrentUser(), CurrentCard.CardID);
+            await _azure.UpdateAllTransactions(_auth.GetCurrentUser(), CurrentCard.CardID);
             var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
             TransactionsList = null;
             TransactionsList = new ObservableCollection<Transaction>(ret);

@@ -8,6 +8,6 @@
 
 		bool IsReceipt { get; set; }
 
-		string Address { get; set; }
+		byte[] Image { get; set; }
 	}
 }

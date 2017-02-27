@@ -13,7 +13,7 @@ namespace airmily.Interfaces
     {
         static private User _currentUser;
 
-        public User getCurrentUser()
+        public User GetCurrentUser()
         {
             return _currentUser;
         }

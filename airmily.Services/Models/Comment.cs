@@ -6,21 +6,18 @@ namespace airmily.Services.Models
 {
 	public class Comment : EntityDataOfflineSync, IComment
 	{
-		[JsonProperty("imageid")]
+		[JsonProperty]
 		public string ImageID { get; set; }
 
-		[JsonProperty("content")]
+		[JsonProperty]
 		public string Message { get; set; }
 
-		[JsonProperty("userid")]
-		public string UserID { get; set; }
+		[JsonProperty]
+		public string User { get; set; }
 
-		[JsonProperty("date")]
+		[JsonProperty]
 		public DateTime? Date { get; set; }
-
-		[JsonIgnore]
-		public User From { get; set; }
-
+		
 		public Comment() { CurrentType = GalleryType.Comment; }
 
 		[JsonIgnore]
@@ -44,7 +41,7 @@ namespace airmily.Services.Models
 		[JsonIgnore]
 		public string Value
 		{
-			get { return From.UserName ?? "Unknown"; }
+			get { return User; }
 		}
 	}
 

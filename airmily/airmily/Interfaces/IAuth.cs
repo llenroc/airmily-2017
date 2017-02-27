@@ -9,7 +9,7 @@ namespace airmily.Interfaces
 {
     public interface IAuth
     {
-        User getCurrentUser();
+        User GetCurrentUser();
         void setCurrentUser(User setUser);
     }
 }

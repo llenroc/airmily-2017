@@ -194,12 +194,7 @@ namespace airmily.ViewModels
             };
             image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
-            if (!await _azure.UploadImage(newItem))
-            {
-                await _pageDialogService.DisplayAlertAsync("Error",
-                    "Couldn't upload image. Please make sure you are connected to the internet.", "Cancel");
-                return;
-            }
+	        await _azure.UploadImage(newItem);
 
             if (newItem.IsReceipt)
             {

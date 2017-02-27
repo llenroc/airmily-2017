@@ -9,17 +9,20 @@ namespace airmily.Services.Models
 	[JsonObject]
 	public class AlbumItem : EntityDataOfflineSync, IAlbumItem
 	{
-		[JsonProperty("image")]
+		[JsonProperty]
 		public string ImageName { get; set; }
-		[JsonProperty("albumID")]
+		[JsonProperty]
 		public string Album { get; set; }
-		[JsonProperty("receipt")]
+		[JsonProperty]
 		public bool IsReceipt { get; set; }
-		[JsonProperty("uri")]
-		public string Address { get; set; }
-
-		[JsonIgnore]
+		[JsonProperty]
 		public byte[] Image { get; set; }
+
+	    public AlbumItem()
+	    {
+		    IsAddButton = false;
+	    }
+
 		[JsonIgnore]
 		public bool IsAddButton { get; set; }
 		[JsonIgnore]
@@ -30,13 +33,10 @@ namespace airmily.Services.Models
 			    if (IsAddButton)
 				    return ImageSource.FromFile("AddImageIcon.png");
 
-				return !string.IsNullOrEmpty(Address) ? ImageSource.FromUri(new Uri(Address)) : ImageSource.FromFile("Icon-76.png");
+			    return Image == null
+				    ? ImageSource.FromFile("Icon-76.png")
+				    : ImageSource.FromStream(() => new MemoryStream(Image));
 		    }
-	    }
-
-	    public AlbumItem()
-	    {
-		    IsAddButton = false;
 	    }
 	}
 }

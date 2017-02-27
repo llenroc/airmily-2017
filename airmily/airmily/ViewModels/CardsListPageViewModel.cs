@@ -76,8 +76,8 @@ namespace airmily.ViewModels
         {
             IsRefreshing = true;
             HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed");
-            await _azure.UpdateAllCards(_auth.getCurrentUser());
-            var ret = await _azure.GetAllCards(_auth.getCurrentUser().UserID);
+            await _azure.UpdateAllCards(_auth.GetCurrentUser());
+            var ret = await _azure.GetAllCards(_auth.GetCurrentUser().UserID);
             CardsList = null;
             CardsList = new ObservableCollection<Card>(ret);
             IsRefreshing = false;

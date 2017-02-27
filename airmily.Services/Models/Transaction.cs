@@ -7,12 +7,26 @@ using Xamarin.Forms;
 namespace airmily.Services.Models
 {
 	[JsonObject]
-	public class Transaction : FFXTransaction, ITransaction
+	public class Transaction : EntityDataOfflineSync, ITransaction, IFFXTransaction
 	{
-		[JsonProperty("userID")]
+		[JsonProperty]
 		public string UserID { get; set; }
-		[JsonProperty("cardID")]
+		[JsonProperty]
 		public string CardID { get; set; }
+		[JsonProperty]
+		public string Description { get; set; }
+		[JsonProperty]
+		public string Currency { get; set; }
+		[JsonProperty]
+		public string InternalDifference { get; set; }
+		[JsonProperty]
+		public string Amount { get; set; }
+		[JsonProperty]
+		public bool NegativeAmount { get; set; }
+		[JsonProperty]
+		public string TransDate { get; set; }
+		[JsonProperty]
+		public string PostDate { get; set; }
 
 		public Transaction() { }
 		public Transaction(FFXTransaction t, string card, string user)
@@ -42,7 +56,6 @@ namespace airmily.Services.Models
 
 		[JsonIgnore]
 		public string Main { get { return Description; } }
-
 		[JsonIgnore]
 		public string Details
 		{
@@ -52,7 +65,6 @@ namespace airmily.Services.Models
 				return string.Join("-", date.Split('-').Reverse());
 			}
 		}
-
 		[JsonIgnore]
 		public string Value
 		{

@@ -8,19 +8,19 @@ namespace airmily.Services.Models
 	[JsonObject]
 	public class Card : EntityDataOfflineSync, ICard
 	{
-		[JsonProperty("cardID")]
+		[JsonProperty]
 		public string CardID { get; set; }
-		[JsonProperty("userID")]
+		[JsonProperty]
 		public string UserID { get; set; }
-		[JsonProperty("user")]
-		public string CardHolder { get; set; }
-		[JsonProperty("number")]
+		[JsonProperty]
+		public string User { get; set; }
+		[JsonProperty]
 		public string Number { get; set; }
-		[JsonProperty("currency")]
+		[JsonProperty]
 		public string Currency { get; set; }
-		[JsonProperty("balance")]
+		[JsonProperty]
 		public string Balance { get; set; }
-		[JsonProperty("active")]
+		[JsonProperty]
 		public bool Active { get; set; }
 
 		public Card() { }
@@ -28,7 +28,7 @@ namespace airmily.Services.Models
 		{
 			CardID = card.CardID;
 			UserID = user;
-			CardHolder = card.CardHolder.Firstname + " " + card.CardHolder.Surname;
+			User = card.CardHolder.Firstname + " " + card.CardHolder.Surname;
 			Number = card.Number;
 			Currency = card.Currency.Code;
 			Balance = (Convert.ToDouble(card.Available) - Convert.ToDouble(card.Blocked)).ToString("F");
@@ -56,7 +56,7 @@ namespace airmily.Services.Models
 		}
 
 		[JsonIgnore]
-		public string Main { get { return CardHolder; } }
+		public string Main { get { return User; } }
 		[JsonIgnore]
 		public string Details { get { return Number; } }
 		[JsonIgnore]

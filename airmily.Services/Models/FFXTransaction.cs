@@ -8,24 +8,30 @@ namespace airmily.Services.Models
 	{
 		[JsonProperty("description")]
 		public string Description { get; set; }
-		
 		[JsonProperty("currency")]
 		public string Currency { get; set; }
-
 		[JsonProperty("transactionamount")]
 		public string InternalDifference { get; set; }
-
 		[JsonProperty("transactionbill")]
 		public string Amount { get; set; }
-
 		[JsonProperty("isdebit")]
 		public bool NegativeAmount { get; set; }
-		
 		[JsonProperty("transactiondate")]
 		public string TransDate { get; set; }
-
 		[JsonProperty("postdate")]
 		public string PostDate { get; set; }
+
+		public FFXTransaction() { }
+		public FFXTransaction(Transaction t)
+		{
+			Description = t.Description;
+			Currency = t.Currency;
+			InternalDifference = t.InternalDifference;
+			Amount = t.Amount;
+			NegativeAmount = t.NegativeAmount;
+			TransDate = t.TransDate;
+			PostDate = t.PostDate;
+		}
 
 		//Operator Override
 		public static bool operator ==(FFXTransaction a, FFXTransaction b)

@@ -85,7 +85,7 @@ namespace airmily.ViewModels
 			Comment newComment = new Comment
 			{
 				ImageID = SelectedImage.Items.First().Image.ID,
-				UserID = _auth.getCurrentUser().UserID,
+				User = _auth.GetCurrentUser().UserName,
 				Message = SelectedImage.AddCommentText,
 				Date = DateTime.Now
 			};

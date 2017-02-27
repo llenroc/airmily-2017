@@ -6,7 +6,7 @@
 
 		string UserID { get; set; }
 
-		string CardHolder { get; set; }
+		string User { get; set; }
 
 		string Number { get; set; }
 

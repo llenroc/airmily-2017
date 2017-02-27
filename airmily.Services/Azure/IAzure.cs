@@ -57,13 +57,6 @@ namespace airmily.Services.Azure
 		/// <returns>Returns false if the item isn't valid</returns>
 		Task<bool>				UploadImage(AlbumItem image);
 		/// <summary>
-		/// UNTESTED
-		/// Deletes the AlbumItem row and image
-		/// </summary>
-		/// <param name="image">The item to delete</param>
-		/// <returns>Returns false if the item isn't valid</returns>
-		Task<bool>				DeleteImage(AlbumItem image);
-		/// <summary>
 		/// Returns a list of pictures for a particular transaction.
 		/// This gets all of the attached images, which can then be sorted between goods and receipts.
 		/// </summary>
@@ -77,13 +70,20 @@ namespace airmily.Services.Azure
 		/// <param name="receipts">Whether to get receipts or goods</param>
 		/// <returns></returns>
 		Task<List<AlbumItem>>	GetAllImages(string albumid, bool receipts);
+		/// <summary>
+		/// UNTESTED
+		/// Deletes the AlbumItem row and image
+		/// </summary>
+		/// <param name="image">The item to delete</param>
+		/// <returns>Returns false if the item isn't valid</returns>
+		Task					DeleteImage(AlbumItem image);
 		
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		Task					AddComment(Comment c);
+		Task<bool>				AddComment(Comment c);
 		/// <summary>
 		/// 
 		/// </summary>

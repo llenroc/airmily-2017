@@ -31,13 +31,6 @@ namespace airmily.Services.Azure
 		private IMobileServiceSyncTable<Transaction> _transTable;
 		private IMobileServiceSyncTable<AlbumItem> _albumTable;
 		private IMobileServiceSyncTable<Comment> _commsTable;
-
-		//Storage
-		private CloudStorageAccount _storageAccount;
-		private CloudBlobClient _storageClient;
-		private CloudBlobContainer _storageContainer;
-		private static ObservableCollection<AlbumItem> _offlineImageCache = new ObservableCollection<AlbumItem>();
-		private static bool _syncincOfflineImages = false;
 		 
 		//Ctor
 		public Azure()
@@ -59,12 +52,6 @@ namespace airmily.Services.Azure
 				_transTable = _mobileClient.GetSyncTable<Transaction>();
 				_albumTable = _mobileClient.GetSyncTable<AlbumItem>();
 				_commsTable = _mobileClient.GetSyncTable<Comment>();
-
-				_storageAccount = CloudStorageAccount.Parse(AzureSettings.StorageConnectionString);
-				_storageClient = _storageAccount.CreateCloudBlobClient();
-				_storageContainer = _storageClient.GetContainerReference("images");
-
-				CrossConnectivity.Current.ConnectivityChanged += ConnectivityChanged;
 			}
 			catch (Exception ex)
 			{
@@ -86,6 +73,7 @@ namespace airmily.Services.Azure
 
 		public async Task<bool> UpdateAllCards(User credentials)
 		{
+			return true;
 			if (!credentials.Active)
 				return false;
 
@@ -124,11 +112,12 @@ namespace airmily.Services.Azure
 
 			IMobileServiceTableQuery<Card> query = !all ? _cardsTable.Where(c => c.UserID == userid && c.Active == true) : _cardsTable.Where(c => c.UserID == userid);
 
-			return (await query.ToListAsync()).OrderBy(c => c.CardHolder).ToList();
+			return (await query.ToListAsync()).OrderBy(c => c.User).ToList();
 		}
 
 		public async Task<bool> UpdateAllTransactions(User credentials, string cardid)
 		{
+			return true;
 			if (!credentials.Active)
 				return false;
 
@@ -180,9 +169,9 @@ namespace airmily.Services.Azure
 			foreach (FFXTransaction t in samedateTransactions)
 			{
 				bool add = true;
-				foreach (FFXTransaction old in oldList)
+				foreach (Transaction old in oldList)
 				{
-					if (t == old)
+					if (t == new FFXTransaction(old))
 					{
 						add = false;
 						break;
@@ -226,35 +215,9 @@ namespace airmily.Services.Azure
 			if (image.Image == null || string.IsNullOrEmpty(image.ImageName))
 				return false;
 
-			if (CrossConnectivity.Current.IsConnected)
-			{
-				CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-				blob.Properties.ContentType = "image/jpeg";
-				await blob.UploadFromStreamAsync(new MemoryStream(image.Image));
-
-				image.Address = blob.StorageUri.PrimaryUri.ToString();
-				await _albumTable.InsertAsync(image);
-				await SyncAsync();
-			}
-			else
-			{
-				_offlineImageCache.Add(image);
-			}
-
-			return true;
-		}
-		public async Task<bool> DeleteImage(AlbumItem image)
-		{
-			//image.Deleted = true;
-			//await _albumTable.UpdateAsync(image);
-			await _albumTable.DeleteAsync(image);
+			await _albumTable.InsertAsync(image);
 			await SyncAsync();
 
-			//CloudBlockBlob blob = _storageContainer.GetBlockBlobReference(image.ImageName);
-			//Task imageTask = blob.DeleteIfExistsAsync();
-			//Task albumTask = _albumTable.DeleteAsync(image);
-
-			//await Task.WhenAll(imageTask, albumTask);
 			return true;
 		}
 		public async Task<List<AlbumItem>> GetAllImages(string albumid)
@@ -265,9 +228,7 @@ namespace airmily.Services.Azure
 			await SyncAsync();
 
 			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid);
-			List<AlbumItem> album = await query.ToListAsync();
-
-			return album;
+			return await query.ToListAsync();
 		}
 		public async Task<List<AlbumItem>> GetAllImages(string albumid, bool receipts)
 		{
@@ -277,19 +238,23 @@ namespace airmily.Services.Azure
 			await SyncAsync();
 
 			IMobileServiceTableQuery<AlbumItem> query = _albumTable.Where(a => a.Album == albumid && a.IsReceipt == receipts);
-			List<AlbumItem> album = await query.ToListAsync();
-
-			return album;
+			return await query.ToListAsync();
+		}
+		public async Task DeleteImage(AlbumItem image)
+		{
+			await _albumTable.DeleteAsync(image);
+			await SyncAsync();
 		}
 
-		public async Task AddComment(Comment c)
+		public async Task<bool> AddComment(Comment c)
 		{
-			if (string.IsNullOrEmpty(c.Message) || string.IsNullOrEmpty(c.UserID) || string.IsNullOrEmpty(c.ImageID))
-				return;
+			if (string.IsNullOrEmpty(c.Message) || string.IsNullOrEmpty(c.ImageID))
+				return false;
 
 			await _commsTable.InsertAsync(c);
-
 			await SyncAsync();
+
+			return true;
 		}
 		public async Task<List<Comment>> GetComments(string imageid)
 		{
@@ -299,12 +264,7 @@ namespace airmily.Services.Azure
 			await SyncAsync();
 
 			IMobileServiceTableQuery<Comment> query = _commsTable.Where(c => c.ImageID == imageid);
-			List<Comment> ret = await query.ToListAsync();
-
-			foreach (Comment c in ret)
-				c.From = (await GetUser(c.UserID)).First();
-
-			return ret;
+			return await query.ToListAsync();
 		}
 		public async Task DeleteComment(Comment comment)
 		{
@@ -480,119 +440,6 @@ namespace airmily.Services.Azure
 			string[] unencrypted = Convert.FromBase64String(encrypted).Aggregate("", (current, b) => current + (char)b).Split('@');
 			return (unencrypted[1] != "beier360.com" || unencrypted.Length != 3) ? null : new[] { unencrypted[0] + "@" + unencrypted[1], unencrypted[2] };
 			//return (unencrypted[0] != SALT || unencrypted[2] != "beier360.com" || unencrypted.Length != 4) ? null : unencrypted;
-		}
-
-		private void ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
-		{
-			if (!e.IsConnected)
-				return;
-
-			if (_syncincOfflineImages)
-				return;
-
-			_syncincOfflineImages = true;
-			UploadOfflineImages();
-		}
-
-		private async void UploadOfflineImages()
-		{
-			foreach (AlbumItem image in _offlineImageCache)
-			{
-				await UploadImage(image);
-				Debug.WriteLine("Uploading {0} to {1}", image.Image, image.Album);
-			}
-			_offlineImageCache.Clear();
-			_syncincOfflineImages = true;
-		}
-	}
-
-	public class LoggingHandler : DelegatingHandler
-	{
-		private bool logRequestResponseBody;
-
-		public LoggingHandler(bool logRequestResponseBody = false)
-		{
-			this.logRequestResponseBody = logRequestResponseBody;
-		}
-
-		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
-		{
-			Debug.WriteLine("Request: {0} {1}", request.Method, request.RequestUri.ToString());
-
-			if (logRequestResponseBody && request.Content != null)
-			{
-				var requestContent = await request.Content.ReadAsStringAsync();
-				Debug.WriteLine(requestContent);
-			}
-
-			Debug.WriteLine("HEADERS");
-
-			foreach (var header in request.Headers)
-			{
-				Debug.WriteLine(string.Format("{0}:{1}", header.Key, string.Join(",", header.Value)));
-			}
-
-			var response = await base.SendAsync(request, cancellationToken);
-
-			Debug.WriteLine("Response: {0}", response.StatusCode);
-
-			if (logRequestResponseBody)
-			{
-				var responseContent = await response.Content.ReadAsStringAsync();
-				Debug.WriteLine(responseContent);
-			}
-
-			return response;
-		}
-	}
-
-	public class MobileServiceSQLiteStoreWithLogging : MobileServiceSQLiteStore
-	{
-		private bool logResults;
-		private bool logParameters;
-
-		public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false)
-			: base(fileName)
-		{
-			this.logResults = logResults;
-			this.logParameters = logParameters;
-		}
-
-		protected async new Task<IList<Newtonsoft.Json.Linq.JObject>> ExecuteQueryAsync(string tableName, string sql, IDictionary<string, object> parameters)
-		{
-			Debug.WriteLine(sql);
-
-			if (logParameters)
-				PrintDictionary(parameters);
-			
-			var result = await base.ExecuteQueryAsync(tableName, sql, parameters);
-
-			if (logResults && result != null)
-			{
-				foreach (var token in result)
-					Debug.WriteLine(token);
-			}
-
-			return result;
-		}
-
-		protected override void ExecuteNonQueryInternal(string sql, IDictionary<string, object> parameters)
-		{
-			Debug.WriteLine(sql);
-
-			if (logParameters)
-				PrintDictionary(parameters);
-
-			base.ExecuteNonQueryInternal(sql, parameters);
-		}
-
-		private void PrintDictionary(IDictionary<string, object> dictionary)
-		{
-			if (dictionary == null)
-				return;
-
-			foreach (var pair in dictionary)
-				Debug.WriteLine("{0}:{1}", pair.Key, pair.Value);
 		}
 	}
 }

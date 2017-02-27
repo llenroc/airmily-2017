@@ -8,7 +8,7 @@ namespace airmily.Services.Interfaces
 
 		string Message { get; set; }
 		
-		string UserID { get; set; }
+		string User { get; set; }
 
 		DateTime? Date { get; set; }
 	}
