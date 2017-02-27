@@ -5,6 +5,7 @@
               xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
               xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
 			  xmlns:viewModels="clr-namespace:airmily.ViewModels;assembly=airmily"
+			  xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
 			  prism:ViewModelLocator.AutowireViewModel="True"
               x:Class="airmily.Views.CarouselImageGalleryPage"
               x:Name="Root"
@@ -12,7 +13,7 @@
               SelectedItem="{Binding SelectedImage, Mode=TwoWay}" >
 	<CarouselPage.ItemTemplate>
 		<DataTemplate>
-			<ContentPage>
+			<controls:ContentPageShView>
 				<ListView ItemsSource="{Binding Items, Mode=TwoWay}" ItemTemplate="{StaticResource galleryDataTemplateSelector}" HasUnevenRows="True" HeightRequest="200" MinimumHeightRequest="50" IsPullToRefreshEnabled="True" RefreshCommand="{Binding Source={x:Reference Root}, Path=BindingContext.RefreshCmd}">
 					<ListView.Resources>
 						<ResourceDictionary>
@@ -123,7 +124,7 @@
 						</Grid>
 					</StackLayout>
 				</ScrollView>-->
-			</ContentPage>
+			</controls:ContentPageShView>
 		</DataTemplate>
 	</CarouselPage.ItemTemplate>
 </CarouselPage>
