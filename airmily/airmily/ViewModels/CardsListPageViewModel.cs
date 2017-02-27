@@ -24,6 +24,7 @@ namespace airmily.ViewModels
         private DelegateCommand _refreshCommand;
         private string _title;
         private bool _isRefreshing;
+        private Card _selectedCard;
         public CardsListPageViewModel(INavigationService navigationService, IAzure azure, IAuth auth)
         {
             _navigationService = navigationService;
@@ -56,6 +57,7 @@ namespace airmily.ViewModels
                     {
                         var card = selected.Item as Card;
                         var parameters = new NavigationParameters {["card"] = card};
+                        SelectedCard = null;
                         await _navigationService.NavigateAsync("TransactionsListPage", parameters);
                     });
                 return _goToTransactionsListPage;
@@ -71,6 +73,12 @@ namespace airmily.ViewModels
                 }
                 return _refreshCommand;
             }
+        }
+
+        public Card SelectedCard
+        {
+            get { return _selectedCard; }
+            set { SetProperty(ref _selectedCard, value); }
         }
         public async void RefreshList()
         {

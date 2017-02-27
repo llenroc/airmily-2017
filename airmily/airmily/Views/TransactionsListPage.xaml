@@ -30,7 +30,7 @@
         </Frame>
         <ListView SeparatorVisibility="Default" ItemsSource="{Binding TransactionsList}" RowHeight="120"
                   HasUnevenRows="True" IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}"
-                  RefreshCommand="{Binding RefreshCommand}">
+                  RefreshCommand="{Binding RefreshCommand}" SelectedItem="{Binding SelectedTransaction, Mode=TwoWay}" >
             <behaviors:Interaction.Behaviors>
                 <behaviors:BehaviorCollection>
                     <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnTransactionTapped}"
