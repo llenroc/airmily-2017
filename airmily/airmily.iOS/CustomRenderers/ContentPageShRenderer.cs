@@ -30,6 +30,8 @@ namespace airmily.iOS.CustomRenderers
         {
             if (motion == UIEventSubtype.MotionShake)
             {
+                BITHockeyManager.SharedHockeyManager.FeedbackManager.RequireUserEmail = BITFeedbackUserDataElement.DontShow;
+                BITHockeyManager.SharedHockeyManager.FeedbackManager.RequireUserName = BITFeedbackUserDataElement.DontShow;
                 BITHockeyManager.SharedHockeyManager.FeedbackManager.ShowFeedbackComposeViewWithGeneratedScreenshot();
             }
             base.MotionEnded(motion, evt);
