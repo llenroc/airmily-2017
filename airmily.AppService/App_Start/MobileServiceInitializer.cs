@@ -7,7 +7,7 @@ using airmily.AppService.Models;
 
 namespace airmily.AppService
 {
-	public class MobileServiceInitializer : DropCreateDatabaseIfModelChanges<MobileServiceContext>
+	public class MobileServiceInitializer : CreateDatabaseIfNotExists<MobileServiceContext>
 	{
 		protected override void Seed(MobileServiceContext context)
 		{

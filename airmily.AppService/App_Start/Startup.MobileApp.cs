@@ -25,7 +25,7 @@ namespace airmily.AppService
 
             MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
-            if (string.IsNullOrEmpty(settings.HostName))
+	        if (string.IsNullOrEmpty(settings.HostName))
             {
                 app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
                 {
