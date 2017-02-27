@@ -25,39 +25,29 @@ namespace airmily.ViewModels
             Balance = "0.00"
         };
         private User _currentUser;
-
         private DelegateCommand<ItemTappedEventArgs> _onTransactionTapped;
-
         private string _title;
-
         private ObservableCollection<Transaction> _transactionsList;
-
         private DelegateCommand _refreshCommand;
-
         private bool _isRefreshing;
-
         public bool IsRefreshing
         {
             get { return _isRefreshing; }
             set { SetProperty(ref _isRefreshing, value); }
         }
-
         public TransactionsListPageViewModel(IPageDialogService pageDialogService, IAzure azure,
             INavigationService navigationService)
         {
             _pageDialogService = pageDialogService;
             _azure = azure;
             _navigationService = navigationService;
-
             Title = "Transactions";
         }
-
         public ObservableCollection<Transaction> TransactionsList
         {
             get { return _transactionsList; }
             set { SetProperty(ref _transactionsList, value); }
         }
-
         public DelegateCommand RefreshCommand
         {
             get
@@ -69,7 +59,6 @@ namespace airmily.ViewModels
                 return _refreshCommand;
             }
         }
-
         public async void RefreshList()
         {
             IsRefreshing = true;
@@ -87,14 +76,11 @@ namespace airmily.ViewModels
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
-
         public Card CurrentCard
         {
             get { return _currentCard; }
             set { SetProperty(ref _currentCard, value); }
         }
-
-
         public User CurrentUser
         {
             get { return _currentUser; }
@@ -111,24 +97,18 @@ namespace airmily.ViewModels
                         var parameters = new NavigationParameters {["transaction"] = trans};
                         await _navigationService.NavigateAsync("ViewImagesPage", parameters);
                     });
-
                 return _onTransactionTapped;
             }
         }
-
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
         }
-
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-
-
             if (parameters.ContainsKey("card"))
             {
                 CurrentUser = parameters.ContainsKey("ffx") ? (User) parameters["ffx"] : new User {Active = false};
                 CurrentCard = (Card) parameters["card"];
-
                 RefreshList();
                 HockeyApp.MetricsManager.TrackEvent("Transaction Page Loaded");
             }

@@ -19,37 +19,27 @@ namespace airmily.ViewModels
         private readonly INavigationService _navigationService;
 
         private ObservableCollection<Card> _cardsList;
-
         private User _currentUser;
-
         private DelegateCommand<ItemTappedEventArgs> _goToTransactionsListPage;
-
         private DelegateCommand _refreshCommand;
-
         private string _title;
-
         private bool _isRefreshing;
-
-        
         public CardsListPageViewModel(INavigationService navigationService, IAzure azure)
         {
             _navigationService = navigationService;
             _azure = azure;
-
-            Title = "Cards";}
-
+            Title = "Cards";
+        }
         public ObservableCollection<Card> CardsList
         {
             get { return _cardsList; }
             set { SetProperty(ref _cardsList, value); }
         }
-
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
-
         public bool IsRefreshing
         {
             get { return _isRefreshing; }
@@ -60,7 +50,6 @@ namespace airmily.ViewModels
             get
             {
                 HockeyApp.MetricsManager.TrackEvent("TransactionClicked");
-
                 if (_goToTransactionsListPage == null)
                     _goToTransactionsListPage = new DelegateCommand<ItemTappedEventArgs>(async selected =>
                     {
@@ -68,11 +57,9 @@ namespace airmily.ViewModels
                         var parameters = new NavigationParameters {["card"] = card, ["ffx"] = _currentUser};
                         await _navigationService.NavigateAsync("TransactionsListPage", parameters);
                     });
-
                 return _goToTransactionsListPage;
             }
         }
-
         public DelegateCommand RefreshCommand
         {
             get
@@ -84,37 +71,25 @@ namespace airmily.ViewModels
                 return _refreshCommand;
             }
         }
-
         public async void RefreshList()
         {
             IsRefreshing = true;
-
             HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed");
-
-
             CardsList = null;
             await _azure.UpdateAllCards(_currentUser);
             var ret = await _azure.GetAllCards(_currentUser.UserID);
             CardsList = new ObservableCollection<Card>(ret);
-
             IsRefreshing = false;
         }
-
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
         }
-
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            if(!parameters.ContainsKey("user"))
+            if (!parameters.ContainsKey("user"))
                 return;
-
             _currentUser = (User) parameters["user"];
             RefreshList();
-
-            //var feedback = DependencyService.Get<IFeedback>();
-            //if(feedback != null)
-                //feedback.feedback();
         }
     }
 }

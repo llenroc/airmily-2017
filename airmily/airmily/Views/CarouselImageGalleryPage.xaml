@@ -4,127 +4,84 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
               xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-			  xmlns:viewModels="clr-namespace:airmily.ViewModels;assembly=airmily"
-			  xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
-			  prism:ViewModelLocator.AutowireViewModel="True"
+              xmlns:viewModels="clr-namespace:airmily.ViewModels;assembly=airmily"
+              xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
+              prism:ViewModelLocator.AutowireViewModel="True"
               x:Class="airmily.Views.CarouselImageGalleryPage"
               x:Name="Root"
               ItemsSource="{Binding Images}"
-              SelectedItem="{Binding SelectedImage, Mode=TwoWay}" >
-	<CarouselPage.ItemTemplate>
-		<DataTemplate>
-			<controls:ContentPageShView>
-				<ListView ItemsSource="{Binding Items, Mode=TwoWay}" ItemTemplate="{StaticResource galleryDataTemplateSelector}" HasUnevenRows="True" HeightRequest="200" MinimumHeightRequest="50" IsPullToRefreshEnabled="True" RefreshCommand="{Binding Source={x:Reference Root}, Path=BindingContext.RefreshCmd}">
-					<ListView.Resources>
-						<ResourceDictionary>
-							<DataTemplate x:Key="imageTemplate">
-								<ViewCell>
-									<Image HorizontalOptions="Fill" VerticalOptions="Fill" Source="{Binding Image.ImageSrc}" />
-								</ViewCell>
-							</DataTemplate>
-							<DataTemplate x:Key="commentTemplate">
-								<ViewCell x:Name="thisComment">
-									<ViewCell.ContextActions>
-										<MenuItem Text="Delete" IsDestructive="True" Command="{Binding Source={x:Reference Root}, Path=BindingContext.DeleteCmd}" CommandParameter="{x:Reference thisComment}" />
-									</ViewCell.ContextActions>
-									<ContentView Padding="5">
-										<Grid>
-											<Grid.RowDefinitions>
-												<RowDefinition Height="*" />
-												<RowDefinition Height="*" />
-												<RowDefinition Height="*" />
-											</Grid.RowDefinitions>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*" />
-												<ColumnDefinition Width="*" />
-											</Grid.ColumnDefinitions>
-
-											<Label Grid.Row="0" Grid.Column="0" Text="{Binding Value}"	HorizontalTextAlignment="Start"/>
-											<Label Grid.Row="0" Grid.Column="1" Text="{Binding Detail}"	HorizontalTextAlignment="End"/>
-											<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Main}" />
-										</Grid>
-									</ContentView>
-								</ViewCell>
-							</DataTemplate>
-							<DataTemplate x:Key="addCommentTemplate">
-								<ViewCell>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="80" />
-										</Grid.ColumnDefinitions>
-										<Grid.RowDefinitions>
-											<RowDefinition Height="*" />
-										</Grid.RowDefinitions>
-
-										<Entry Text="{Binding Source={x:Reference Root}, Path=SelectedItem.AddCommentText, Mode=TwoWay}" Placeholder="Write a new comment"
-											   Grid.Row="0" Grid.Column="0" />
-										<Button Text="Send" BorderWidth="1" Grid.Row="0" Grid.Column="1" Command="{Binding Source={x:Reference Root}, Path=BindingContext.AddCommentCmd}">
-										</Button>
-									</Grid>
-								</ViewCell>
-							</DataTemplate>
-							
-							<viewModels:GalleryDataTemplateSelector x:Key="galleryDataTemplateSelector"
-								ImageTemplate="{StaticResource imageTemplate}"
-								CommentTemplate="{StaticResource commentTemplate}"
-								AddCommentTemplate="{StaticResource addCommentTemplate}"
-							/>
-						</ResourceDictionary>
-					</ListView.Resources>
-				</ListView>
-				
-				<!--<ScrollView>
-					<StackLayout>
-						<Image
-                            HorizontalOptions="Fill"
-                            VerticalOptions="Fill"
-                            Source="{Binding image.ImageSrc}" />
-						<ListView ItemsSource="{Binding comments}" HasUnevenRows="True" HeightRequest="200" MinimumHeightRequest="50" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCmd}">
-							<ListView.ItemTemplate>
-								<DataTemplate>
-									<ViewCell>
-										<ContentView>
-											<Grid>
-												<Grid.RowDefinitions>
-													<RowDefinition Height="*" />
-													<RowDefinition Height="*" />
-													<RowDefinition Height="*" />
-												</Grid.RowDefinitions>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="*" />
-													<ColumnDefinition Width="*" />
-												</Grid.ColumnDefinitions>
-
-												<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                                       Text="{Binding Main}" />
-												<Label Grid.Row="0" Grid.Column="1" Text="{Binding Detail}" />
-												<Label Grid.Row="0" Grid.Column="0" Text="{Binding Value}" />
-
-											</Grid>
-										</ContentView>
-									</ViewCell>
-								</DataTemplate>
-							</ListView.ItemTemplate>
-						</ListView>
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="80" />
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="*" />
-							</Grid.RowDefinitions>
-
-							<Entry Text="{Binding AddCommentText, Mode=TwoWay}" Placeholder="Write a new comment"
-                                   Grid.Row="0" Grid.Column="0" />
-							<Button Text="Send" BorderColor="{StaticResource BrandColorDarker}" BorderWidth="1"
-                                     Grid.Row="0" Grid.Column="1" Command="{Binding Source={x:Reference Root}, Path=BindingContext.AddCommentCmd}">
-							</Button>
-						</Grid>
-					</StackLayout>
-				</ScrollView>-->
-			</controls:ContentPageShView>
-		</DataTemplate>
-	</CarouselPage.ItemTemplate>
+              SelectedItem="{Binding SelectedImage, Mode=TwoWay}">
+    <CarouselPage.ItemTemplate>
+        <DataTemplate>
+            <controls:ContentPageShView>
+                <ListView ItemsSource="{Binding Items, Mode=TwoWay}"
+                          ItemTemplate="{StaticResource galleryDataTemplateSelector}" HasUnevenRows="True"
+                          HeightRequest="200" MinimumHeightRequest="50" IsPullToRefreshEnabled="True"
+                          RefreshCommand="{Binding Source={x:Reference Root}, Path=BindingContext.RefreshCmd}">
+                    <ListView.Resources>
+                        <ResourceDictionary>
+                            <DataTemplate x:Key="imageTemplate">
+                                <ViewCell>
+                                    <Image HorizontalOptions="Fill" VerticalOptions="Fill"
+                                           Source="{Binding Image.ImageSrc}" />
+                                </ViewCell>
+                            </DataTemplate>
+                            <DataTemplate x:Key="commentTemplate">
+                                <ViewCell x:Name="thisComment">
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Text="Delete" IsDestructive="True"
+                                                  Command="{Binding Source={x:Reference Root}, Path=BindingContext.DeleteCmd}"
+                                                  CommandParameter="{x:Reference thisComment}" />
+                                    </ViewCell.ContextActions>
+                                    <ContentView Padding="5">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Value}"
+                                                   HorizontalTextAlignment="Start" />
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Detail}"
+                                                   HorizontalTextAlignment="End" />
+                                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                   Text="{Binding Main}" />
+                                        </Grid>
+                                    </ContentView>
+                                </ViewCell>
+                            </DataTemplate>
+                            <DataTemplate x:Key="addCommentTemplate">
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Entry
+                                            Text="{Binding Source={x:Reference Root}, Path=SelectedItem.AddCommentText, Mode=TwoWay}"
+                                            Placeholder="Write a new comment"
+                                            Grid.Row="0" Grid.Column="0" />
+                                        <Button Text="Send" BorderWidth="1" Grid.Row="0" Grid.Column="1"
+                                                Command="{Binding Source={x:Reference Root}, Path=BindingContext.AddCommentCmd}">
+                                        </Button>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                            <viewModels:GalleryDataTemplateSelector x:Key="galleryDataTemplateSelector"
+                                                                    ImageTemplate="{StaticResource imageTemplate}"
+                                                                    CommentTemplate="{StaticResource commentTemplate}"
+                                                                    AddCommentTemplate="{StaticResource addCommentTemplate}" />
+                        </ResourceDictionary>
+                    </ListView.Resources>
+                </ListView>
+            </controls:ContentPageShView>
+        </DataTemplate>
+    </CarouselPage.ItemTemplate>
 </CarouselPage>

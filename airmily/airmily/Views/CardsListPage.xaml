@@ -1,28 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <controls:ContentPageShView xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-             xmlns:artina="clr-namespace:UXDivers;assembly=UXDivers.Artina.Shared"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="airmily.Views.CardsListPage"
-             BackgroundColor="#FDB813"
-             Title="{Binding Title}">
+                            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                            xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+                            xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
+                            xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+                            xmlns:artina="clr-namespace:UXDivers;assembly=UXDivers.Artina.Shared"
+                            prism:ViewModelLocator.AutowireViewModel="True"
+                            x:Class="airmily.Views.CardsListPage"
+                            BackgroundColor="#FDB813"
+                            Title="{Binding Title}">
     <StackLayout>
-        <!--<Frame Padding="10" HasShadow="True" BackgroundColor="#999999">
-			<Label Text="My Cards" TextColor="White" FontAttributes="Bold" XAlign="Center" FontSize="20"/>
-		</Frame>-->
-        <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="True" IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}" RefreshCommand="{Binding RefreshCommand}">
-
+        <ListView SeparatorVisibility="Default" ItemsSource="{Binding CardsList}" RowHeight="240" HasUnevenRows="True"
+                  IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}"
+                  RefreshCommand="{Binding RefreshCommand}">
             <behaviors:Interaction.Behaviors>
                 <behaviors:BehaviorCollection>
                     <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding GoToTransactionsListPage}"
                                               PassEventArgument="True" />
                 </behaviors:BehaviorCollection>
             </behaviors:Interaction.Behaviors>
-
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

@@ -27,7 +27,6 @@ namespace airmily.ViewModels
 		{
 			get { return _addCommentCmd ?? (_addCommentCmd = new DelegateCommand(AddComment)); }
 		}
-
 		private DelegateCommand<ViewCell> _deleteCmd;
 		public DelegateCommand<ViewCell> DeleteCmd { get { return _deleteCmd ?? (_deleteCmd = new DelegateCommand<ViewCell>(DeleteComment)); } }
 
@@ -57,12 +56,9 @@ namespace airmily.ViewModels
 			_azure = azure;
 			_navigationService = navigationService;
 		}
-
 		public void OnNavigatedFrom(NavigationParameters parameters)
 		{
-
 		}
-
 		public async void OnNavigatedTo(NavigationParameters parameters)
 		{
 			if (parameters.ContainsKey("Images"))
@@ -71,22 +67,18 @@ namespace airmily.ViewModels
 				foreach (AlbumItem t in albumItems)
 				{
 					ImagesWithComments temp = new ImagesWithComments();
-
 					temp.Items.Add(new Comment { CurrentType = GalleryType.Image, Image = t });
 					temp.Items.AddRange(await _azure.GetComments(t.ID));
-					temp.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
-					
+					temp.Items.Add(new Comment { CurrentType = GalleryType.AddComment });					
 					temp.AddCommentText = "";
 					Images.Add(temp);
 				}
 			}
 		}
-
 		private async void AddComment()
 		{
 			if (string.IsNullOrEmpty(SelectedImage.AddCommentText))
 				return;
-
 			Comment newComment = new Comment
 			{
 				ImageID = SelectedImage.Items.First().Image.ID,
@@ -97,16 +89,13 @@ namespace airmily.ViewModels
 			await _azure.AddComment(newComment);
 			await Refresh();
             HockeyApp.MetricsManager.TrackEvent("Comment Added");
-
         }
-
         private bool _deleting = false;
 		private async void DeleteComment(ViewCell cell)
 		{
 			Comment c = cell.BindingContext as Comment;
 			if (c == null)
 				return;
-
 			if (!_deleting)
 			{
 				_deleting = true;
@@ -115,8 +104,6 @@ namespace airmily.ViewModels
 				_deleting = false;
 			}
 		}
-
-		// BUG TODO: Refreshing the comments doesn't work. It just crashes
 		private async Task Refresh()
 		{
 			/*
@@ -132,21 +119,18 @@ namespace airmily.ViewModels
 			*/
 		}
 	}
-
 	public class ImagesWithComments : BindableBase
 	{
 		private List<Comment> _items = new List<Comment>();
 		public List<Comment> Items { get { return _items; } set { SetProperty(ref _items, value); } }
 		
 		public string AddCommentText { get; set; }
-	}
-
+    }
 	public class GalleryDataTemplateSelector : DataTemplateSelector
 	{
 		public DataTemplate ImageTemplate { get; set; }
 		public DataTemplate CommentTemplate { get; set; }
 		public DataTemplate AddCommentTemplate { get; set; }
-
 		protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
 		{
 			Comment c = (Comment)item;
