@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using airmily.Interfaces;
-using airmily.Services.AppService;
+using airmily.Services.Auth;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Prism.Commands;
@@ -11,6 +11,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
 using HockeyApp;
+
 namespace airmily.ViewModels
 {
     public class CardsListPageViewModel : BindableBase, INavigationAware
@@ -84,8 +85,8 @@ namespace airmily.ViewModels
         {
             IsRefreshing = true;
             HockeyApp.MetricsManager.TrackEvent("Cards List Refreshed");
-            await _azure.UpdateAllCards(_auth.GetCurrentUser());
-            var ret = await _azure.GetAllCards(_auth.GetCurrentUser().UserID);
+            await _azure.UpdateAllCards(_auth.CurrentUser);
+            var ret = await _azure.GetAllCards(_auth.CurrentUser.UserID);
             CardsList = null;
             CardsList = new ObservableCollection<Card>(ret);
             IsRefreshing = false;
@@ -97,9 +98,8 @@ namespace airmily.ViewModels
         {
             if (!parameters.ContainsKey("user"))
                 return;
-            _auth.setCurrentUser((User)parameters["user"]);
-            //_currentUser = (User) parameters["user"];  //OLD WAY
 
+            _auth.CurrentUser = (User)parameters["user"];
             RefreshList();
         }
     }

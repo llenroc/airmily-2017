@@ -11,6 +11,9 @@
               x:Name="Root"
               ItemsSource="{Binding Images}"
               SelectedItem="{Binding SelectedImage, Mode=TwoWay}">
+	<CarouselPage.ToolbarItems>
+		<ToolbarItem Text="Delete" Command="{Binding DeleteCmd}" />
+	</CarouselPage.ToolbarItems>
     <CarouselPage.ItemTemplate>
         <DataTemplate>
             <controls:ContentPageShView>
@@ -30,7 +33,7 @@
                                 <ViewCell x:Name="thisComment">
                                     <ViewCell.ContextActions>
                                         <MenuItem Text="Delete" IsDestructive="True"
-                                                  Command="{Binding Source={x:Reference Root}, Path=BindingContext.DeleteCmd}"
+                                                  Command="{Binding Source={x:Reference Root}, Path=BindingContext.DeleteCommentCmd}"
                                                   CommandParameter="{x:Reference thisComment}" />
                                     </ViewCell.ContextActions>
                                     <ContentView Padding="5">

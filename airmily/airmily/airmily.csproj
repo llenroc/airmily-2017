@@ -42,21 +42,12 @@
     </Compile>
     <Compile Include="Ext\INavigationServiceExt.cs" />
     <Compile Include="Ext\IEventAggregatorExt.cs" />
-    <Compile Include="Interfaces\Auth.cs" />
-    <Compile Include="Interfaces\IAuth.cs" />
     <Compile Include="Interfaces\IFeedback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CardsListPageViewModel.cs" />
     <Compile Include="ViewModels\CarouselImageGalleryPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleDashboardPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleDetailPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleMainPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleMainTabbedPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleShowsListPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleProfilePageViewModel.cs" />
     <Compile Include="ViewModels\FullScreenImagePageViewModel.cs" />
     <Compile Include="ViewModels\TransactionsListPageViewModel.cs" />
-    <Compile Include="ViewModels\ExampleUpcomingShowsPageViewModel.cs" />
     <Compile Include="ViewModels\ViewImagesPageViewModel.cs" />
     <Compile Include="Views\CardsListPage.xaml.cs">
       <DependentUpon>CardsListPage.xaml</DependentUpon>
@@ -81,26 +72,11 @@
     <Compile Include="Views\Controls\ExampleDashboardItemContentView.xaml.cs">
       <DependentUpon>ExampleDashboardItemContentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExampleDashboardPage.xaml.cs">
-      <DependentUpon>ExampleDashboardPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExampleMainTabbedPage.xaml.cs">
-      <DependentUpon>ExampleMainTabbedPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExampleShowsListPage.xaml.cs">
-      <DependentUpon>ExampleShowsListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExampleProfilePage.xaml.cs">
-      <DependentUpon>ExampleProfilePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\FullScreenImagePage.xaml.cs">
       <DependentUpon>FullScreenImagePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransactionsListPage.xaml.cs">
       <DependentUpon>TransactionsListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExampleUpcomingShowsPage.xaml.cs">
-      <DependentUpon>ExampleUpcomingShowsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewImagesPage.xaml.cs">
       <DependentUpon>ViewImagesPage.xaml</DependentUpon>
@@ -113,18 +89,6 @@
     </EmbeddedResource>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleMainPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Views\ExampleDetailPage.xaml.cs">
-      <DependentUpon>ExampleDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExampleMainPage.xaml.cs">
-      <DependentUpon>ExampleMainPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -263,30 +227,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleDetailPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleMainTabbedPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleUpcomingShowsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleShowsListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Views\CardsListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -312,18 +252,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleProfilePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ExampleDashboardPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ViewImagesPage.xaml">

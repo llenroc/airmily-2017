@@ -22,7 +22,8 @@ namespace airmily.Services.Azure
 {
 	public class Azure : IAzure
 	{
-		private readonly bool _debugging = false;
+		private readonly bool _debugging = true;
+		private bool _syncing = false;
 
 		//Mobile
 		private MobileServiceClient _mobileClient;
@@ -52,6 +53,16 @@ namespace airmily.Services.Azure
 				_transTable = _mobileClient.GetSyncTable<Transaction>();
 				_albumTable = _mobileClient.GetSyncTable<AlbumItem>();
 				_commsTable = _mobileClient.GetSyncTable<Comment>();
+
+				CrossConnectivity.Current.ConnectivityChanged += async (sender, args) =>
+				{
+					if (!args.IsConnected || _syncing) return;
+
+					_syncing = true;
+					Debug.WriteLineIf(_debugging, "Connected: Syncing");
+					await SyncAsync();
+					_syncing = false;
+				};
 			}
 			catch (Exception ex)
 			{

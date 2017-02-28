@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using airmily.Interfaces;
+using airmily.Services.Auth;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using Prism.Commands;
@@ -73,7 +74,7 @@ namespace airmily.ViewModels
 
             HockeyApp.MetricsManager.TrackEvent("Transaction List Refreshed");
 
-            await _azure.UpdateAllTransactions(_auth.GetCurrentUser(), CurrentCard.CardID);
+            await _azure.UpdateAllTransactions(_auth.CurrentUser, CurrentCard.CardID);
             var ret = await _azure.GetAllTransactions(CurrentCard.CardID);
             TransactionsList = null;
             TransactionsList = new ObservableCollection<Transaction>(ret);
