@@ -26,21 +26,18 @@ namespace airmily.ViewModels
 		private readonly IAuth _auth;
 
 		private DelegateCommand _addCommentCmd;
-
 		public DelegateCommand AddCommentCmd
 		{
 			get { return _addCommentCmd ?? (_addCommentCmd = new DelegateCommand(AddComment)); }
 		}
 
 		private DelegateCommand<ViewCell> _deleteCommentCmd;
-
 		public DelegateCommand<ViewCell> DeleteCommentCmd
 		{
 			get { return _deleteCommentCmd ?? (_deleteCommentCmd = new DelegateCommand<ViewCell>(DeleteComment)); }
 		}
 
 		private DelegateCommand _refreshCmd;
-
 		public DelegateCommand RefreshCmd
 		{
 			get { return _refreshCmd ?? (_refreshCmd = new DelegateCommand(async () => await Refresh())); }
@@ -53,7 +50,6 @@ namespace airmily.ViewModels
 		}
 
 		private ImagesWithComments _selectedImage = new ImagesWithComments();
-
 		public ImagesWithComments SelectedImage
 		{
 			get { return _selectedImage; }
@@ -61,7 +57,6 @@ namespace airmily.ViewModels
 		}
 
 		private ObservableCollection<ImagesWithComments> _images = new ObservableCollection<ImagesWithComments>();
-
 		public ObservableCollection<ImagesWithComments> Images
 		{
 			get { return _images; }
@@ -90,7 +85,7 @@ namespace airmily.ViewModels
 			{
 				ImagesWithComments temp = new ImagesWithComments();
 				temp.Items.Add(new Comment {CurrentType = GalleryType.Image, Image = t});
-				temp.Items.AddRange(await _azure.GetComments(t.ID));
+				foreach (Comment c in await _azure.GetComments(t.ID)) temp.Items.Add(c);
 				temp.Items.Add(new Comment {CurrentType = GalleryType.AddComment});
 				temp.AddCommentText = "";
 				Images.Add(temp);
@@ -113,18 +108,27 @@ namespace airmily.ViewModels
 
 		private async void AddComment()
 		{
-			if (string.IsNullOrEmpty(SelectedImage.AddCommentText))
-				return;
-			Comment newComment = new Comment
+			try
 			{
-				ImageID = SelectedImage.Items.First().Image.ID,
-				User = _auth.CurrentUser.UserName,
-				Message = SelectedImage.AddCommentText,
-				Date = DateTime.Now
-			};
-			await _azure.AddComment(newComment);
-			await Refresh();
-			HockeyApp.MetricsManager.TrackEvent("Comment Added");
+				if (string.IsNullOrEmpty(SelectedImage.AddCommentText))
+					return;
+
+				Comment newComment = new Comment
+				{
+					ImageID = SelectedImage.Items.First().Image.ID,
+					User = _auth.CurrentUser.UserName,
+					Message = SelectedImage.AddCommentText,
+					Date = DateTime.Now
+				};
+				await _azure.AddComment(newComment);
+				await Refresh();
+				
+				HockeyApp.MetricsManager.TrackEvent("Comment Added");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
 		}
 
 		private bool _deleting = false;
@@ -159,25 +163,25 @@ namespace airmily.ViewModels
 
 		private async Task Refresh()
 		{
-			//SelectedImage.Items.RemoveRange(1, SelectedImage.Items.Count - 1);
+			Comment image = SelectedImage.Items.First();
+			SelectedImage.Items.Clear();
 
-			//Comment image = SelectedImage.Items.First();
-			//List<Comment> c = await _azure.GetComments(image.Image.ID);
+			SelectedImage.Items.Add(image);
+			foreach (Comment c in await _azure.GetComments(image.Image.ID)) SelectedImage.Items.Add(c);
+			SelectedImage.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
 
-			//SelectedImage.Items.AddRange(c);
-			//SelectedImage.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
-
-			//SelectedImage.AddCommentText = "";
+			SelectedImage.AddCommentText = "";
 		}
 	}
 
 	public class ImagesWithComments : BindableBase
 	{
-		private List<Comment> _items = new List<Comment>();
-		public List<Comment> Items { get { return _items; } set { SetProperty(ref _items, value); } }
-		
-		public string AddCommentText { get; set; }
-    }
+		private ObservableCollection<Comment> _items = new ObservableCollection<Comment>();
+		public ObservableCollection<Comment> Items { get { return _items; } set { SetProperty(ref _items, value); } }
+
+		private string _addCommentText;
+		public string AddCommentText { get { return _addCommentText; } set { SetProperty(ref _addCommentText, value); } }
+	}
 
 	public class GalleryDataTemplateSelector : DataTemplateSelector
 	{
