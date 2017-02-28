@@ -34,7 +34,7 @@ namespace airmily.Services.Models
 				    return ImageSource.FromFile("AddImageIcon.png");
 
 			    return Image == null
-				    ? ImageSource.FromFile("Icon-76.png")
+				    ? ImageSource.FromUri(new Uri("https://marvelheroes.com/sites/default/files/styles/character_profile_266x405/public/character/image/Store_Thing_Classic.png"))
 				    : ImageSource.FromStream(() => new MemoryStream(Image));
 		    }
 	    }

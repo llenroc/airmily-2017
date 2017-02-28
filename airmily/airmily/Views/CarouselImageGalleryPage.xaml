@@ -16,15 +16,15 @@
             <controls:ContentPageShView>
                 <ListView ItemsSource="{Binding Items, Mode=TwoWay}"
                           ItemTemplate="{StaticResource galleryDataTemplateSelector}" HasUnevenRows="True"
-                          HeightRequest="200" MinimumHeightRequest="50" IsPullToRefreshEnabled="True"
+                          IsPullToRefreshEnabled="True" MinimumHeightRequest="50"
                           RefreshCommand="{Binding Source={x:Reference Root}, Path=BindingContext.RefreshCmd}">
                     <ListView.Resources>
                         <ResourceDictionary>
                             <DataTemplate x:Key="imageTemplate">
-                                <ViewCell>
-                                    <Image HorizontalOptions="Fill" VerticalOptions="Fill"
-                                           Source="{Binding Image.ImageSrc}" />
-                                </ViewCell>
+                              <ViewCell>
+                                  <Image HorizontalOptions="Fill" VerticalOptions="Fill" Aspect="AspectFill"
+                                         Source="{Binding Image.ImageSrc}" HeightRequest="500"/>
+                                </ViewCell>                              
                             </DataTemplate>
                             <DataTemplate x:Key="commentTemplate">
                                 <ViewCell x:Name="thisComment">
@@ -33,7 +33,7 @@
                                                   Command="{Binding Source={x:Reference Root}, Path=BindingContext.DeleteCmd}"
                                                   CommandParameter="{x:Reference thisComment}" />
                                     </ViewCell.ContextActions>
-                                    <ContentView Padding="5">
+                                    <ContentView Padding="0">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
