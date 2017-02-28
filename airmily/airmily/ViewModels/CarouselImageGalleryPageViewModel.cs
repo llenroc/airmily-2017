@@ -156,17 +156,15 @@ namespace airmily.ViewModels
 
 		private async Task Refresh()
 		{
-			/*
-			SelectedImage.Items.RemoveRange(1, SelectedImage.Items.Count - 1);
+			//SelectedImage.Items.RemoveRange(1, SelectedImage.Items.Count - 1);
 
-			Comment image = SelectedImage.Items.First();
-			List<Comment> c = await _azure.GetComments(image.Image.ID);
+			//Comment image = SelectedImage.Items.First();
+			//List<Comment> c = await _azure.GetComments(image.Image.ID);
 
-			SelectedImage.Items.AddRange(c);
-			SelectedImage.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
+			//SelectedImage.Items.AddRange(c);
+			//SelectedImage.Items.Add(new Comment { CurrentType = GalleryType.AddComment });
 
-			SelectedImage.AddCommentText = "";
-			*/
+			//SelectedImage.AddCommentText = "";
 		}
 	}
 
