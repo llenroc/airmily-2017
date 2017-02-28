@@ -96,6 +96,9 @@ namespace airmily.ViewModels
 				Images.Add(temp);
 			}
 
+			if (albumItems.Count != Images.Count)
+				Debug.WriteLine("what?");
+
 			try
 			{
 				if (!parameters.ContainsKey("Current")) return;

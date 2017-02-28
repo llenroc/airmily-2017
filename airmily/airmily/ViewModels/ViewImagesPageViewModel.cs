@@ -169,14 +169,14 @@ namespace airmily.ViewModels
 			HockeyApp.MetricsManager.TrackEvent("Images Page Loaded");
 		}
 
-		public async Task AddPicture(AlbumItem item, MediaFile image)
+		public async Task AddPicture(AlbumItem addBtnItem, MediaFile image)
 		{
 			if (image == null) return;
 
 			AlbumItem newItem = new AlbumItem
 			{
 				IsAddButton = false,
-				IsReceipt = item.IsReceipt,
+				IsReceipt = addBtnItem.IsReceipt,
 				Album = CurrentTransaction.ID,
 				ImageName = Guid.NewGuid().ToString(),
 				Image = new byte[image.GetStream().Length]
@@ -187,46 +187,48 @@ namespace airmily.ViewModels
 
 			if (newItem.IsReceipt)
 			{
-				if (_receipt1.Contains(item))
+				if (_receipt1.Contains(addBtnItem))
 				{
-					_receipt1.Remove(item);
+					_receipt1.Remove(addBtnItem);
 					_receipt1.Add(newItem);
 					_receipt2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
-				else if (_receipt2.Contains(item))
+				else if (_receipt2.Contains(addBtnItem))
 				{
-					_receipt2.Remove(item);
+					_receipt2.Remove(addBtnItem);
 					_receipt2.Add(newItem);
 					_receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
-				else if (_receipt3.Contains(item))
+				else if (_receipt3.Contains(addBtnItem))
 				{
-					_receipt3.Remove(item);
+					_receipt3.Remove(addBtnItem);
 					_receipt3.Add(newItem);
 					_receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
+				Receipts.Add(newItem);
 				HockeyApp.MetricsManager.TrackEvent("Receipt Added");
 			}
 			else
 			{
-				if (_good1.Contains(item))
+				if (_good1.Contains(addBtnItem))
 				{
-					_good1.Remove(item);
+					_good1.Remove(addBtnItem);
 					_good1.Add(newItem);
 					_good2.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
-				else if (_good2.Contains(item))
+				else if (_good2.Contains(addBtnItem))
 				{
-					_good2.Remove(item);
+					_good2.Remove(addBtnItem);
 					_good2.Add(newItem);
 					_good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
-				else if (_good3.Contains(item))
+				else if (_good3.Contains(addBtnItem))
 				{
-					_good3.Remove(item);
+					_good3.Remove(addBtnItem);
 					_good3.Add(newItem);
 					_good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
 				}
+				Goods.Add(newItem);
 				HockeyApp.MetricsManager.TrackEvent("Goods Added");
 			}
 		}

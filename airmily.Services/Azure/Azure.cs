@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.MobileServices;
@@ -22,6 +23,7 @@ namespace airmily.Services.Azure
 {
 	public class Azure : IAzure
 	{
+		private readonly object _lock = new object();
 		private readonly bool _debugging = true;
 		private bool _syncing = false;
 
@@ -32,7 +34,7 @@ namespace airmily.Services.Azure
 		private IMobileServiceSyncTable<Transaction> _transTable;
 		private IMobileServiceSyncTable<AlbumItem> _albumTable;
 		private IMobileServiceSyncTable<Comment> _commsTable;
-		 
+
 		//Ctor
 		public Azure()
 		{
@@ -47,7 +49,7 @@ namespace airmily.Services.Azure
 				store.DefineTable<AlbumItem>();
 				store.DefineTable<Comment>();
 				_mobileClient.SyncContext.InitializeAsync(store);
-				
+
 				_usersTable = _mobileClient.GetSyncTable<User>();
 				_cardsTable = _mobileClient.GetSyncTable<Card>();
 				_transTable = _mobileClient.GetSyncTable<Transaction>();
@@ -284,64 +286,72 @@ namespace airmily.Services.Azure
 
 		public async Task SyncAsync()
 		{
-			if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
-			{
-				Debug.WriteLine("Skipped sync");
-				return;
-			}
-
-			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+			Monitor.Enter(_lock);
 			try
 			{
-				Debug.WriteLineIf(_debugging, "Push");
-				await _mobileClient.SyncContext.PushAsync(); //Causes an ArgumentOutOfRangeException, when dragging to refresh comments. Doesn't get caught
-				Debug.WriteLineIf(_debugging, "Pull Users");
-				await _usersTable.PullAsync("allUsers", _usersTable.CreateQuery());
-				Debug.WriteLineIf(_debugging, "Pull Cards");
-				await _cardsTable.PullAsync("allCards", _cardsTable.CreateQuery());
-				Debug.WriteLineIf(_debugging, "Pull Trans");
-				await _transTable.PullAsync("allTrans", _transTable.CreateQuery());
-				Debug.WriteLineIf(_debugging, "Pull Album");
-				await _albumTable.PullAsync("allAlbum", _albumTable.CreateQuery());
-				Debug.WriteLineIf(_debugging, "Pull Comms");
-				await _commsTable.PullAsync("allComms", _commsTable.CreateQuery());
-				Debug.WriteLineIf(_debugging, "Done");
-			}
-			catch (MobileServicePushFailedException exc)
-			{
-				if (exc.PushResult != null)
+				if (!await CrossConnectivity.Current.IsReachable(AzureSettings.ApplicationUrl))
 				{
-					syncErrors = exc.PushResult.Errors;
+					Debug.WriteLine("Skipped sync");
+					return;
+				}
+
+				ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+				try
+				{
+					Debug.WriteLineIf(_debugging, "Push");
+					await _mobileClient.SyncContext.PushAsync(); //Causes an ArgumentOutOfRangeException, when dragging to refresh comments. Doesn't get caught
+					Debug.WriteLineIf(_debugging, "Pull Users");
+					await _usersTable.PullAsync("allUsers", _usersTable.CreateQuery());
+					Debug.WriteLineIf(_debugging, "Pull Cards");
+					await _cardsTable.PullAsync("allCards", _cardsTable.CreateQuery());
+					Debug.WriteLineIf(_debugging, "Pull Trans");
+					await _transTable.PullAsync("allTrans", _transTable.CreateQuery());
+					Debug.WriteLineIf(_debugging, "Pull Album");
+					await _albumTable.PullAsync("allAlbum", _albumTable.CreateQuery());
+					Debug.WriteLineIf(_debugging, "Pull Comms");
+					await _commsTable.PullAsync("allComms", _commsTable.CreateQuery());
+					Debug.WriteLineIf(_debugging, "Done");
+				}
+				catch (MobileServicePushFailedException exc)
+				{
+					if (exc.PushResult != null)
+					{
+						syncErrors = exc.PushResult.Errors;
+					}
+				}
+				catch (ArgumentOutOfRangeException ex)
+				{
+					Debug.WriteLine(ex.Message);
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex.Message);
+				}
+
+				// Simple error/conflict handling. A real application would handle the various errors like network conditions,
+				// server conflicts and others via the IMobileServiceSyncHandler.
+				if (syncErrors != null)
+				{
+					foreach (var error in syncErrors)
+					{
+						if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+						{
+							//Update failed, reverting to server's copy.
+							await error.CancelAndUpdateItemAsync(error.Result);
+						}
+						else
+						{
+							// Discard local change.
+							await error.CancelAndDiscardItemAsync();
+						}
+
+						Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+					}
 				}
 			}
-			catch (ArgumentOutOfRangeException ex)
+			finally
 			{
-				Debug.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex.Message);
-			}
-
-			// Simple error/conflict handling. A real application would handle the various errors like network conditions,
-			// server conflicts and others via the IMobileServiceSyncHandler.
-			if (syncErrors != null)
-			{
-				foreach (var error in syncErrors)
-				{
-					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
-					{
-						//Update failed, reverting to server's copy.
-						await error.CancelAndUpdateItemAsync(error.Result);
-					}
-					else
-					{
-						// Discard local change.
-						await error.CancelAndDiscardItemAsync();
-					}
-
-					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
-				}
+				Monitor.Exit(_lock);
 			}
 		}
 
