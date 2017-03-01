@@ -15,26 +15,26 @@ using Xamarin.Forms;
 
 namespace airmily.ViewModels
 {
-    public class ViewImagesPageViewModel : BindableBase, INavigationAware
-    {
-        private readonly IAzure _azure;
-        private readonly INavigationService _navigationService;
-        private readonly IPageDialogService _pageDialogService;
+	public class ViewImagesPageViewModel : BindableBase, INavigationAware
+	{
+		private readonly IAzure _azure;
+		private readonly INavigationService _navigationService;
+		private readonly IPageDialogService _pageDialogService;
 
-        private Transaction _currentTransaction = new Transaction
-        {
-            Currency = "GBP",
-            NegativeAmount = true,
-            InternalDifference = "0.00",
-            Amount = "0.00",
-            Description = "Description"
-        };
+		private Transaction _currentTransaction = new Transaction
+		{
+			Currency = "GBP",
+			NegativeAmount = true,
+			InternalDifference = "0.00",
+			Amount = "0.00",
+			Description = "Description"
+		};
 
-        public Transaction CurrentTransaction
-        {
-            get { return _currentTransaction; }
-            set { SetProperty(ref _currentTransaction, value); }
-        }
+		public Transaction CurrentTransaction
+		{
+			get { return _currentTransaction; }
+			set { SetProperty(ref _currentTransaction, value); }
+		}
 
         private DelegateCommand<AlbumItem> _onImageTapped;
 
@@ -47,30 +47,17 @@ namespace airmily.ViewModels
                     AlbumItem item = selected;
                     if (item == null) return;
 
-                    if (!item.IsAddButton)
-                    {
-                        ////CarouselVersion
-                        if (item.IsReceipt == true)
-                        {
-                            var parameters = new NavigationParameters {["Images"] = Receipts};
-                            await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
-                        }
-                        else
-                        {
-                            var parameters = new NavigationParameters {["Images"] = Goods};
-                            await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
-                        }
-
-                        ////FullScreenVersion
-                        //var parameters = new NavigationParameters { ["Src"] = item };
-                        //await _navigationService.NavigateAsync("FullScreenImagePage", parameters);
-                    }
-
-                    else
-                    {
-                        string action = await _pageDialogService.DisplayActionSheetAsync(null, "Cancel", null,
-                            "Take New Picture", "Add From Camera Roll");
-                        if (action != "Take New Picture" && action != "Add From Camera Roll") return;
+					if (!item.IsAddButton)
+					{
+						//CarouselVersion
+						NavigationParameters parameters = new NavigationParameters { ["Images"] = (item.IsReceipt ? Receipts : Goods), ["Current"] = item };
+						await _navigationService.NavigateAsync("CarouselImageGalleryPage", parameters);
+					}
+					else
+					{
+						string action = await _pageDialogService.DisplayActionSheetAsync(null, "Cancel", null,
+							"Take New Picture", "Add From Camera Roll");
+						if (action != "Take New Picture" && action != "Add From Camera Roll") return;
 
                         await CrossMedia.Current.Initialize();
                         if (action == "Take New Picture")
@@ -103,34 +90,34 @@ namespace airmily.ViewModels
             }
         }
 
-        private DelegateCommand _refreshCmd;
+		private DelegateCommand _refreshCmd;
+		public DelegateCommand RefreshCmd
+		{
+			get { return _refreshCmd ?? (_refreshCmd = new DelegateCommand(async () => await Refresh())); }
+			set { SetProperty(ref _refreshCmd, value); }
+		}
 
-        public DelegateCommand RefreshCmd
-        {
-            get { return _refreshCmd ?? (_refreshCmd = new DelegateCommand(async () => await Refresh())); }
-            set { SetProperty(ref _refreshCmd, value); }
-        }
+		public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure, INavigationService navigationService)
+		{
+			_pageDialogService = pageDialogService;
+			_azure = azure;
+			_navigationService = navigationService;
+		}
 
-        public ViewImagesPageViewModel(IPageDialogService pageDialogService, IAzure azure,
-            INavigationService navigationService)
-        {
-            _pageDialogService = pageDialogService;
-            _azure = azure;
-            _navigationService = navigationService;
-        }
+		public void OnNavigatedFrom(NavigationParameters parameters)
+		{
+		}
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
-        }
+		public async void OnNavigatedTo(NavigationParameters parameters)
+		{
+			if (!parameters.ContainsKey("refreshing"))
+			{
+				if (!parameters.ContainsKey("transaction")) return;
+				CurrentTransaction = (Transaction) parameters["transaction"];
+			}
 
-        public async void OnNavigatedTo(NavigationParameters parameters)
-        {
-            if (!parameters.ContainsKey("transaction")) return;
-            if (!parameters.ContainsKey("refreshing"))
-                CurrentTransaction = (Transaction) parameters["transaction"];
-
-            await Refresh();
-        }
+			await Refresh();
+		}
 
         public async Task Refresh()
         {
@@ -140,9 +127,9 @@ namespace airmily.ViewModels
             _receiptItems.Clear();
             _goodsItems.Clear();
 
-            List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
-            foreach (AlbumItem t in receipts)
-                Receipts.Add(t);
+			List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
+			foreach (AlbumItem t in receipts)
+				Receipts.Add(t);
 
             receipts.Add(new AlbumItem {IsAddButton = true, IsReceipt = true});
             int i = 0;

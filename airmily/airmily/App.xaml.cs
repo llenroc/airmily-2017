@@ -1,6 +1,6 @@
 ﻿using airmily.Ext;
 using airmily.Interfaces;
-using airmily.Services.AppService;
+using airmily.Services.Auth;
 using airmily.Services.Azure;
 using airmily.Services.Models;
 using airmily.Views;
@@ -53,10 +53,7 @@ namespace airmily
             Container.RegisterTypeForNavigation<CardsListPage>();
             Container.RegisterTypeForNavigation<TransactionsListPage>();
             Container.RegisterTypeForNavigation<ViewImagesPage>();
-
             Container.RegisterTypeForNavigation<FullScreenImagePage>();
-            Container.RegisterTypeForNavigation<ExampleProfilePage>();
-            Container.RegisterTypeForNavigation<ExampleDashboardPage>();
             Container.RegisterTypeForNavigation<CarouselImageGalleryPage>();
         }
 
