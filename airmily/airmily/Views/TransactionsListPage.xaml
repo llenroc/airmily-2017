@@ -35,7 +35,7 @@
                 <behaviors:BehaviorCollection>
                     <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnTransactionTapped}"
                                               PassEventArgument="True" />
-                </behaviors:BehaviorCollection>
+                </behaviors:BehaviorCollection> 
             </behaviors:Interaction.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -36,15 +36,15 @@ namespace airmily.ViewModels
             set { SetProperty(ref _currentTransaction, value); }
         }
 
-        private DelegateCommand<ItemTappedEventArgs> _onImageTapped;
+        private DelegateCommand<AlbumItem> _onImageTapped;
 
-        public DelegateCommand<ItemTappedEventArgs> OnImageTapped
+        public DelegateCommand<AlbumItem> OnImageTapped
         {
             get
             {
-                return _onImageTapped ?? (_onImageTapped = new DelegateCommand<ItemTappedEventArgs>(async selected =>
+                return _onImageTapped ?? (_onImageTapped = new DelegateCommand<AlbumItem>(async selected =>
                 {
-                    AlbumItem item = selected.Item as AlbumItem;
+                    AlbumItem item = selected;
                     if (item == null) return;
 
                     if (!item.IsAddButton)
@@ -84,7 +84,7 @@ namespace airmily.ViewModels
                                     SaveToAlbum = false,
                                     CompressionQuality = 75
                                 });
-                                await AddPicture(item, file);
+                               // await AddPicture(item, file);
                             }
                         }
                         else if (action == "Add From Camera Roll")
@@ -95,7 +95,7 @@ namespace airmily.ViewModels
                                 {
                                     CompressionQuality = 75
                                 });
-                                await AddPicture(item, file);
+                              // await AddPicture(item, file);
                             }
                         }
                     }
@@ -134,164 +134,137 @@ namespace airmily.ViewModels
 
         public async Task Refresh()
         {
-            _receipt1.Clear();
-            _receipt2.Clear();
-            _receipt3.Clear();
-            _good1.Clear();
-            _good2.Clear();
-            _good3.Clear();
+            //_receipt1.Clear();
+            //_receipt2.Clear();
+            //_receipt3.Clear();
+            _receiptItems.Clear();
+            _goodsItems.Clear();
 
             List<AlbumItem> receipts = await _azure.GetAllImages(CurrentTransaction.ID, true);
             foreach (AlbumItem t in receipts)
                 Receipts.Add(t);
 
             receipts.Add(new AlbumItem {IsAddButton = true, IsReceipt = true});
+            int i = 0;
+            ImageListItems tempILI = new ImageListItems();
+
             foreach (AlbumItem t in receipts)
-                switch (receipts.IndexOf(t) % 3)
+            {
+                if(tempILI == null)
+                    tempILI = new ImageListItems();
+
+                tempILI.ItemImages.Add(t);
+                if (i >= 3)
                 {
-                    case 0:
-                        _receipt1.Add(t);
-                        break;
-                    case 1:
-                        _receipt2.Add(t);
-                        break;
-                    case 2:
-                        _receipt3.Add(t);
-                        break;
+                    ReceiptItems.Add(tempILI);
+                    tempILI = null;
+                    i = 0;
                 }
+                i++;
+            }
+            if (tempILI != null)
+            {
+                for(int j = tempILI.ItemImages.Count; j < 3; j++)
+                {
+                    tempILI.ItemImages.Add(new AlbumItem());
+                }
+                ReceiptItems.Add(tempILI);
+            }
+            tempILI = null;
+            i = 0;
             List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
             foreach (AlbumItem t in goods)
                 Goods.Add(t);
 
             goods.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
             foreach (AlbumItem t in goods)
-                switch (goods.IndexOf(t) % 3)
+            {
+                if (tempILI == null)
+                    tempILI = new ImageListItems();
+
+                tempILI.ItemImages.Add(t);
+                if (i >= 3)
                 {
-                    case 0:
-                        _good1.Add(t);
-                        break;
-                    case 1:
-                        _good2.Add(t);
-                        break;
-                    case 2:
-                        _good3.Add(t);
-                        break;
+                    GoodsItems.Add(tempILI);
+                    tempILI = null;
+                    i = 0;
                 }
+                i++;
+            }
+            if (tempILI != null)
+            {
+                for (int j = tempILI.ItemImages.Count; j < 3; j++)
+                {
+                    tempILI.ItemImages.Add(new AlbumItem());
+                }
+                GoodsItems.Add(tempILI);
+            }
             HockeyApp.MetricsManager.TrackEvent("Images Page Loaded");
         }
 
-        public async Task AddPicture(AlbumItem item, MediaFile image)
-        {
-            if (image == null) return;
+        //public async Task AddPicture(AlbumItem item, MediaFile image)
+        //{
+        //    if (image == null) return;
 
-            AlbumItem newItem = new AlbumItem
-            {
-                IsAddButton = false,
-                IsReceipt = item.IsReceipt,
-                Album = CurrentTransaction.ID,
-                ImageName = Guid.NewGuid().ToString(),
-                Image = new byte[image.GetStream().Length]
-            };
-            image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
+        //    AlbumItem newItem = new AlbumItem
+        //    {
+        //        IsAddButton = false,
+        //        IsReceipt = item.IsReceipt,
+        //        Album = CurrentTransaction.ID,
+        //        ImageName = Guid.NewGuid().ToString(),
+        //        Image = new byte[image.GetStream().Length]
+        //    };
+        //    image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
-	        await _azure.UploadImage(newItem);
+	       // await _azure.UploadImage(newItem);
 
-            if (newItem.IsReceipt)
-            {
-                if (_receipt1.Contains(item))
-                {
-                    _receipt1.Remove(item);
-                    _receipt1.Add(newItem);
-                    _receipt2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-                }
-                else if (_receipt2.Contains(item))
-                {
-                    _receipt2.Remove(item);
-                    _receipt2.Add(newItem);
-                    _receipt3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-                }
-                else if (_receipt3.Contains(item))
-                {
-                    _receipt3.Remove(item);
-                    _receipt3.Add(newItem);
-                    _receipt1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-                }
-                HockeyApp.MetricsManager.TrackEvent("Receipt Added");
-            }
-            else
-            {
-                if (_good1.Contains(item))
-                {
-                    _good1.Remove(item);
-                    _good1.Add(newItem);
-                    _good2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-                }
-                else if (_good2.Contains(item))
-                {
-                    _good2.Remove(item);
-                    _good2.Add(newItem);
-                    _good3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-                }
-                else if (_good3.Contains(item))
-                {
-                    _good3.Remove(item);
-                    _good3.Add(newItem);
-                    _good1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-                }
-                HockeyApp.MetricsManager.TrackEvent("Goods Added");
-            }
-        }
+        //    if (newItem.IsReceipt)
+        //    {
+        //        if (_receipt1.Contains(item))
+        //        {
+        //            _receipt1.Remove(item);
+        //            _receipt1.Add(newItem);
+        //            _receipt2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+        //        }
+        //        else if (_receipt2.Contains(item))
+        //        {
+        //            _receipt2.Remove(item);
+        //            _receipt2.Add(newItem);
+        //            _receipt3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+        //        }
+        //        else if (_receipt3.Contains(item))
+        //        {
+        //            _receipt3.Remove(item);
+        //            _receipt3.Add(newItem);
+        //            _receipt1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+        //        }
+        //        HockeyApp.MetricsManager.TrackEvent("Receipt Added");
+        //    }
+        //    else
+        //    {
+        //        if (_good1.Contains(item))
+        //        {
+        //            _good1.Remove(item);
+        //            _good1.Add(newItem);
+        //            _good2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+        //        }
+        //        else if (_good2.Contains(item))
+        //        {
+        //            _good2.Remove(item);
+        //            _good2.Add(newItem);
+        //            _good3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+        //        }
+        //        else if (_good3.Contains(item))
+        //        {
+        //            _good3.Remove(item);
+        //            _good3.Add(newItem);
+        //            _good1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
+        //        }
+        //        HockeyApp.MetricsManager.TrackEvent("Goods Added");
+        //    }
+        //}
 
         #region ObservableCollections
-
-        private ObservableCollection<AlbumItem> _receipt1 = new ObservableCollection<AlbumItem>();
-
-        public ObservableCollection<AlbumItem> Receipt1
-        {
-            get { return _receipt1; }
-            set { SetProperty(ref _receipt1, value); }
-        }
-
-        private ObservableCollection<AlbumItem> _receipt2 = new ObservableCollection<AlbumItem>();
-
-        public ObservableCollection<AlbumItem> Receipt2
-        {
-            get { return _receipt2; }
-            set { SetProperty(ref _receipt2, value); }
-        }
-
-        private ObservableCollection<AlbumItem> _receipt3 = new ObservableCollection<AlbumItem>();
-
-        public ObservableCollection<AlbumItem> Receipt3
-        {
-            get { return _receipt3; }
-            set { SetProperty(ref _receipt3, value); }
-        }
-
-        private ObservableCollection<AlbumItem> _good1 = new ObservableCollection<AlbumItem>();
-
-        public ObservableCollection<AlbumItem> Good1
-        {
-            get { return _good1; }
-            set { SetProperty(ref _good1, value); }
-        }
-
-        private ObservableCollection<AlbumItem> _good2 = new ObservableCollection<AlbumItem>();
-
-        public ObservableCollection<AlbumItem> Good2
-        {
-            get { return _good2; }
-            set { SetProperty(ref _good2, value); }
-        }
-
-        private ObservableCollection<AlbumItem> _good3 = new ObservableCollection<AlbumItem>();
-
-        public ObservableCollection<AlbumItem> Good3
-        {
-            get { return _good3; }
-            set { SetProperty(ref _good3, value); }
-        }
-
         private ObservableCollection<AlbumItem> _receipts = new ObservableCollection<AlbumItem>();
 
         public ObservableCollection<AlbumItem> Receipts
@@ -308,6 +281,32 @@ namespace airmily.ViewModels
             set { SetProperty(ref _goods, value); }
         }
 
+
+        private ObservableCollection<ImageListItems> _receiptItems = new ObservableCollection<ImageListItems>();
+        public ObservableCollection<ImageListItems> ReceiptItems
+        {
+            get { return _receiptItems; }
+            set { SetProperty(ref _receiptItems, value); }
+        }
+        private ObservableCollection<ImageListItems> _goodsItems = new ObservableCollection<ImageListItems>();
+
+        public ObservableCollection<ImageListItems> GoodsItems
+        {
+            get { return _goodsItems; }
+            set { SetProperty(ref _goodsItems, value); }
+        }
         #endregion
     }
+
+    public class ImageListItems : BindableBase
+    {
+        private ObservableCollection<AlbumItem> _itemImages = new ObservableCollection<AlbumItem>();
+
+        public ObservableCollection<AlbumItem> ItemImages
+        {
+            get { return _itemImages; }
+            set { SetProperty(ref _itemImages, value); }
+        }
+    }
+    
 }

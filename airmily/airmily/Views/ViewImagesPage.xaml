@@ -6,31 +6,18 @@
                             xmlns:controls="clr-namespace:airmily.Views.Controls;assembly=airmily"
                             xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
                             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
-
                             prism:ViewModelLocator.AutowireViewModel="True"
                             x:Class="airmily.Views.ViewImagesPage"
+                            x:Name="root"
                             BackgroundColor="{StaticResource BrandColorLight}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Refresh" Command="{Binding RefreshCmd}">
         </ToolbarItem>
     </ContentPage.ToolbarItems>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="50" />
-        </Grid.ColumnDefinitions>
-
+      <StackLayout>
         <!--Transaction Information-->
-        <Frame Grid.Row="0" Grid.ColumnSpan="2" HasShadow="False" BackgroundColor="{StaticResource BrandColorDark}"
+        <Frame HasShadow="False" BackgroundColor="{StaticResource BrandColorDark}"
                BindingContext="{Binding CurrentTransaction}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -52,132 +39,80 @@
         </Frame>
 
         <!--First Gallery View-->
-        <Label Grid.Row="1" Grid.Column="0" Text="Receipt and Tax Forms" TextColor="White" />
-        <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="2" Grid.ColumnSpan="2"
-                    Grid.RowSpan="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+        <Label Grid.Row="1" Text="Receipt and Tax Forms" TextColor="White" />
+        <ListView ItemsSource="{Binding ReceiptItems}" BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="2" Grid.ColumnSpan="2"
+                    Grid.RowSpan="1"  RowHeight="100" HeightRequest="400">
+          
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <ViewCell>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                  </Grid.ColumnDefinitions>
 
-                <ListView Grid.Column="0" HasUnevenRows="True" ItemsSource="{Binding Receipt1}" RowHeight="100">
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="1" HasUnevenRows="True" ItemsSource="{Binding Receipt2}" RowHeight="100">
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="2" HasUnevenRows="True" ItemsSource="{Binding Receipt3}" RowHeight="100">
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </ScrollView>
+                  <Image x:Name="firstImage" Source="{Binding ItemImages[0].ImageSrc}" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                      <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.OnImageTapped}" CommandParameter="{Binding ItemImages[0]}" />
+                    </Image.GestureRecognizers>
+                  </Image>
+
+                  <Image Source="{Binding ItemImages[1].ImageSrc}" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                      <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.OnImageTapped}" CommandParameter="{Binding ItemImages[1]}" />
+                    </Image.GestureRecognizers>
+                  </Image>
+                  <Image Source="{Binding ItemImages[2].ImageSrc}" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                      <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.OnImageTapped}" CommandParameter="{Binding ItemImages[2]}" />
+                    </Image.GestureRecognizers>
+                  </Image>
+                </Grid>
+              </ViewCell>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+
 
         <!--Second Gallery View-->
-        <Label Grid.Row="3" Grid.Column="0" Text="Goods" TextColor="White" />
-        <ScrollView BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="4" Grid.ColumnSpan="2"
-                    Grid.RowSpan="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+        <Label Grid.Row="3" Text="Goods" TextColor="White" />
+      <ListView ItemsSource="{Binding GoodsItems}" BackgroundColor="{StaticResource BrandColorLight}" Grid.Row="4" Grid.ColumnSpan="2"
+          Grid.RowSpan="1"  RowHeight="100" HeightRequest="400">
 
-                <ListView Grid.Column="0" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good1}"
-                          RowHeight="100">
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="1" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good2}"
-                          RowHeight="100">
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="2" Grid.Row="1" HasUnevenRows="True" ItemsSource="{Binding Good3}"
-                          RowHeight="100">
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="ItemTapped" Command="{Binding OnImageTapped}"
-                                                      PassEventArgument="True" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Image Source="{Binding ImageSrc}" Aspect="AspectFill" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </ScrollView>
-    </Grid>
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="{Binding ItemImages[0].ImageSrc}" Grid.Column="0">
+                  <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.OnImageTapped}" CommandParameter="{Binding ItemImages[0]}" />
+                  </Image.GestureRecognizers>
+                  </Image>
+                <Image Source="{Binding ItemImages[1].ImageSrc}" Grid.Column="1">
+                  <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.OnImageTapped}" CommandParameter="{Binding ItemImages[1]}" />
+                  </Image.GestureRecognizers>
+                </Image>
+
+                <Image Source="{Binding ItemImages[2].ImageSrc}" Grid.Column="2">
+                  <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference root}, Path=BindingContext.OnImageTapped}" CommandParameter="{Binding ItemImages[2]}" />
+                  </Image.GestureRecognizers>
+                </Image>
+
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      
+    </StackLayout>
 </controls:ContentPageShView>
