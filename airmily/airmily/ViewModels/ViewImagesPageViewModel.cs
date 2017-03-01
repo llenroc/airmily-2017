@@ -121,9 +121,6 @@ namespace airmily.ViewModels
 
         public async Task Refresh()
         {
-            //_receipt1.Clear();
-            //_receipt2.Clear();
-            //_receipt3.Clear();
             _receiptItems.Clear();
             _goodsItems.Clear();
 
@@ -137,10 +134,14 @@ namespace airmily.ViewModels
 
             foreach (AlbumItem t in receipts)
             {
+                //RESET temp class for next ListEntry
                 if(tempILI == null)
                     tempILI = new ImageListItems();
 
+                //Add Image
                 tempILI.ItemImages.Add(t);
+
+                //Add ListEntry content and reset for next Entry
                 if (i >= 3)
                 {
                     ReceiptItems.Add(tempILI);
@@ -149,6 +150,8 @@ namespace airmily.ViewModels
                 }
                 i++;
             }
+
+            //Fill aditional spaces with filler image
             if (tempILI != null)
             {
                 for(int j = tempILI.ItemImages.Count; j < 3; j++)
@@ -157,6 +160,8 @@ namespace airmily.ViewModels
                 }
                 ReceiptItems.Add(tempILI);
             }
+
+            //Reset Values to refresh Goods
             tempILI = null;
             i = 0;
 
@@ -180,6 +185,8 @@ namespace airmily.ViewModels
                 }
                 i++;
             }
+
+            //Fill aditional spaces with filler image
             if (tempILI != null)
             {
                 for (int j = tempILI.ItemImages.Count; j < 3; j++)
@@ -208,48 +215,6 @@ namespace airmily.ViewModels
 	        await _azure.UploadImage(newItem);
             await Refresh();
 
-            //if (newItem.IsReceipt)
-            //{
-            //    if (_receipts.Contains(item))
-            //    {
-            //        _receipts.Remove(item);
-            //        _receipts.Add(newItem);
-            //        _receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-            //    }
-            //    else if (_receipt2.Contains(item))
-            //    {
-            //        _receipt2.Remove(item);
-            //        _receipt2.Add(newItem);
-            //        _receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-            //    }
-            //    else if (_receipt3.Contains(item))
-            //    {
-            //        _receipt3.Remove(item);
-            //        _receipt3.Add(newItem);
-            //        _receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-            //    }
-            //    HockeyApp.MetricsManager.TrackEvent("Receipt Added");
-            //}
-            //else
-            //{
-            //    if (_goods.Contains(item))
-            //    {
-            //        _goods.Remove(item);
-            //        _goods.Add(newItem);
-            //        _goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-            //    }
-            //    else if (_good2.Contains(item))
-            //    {
-            //        _good2.Remove(item);
-            //        _good2.Add(newItem);
-            //        _good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-            //    }
-            //    else if (_good3.Contains(item))
-            //    {
-            //        _good3.Remove(item);
-            //        _good3.Add(newItem);
-            //        _good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
-            //    }
             HockeyApp.MetricsManager.TrackEvent("Goods Added");
             //}
 	}
