@@ -71,7 +71,7 @@ namespace airmily.ViewModels
                                     SaveToAlbum = false,
                                     CompressionQuality = 75
                                 });
-                               // await AddPicture(item, file);
+                               await AddPicture(item, file);
                             }
                         }
                         else if (action == "Add From Camera Roll")
@@ -82,7 +82,7 @@ namespace airmily.ViewModels
                                 {
                                     CompressionQuality = 75
                                 });
-                              // await AddPicture(item, file);
+                              await AddPicture(item, file);
                             }
                         }
                     }
@@ -159,6 +159,8 @@ namespace airmily.ViewModels
             }
             tempILI = null;
             i = 0;
+
+
             List<AlbumItem> goods = await _azure.GetAllImages(CurrentTransaction.ID, false);
             foreach (AlbumItem t in goods)
                 Goods.Add(t);
@@ -189,67 +191,68 @@ namespace airmily.ViewModels
             HockeyApp.MetricsManager.TrackEvent("Images Page Loaded");
         }
 
-        //public async Task AddPicture(AlbumItem item, MediaFile image)
-        //{
-        //    if (image == null) return;
+        public async Task AddPicture(AlbumItem item, MediaFile image)
+        {
+            if (image == null) return;
 
-        //    AlbumItem newItem = new AlbumItem
-        //    {
-        //        IsAddButton = false,
-        //        IsReceipt = item.IsReceipt,
-        //        Album = CurrentTransaction.ID,
-        //        ImageName = Guid.NewGuid().ToString(),
-        //        Image = new byte[image.GetStream().Length]
-        //    };
-        //    image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
+            AlbumItem newItem = new AlbumItem
+            {
+                IsAddButton = false,
+                IsReceipt = item.IsReceipt,
+                Album = CurrentTransaction.ID,
+                ImageName = Guid.NewGuid().ToString(),
+                Image = new byte[image.GetStream().Length]
+            };
+            image.GetStream().Read(newItem.Image, 0, newItem.Image.Length);
 
-	       // await _azure.UploadImage(newItem);
+	        await _azure.UploadImage(newItem);
+            await Refresh();
 
-        //    if (newItem.IsReceipt)
-        //    {
-        //        if (_receipt1.Contains(item))
-        //        {
-        //            _receipt1.Remove(item);
-        //            _receipt1.Add(newItem);
-        //            _receipt2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-        //        }
-        //        else if (_receipt2.Contains(item))
-        //        {
-        //            _receipt2.Remove(item);
-        //            _receipt2.Add(newItem);
-        //            _receipt3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-        //        }
-        //        else if (_receipt3.Contains(item))
-        //        {
-        //            _receipt3.Remove(item);
-        //            _receipt3.Add(newItem);
-        //            _receipt1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-        //        }
-        //        HockeyApp.MetricsManager.TrackEvent("Receipt Added");
-        //    }
-        //    else
-        //    {
-        //        if (_good1.Contains(item))
-        //        {
-        //            _good1.Remove(item);
-        //            _good1.Add(newItem);
-        //            _good2.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-        //        }
-        //        else if (_good2.Contains(item))
-        //        {
-        //            _good2.Remove(item);
-        //            _good2.Add(newItem);
-        //            _good3.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-        //        }
-        //        else if (_good3.Contains(item))
-        //        {
-        //            _good3.Remove(item);
-        //            _good3.Add(newItem);
-        //            _good1.Add(new AlbumItem {IsAddButton = true, IsReceipt = false});
-        //        }
-        //        HockeyApp.MetricsManager.TrackEvent("Goods Added");
-        //    }
-        //}
+            //if (newItem.IsReceipt)
+            //{
+            //    if (_receipts.Contains(item))
+            //    {
+            //        _receipts.Remove(item);
+            //        _receipts.Add(newItem);
+            //        _receipts.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+            //    }
+            //    else if (_receipt2.Contains(item))
+            //    {
+            //        _receipt2.Remove(item);
+            //        _receipt2.Add(newItem);
+            //        _receipt3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+            //    }
+            //    else if (_receipt3.Contains(item))
+            //    {
+            //        _receipt3.Remove(item);
+            //        _receipt3.Add(newItem);
+            //        _receipt1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+            //    }
+            //    HockeyApp.MetricsManager.TrackEvent("Receipt Added");
+            //}
+            //else
+            //{
+            //    if (_goods.Contains(item))
+            //    {
+            //        _goods.Remove(item);
+            //        _goods.Add(newItem);
+            //        _goods.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+            //    }
+            //    else if (_good2.Contains(item))
+            //    {
+            //        _good2.Remove(item);
+            //        _good2.Add(newItem);
+            //        _good3.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+            //    }
+            //    else if (_good3.Contains(item))
+            //    {
+            //        _good3.Remove(item);
+            //        _good3.Add(newItem);
+            //        _good1.Add(new AlbumItem { IsAddButton = true, IsReceipt = false });
+            //    }
+            HockeyApp.MetricsManager.TrackEvent("Goods Added");
+            //}
+	}
 
         #region ObservableCollections
         private ObservableCollection<AlbumItem> _receipts = new ObservableCollection<AlbumItem>();
